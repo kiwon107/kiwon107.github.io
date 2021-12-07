@@ -54,7 +54,3 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor
-
-category_archive:
-  type: liquid
-  path: /category/
