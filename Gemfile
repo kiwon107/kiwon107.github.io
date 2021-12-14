@@ -8,5 +8,5 @@ gem 'jekyll-paginate'
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
-# Added at 2021-12-14 22:55:01 +0900 by desktop-pjhknen\lg:
+# Added at 2021-12-02 11:16:45 +0900 by desktop-pjhknen\lg:
 gem "webrick", "~> 1.7"
