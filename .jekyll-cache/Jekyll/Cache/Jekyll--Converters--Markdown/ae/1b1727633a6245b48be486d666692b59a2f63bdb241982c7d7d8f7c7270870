@@ -1,0 +1,29 @@
+I"�
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/test/test/">Test</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#test" class="page__taxonomy-item-category" rel="tag">test</a>
+                    
+                    
+                    <a href="/tags/#test" class="page__taxonomy-item-tag" rel="tag">Test</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#test" class="page__taxonomy-item-tag" rel="tag">test</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET
