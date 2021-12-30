@@ -1,0 +1,15 @@
+I"3<h2 id="profile">Profile</h2>
+<center><img src="/assets/images/profile.jpg" width="30%" height="30%" style="
+border: 1px solid #cab6de;
+border-radius: 50%;
+padding: 5px;
+-moz-border-radius: 50%;
+-khtml-border-radius: 50%;
+-webkit-border-radius: 50%;
+" /></center>
+
+<ul>
+  <li>NAME : Kiwon, Yang</li>
+</ul>
+
+:ET

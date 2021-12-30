@@ -1,0 +1,154 @@
+I"9)<hr />
+
+<h2 id="01-1-test">01-1. Test</h2>
+
+<ul>
+  <li>hi</li>
+  <li>오 이게 되네</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'hi'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'hi'
+</code></pre></div></div>
+
+<h2 id="07-2-셋의-집합연산">07-2. 셋의 집합연산</h2>
+
+<ul>
+  <li>교집합, 합집합, 차집합 등의 집합 연산자 및 연산 함수 기능</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set1</span> <span class="o">=</span> <span class="p">{</span> <span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">,</span> <span class="s">'D'</span><span class="p">,</span> <span class="s">'E'</span><span class="p">,</span> <span class="s">'F'</span> <span class="p">}</span>
+<span class="n">set2</span> <span class="o">=</span> <span class="p">{</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'D'</span><span class="p">,</span> <span class="s">'G'</span><span class="p">,</span> <span class="s">'H'</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 교집합 연산
+# &amp; / intersection() 
+</span>
+<span class="n">set1</span> <span class="o">&amp;</span> <span class="n">set2</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'B', 'D'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set1</span><span class="p">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'B', 'D'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 합집합 연산 
+# | / union() 
+</span>
+<span class="n">set1</span> <span class="o">|</span> <span class="n">set2</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set1</span><span class="p">.</span><span class="n">union</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 차집합 연산
+# - / difference()
+</span>
+<span class="n">set1</span> <span class="o">-</span> <span class="n">set2</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'C', 'E', 'F'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set1</span><span class="p">.</span><span class="n">difference</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'C', 'E', 'F'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 대칭 차집합 연산 : 둘 중 한 집합에는 속하지만 둘 모두에는 속하지는 않는 원소들의 집합
+# ^ / symmetric_difference()
+</span>
+<span class="n">set1</span> <span class="o">^</span> <span class="n">set2</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'C', 'E', 'F', 'G', 'H'}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">set1</span><span class="p">.</span><span class="n">symmetric_difference</span><span class="p">(</span><span class="n">set2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'A', 'C', 'E', 'F', 'G', 'H'}
+</code></pre></div></div>
+
+<h2 id="07-3-딕셔너리">07-3. 딕셔너리</h2>
+
+<ul>
+  <li>딕셔너리에서 Key는 고유한 값이므로 중복되는 Key 값을 설정해 놓으면 하나를 제외한 나머지 것들이 모두 무시</li>
+  <li>Key에 리스트는 쓸 수 없지만 튜플은 Key로 쓸 수 있음</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">딕셔너리</span> <span class="n">변수</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key1</span> <span class="p">:</span> <span class="n">value1</span><span class="p">,</span>
+    <span class="n">key2</span> <span class="p">:</span> <span class="n">value2</span><span class="p">,</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">중간고사</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"수학"</span> <span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s">"영어"</span> <span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># type(중간고사)
+</span><span class="n">중간고사</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'수학': 100, '영어': 90}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 원소 추가
+</span><span class="n">중간고사</span><span class="p">[</span><span class="s">'국어'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">85</span>
+<span class="n">중간고사</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'수학': 100, '영어': 90, '국어': 85}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 원소 확인 및 변경
+</span><span class="n">중간고사</span><span class="p">[</span><span class="s">'영어'</span><span class="p">]</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>90
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">중간고사</span><span class="p">[</span><span class="s">'영어'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">95</span>
+<span class="n">중간고사</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'수학': 100, '영어': 95, '국어': 85}
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># keys() : 딕셔너리 a의 Key만을 모아서 dict_keys 객체로 반환
+</span><span class="nb">list</span><span class="p">(</span><span class="n">중간고사</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="c1"># 중간고사.keys()
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>['수학', '영어', '국어']
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># values()
+</span><span class="nb">list</span><span class="p">(</span><span class="n">중간고사</span><span class="p">.</span><span class="n">values</span><span class="p">())</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[100, 95, 85]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># items() : key-values를 쌍으로 추출할 때 
+# Key와 Value의 쌍을 튜플로 묶은 값을 dict_items 객체를 반환
+</span><span class="n">중간고사</span><span class="p">.</span><span class="n">items</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict_items([('수학', 100), ('영어', 95), ('국어', 85)])
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 원소 삭제
+# 딕셔너리 인덱스 지원 x
+# 인덱스 값이 아닌 키값을 이용하여 키 값에 해당하는 value에 접근
+</span><span class="n">중간고사</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="s">'국어'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>85
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">중간고사</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{'수학': 100, '영어': 95}
+</code></pre></div></div>
+:ET

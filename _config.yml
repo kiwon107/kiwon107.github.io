@@ -16,10 +16,10 @@ minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "en-US"
-title                    : "끄적끄적 블로그"
+title                    : "Wonny's DevLog"
 title_separator          : "-"
 subtitle                 : "Version 0.0" # site tagline that appears below site title in masthead
-name                     : "K.W"
+name                     : "Kiwon Yang"
 description              : "AI Researcher & Developer, KSOE"
 url                      : "https://kiwon107.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -103,9 +103,9 @@ analytics:
 # Site Author
 author:
   name             : "K.W. Yang"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/profile.jpg"
   bio              : "AI Researcher & Developer, KSOE"
-  location         : "Somewhere"
+  location         : "South Korea"
   email            :
   links:
     - label: "Email"
@@ -141,13 +141,13 @@ footer:
       # url:
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
-      # url:
+      url: "https://github.com/kiwon107"
     - label: "Bitbucket"
       icon: "fab fa-fw fa-bitbucket"
       # url:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url:
+      url: "https://instagram.com/k1_won"
 
 
 # Reading Files
@@ -249,22 +249,22 @@ whitelist:
 #  - <base_path>/categories/my-awesome-category/index.html ~> path: /categories/
 #  - <base_path>/my-awesome-category/index.html ~> path: /
 category_archive:
-  type: liquid
+  type: jekyll-archives
   path: /categories/
 tag_archive:
-  type: liquid
+  type: jekyll-archives
   path: /tags/
 # https://github.com/jekyll/jekyll-archives
-# jekyll-archives:
-#   enabled:
-#     - categories
-#     - tags
-#   layouts:
-#     category: archive-taxonomy
-#     tag: archive-taxonomy
-#   permalinks:
-#     category: /categories/:name/
-#     tag: /tags/:name/
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive-taxonomy
+    tag: archive-taxonomy
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
 
 
 # HTML Compression
@@ -289,4 +289,13 @@ defaults:
       share: true
       related: true
       show_date: true # 게시물 날짜 확인 가능
-      date_format: "%Y-%m-%d"
+      # date_format: "%Y-%m-%d"
+
+  # _pages
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      classes: wide
+      author_profile: true
