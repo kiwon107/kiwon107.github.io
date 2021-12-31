@@ -1,0 +1,83 @@
+I"^<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="2-1-immutable--mutable">2-1. Immutable &amp; Mutable</h2>
+
+<p>Mutable 객체: 객체가 지닌 값의 수정이 가능한 객체<br />
+Ex) 리스트, 딕셔너리</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1896625928712
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'요리하자'</span><span class="p">,</span> <span class="s">'일찍자자'</span><span class="p">]</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1896625928712
+</code></pre></div></div>
+
+<p>Immutable 객체: 객체가 지닌 값의 수정이 불가능한 객체<br />
+Ex) 튜플, 문자열</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">=</span> <span class="p">(</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">)</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1896629021000
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">+=</span> <span class="p">(</span><span class="s">'요리하자'</span><span class="p">,</span> <span class="s">'일찍자자'</span><span class="p">)</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1896627911800
+</code></pre></div></div>
+
+<p>보다시피, 튜플은 저장된 값을 수정하면 새로운 튜플이 만들어진다.</p>
+
+<h2 id="2-2-성격에-따라-달라지는-함수의-정의">2-2. 성격에 따라 달라지는 함수의 정의</h2>
+<p>다음과 같이 두 리스트 형태의 계획을 합쳐주는 함수 코드가 있다고 하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">add_plan</span><span class="p">(</span><span class="n">def_fisrt_plan</span><span class="p">,</span> <span class="n">def_second_plan</span><span class="p">):</span>
+    <span class="n">def_first_plan</span> <span class="o">+=</span> <span class="n">def_second_plan</span>
+</code></pre></div></div>
+
+<p>리스트로 Plan을 세워 위 함수를 적용하는 경우 결과가 잘 나온다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_plan</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>
+<span class="n">add_plan</span><span class="p">(</span><span class="n">first_plan</span><span class="p">,</span> <span class="p">[</span><span class="s">'요리하자'</span><span class="p">,</span> <span class="s">'일찍자자'</span><span class="p">])</span>
+<span class="n">first_plan</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['공부하자', '운동하자', '요리하자', '일찍자자']
+</code></pre></div></div>
+
+<p>하지만 튜플로 Plan을 세워 위 함수를 적용하는 경우 결과가 안나온다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_plan</span> <span class="o">=</span> <span class="p">(</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">)</span>
+<span class="n">add_plan</span><span class="p">(</span><span class="n">first_plan</span><span class="p">,</span> <span class="p">(</span><span class="s">'요리하자'</span><span class="p">,</span> <span class="s">'일찍자자'</span><span class="p">))</span>
+<span class="n">first_plan</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ('공부하자', '운동하자')
+</code></pre></div></div>
+
+<p>차이가 뭘까?</p>
+
+<p>리스트를 활용할 경우, 변수 first_plan과 매개변수 def_first_plan이 참조하는 메모리 주소는 동일하다.
+반면 튜플을 활용할 경우, 변수 first_plan과 매개변수 def_first_plan이 참조하는 메모리 주소가 다르다.</p>
+
+<p>즉, 튜플을 활용하면 def_first_plan 매개변수를 위한 새로운 메모리가 할당되고 덧셈 연산 결과가 여기에 저장된다. 그러니 first_plan 변수는 그대로일 수밖에…!</p>
+
+<p>다음 코드를 보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">print_min_max</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="c1"># number = list(number)    # number의 내용이 담긴 새로운 리스트 생성
+</span>    <span class="n">number</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>                   <span class="c1"># 새로 만든 리스트(기존 리스트와 메모리 주소 다름) 오름차순 정렬
+</span>    <span class="k">print</span><span class="p">(</span><span class="n">number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">number</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">', '</span><span class="p">)</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">print_min_max</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [10, 100, 1000, 10000]
+</code></pre></div></div>
+
+<p>리스트를 그대로 활용하면, 당연히 기존 변수 num도 오름차순 정렬된 리스트를 갖게 된다.
+만약 매개변수 number와 변수 num이 서로 다른 리스트를 갖게 하려는게 의도 였다면?
+상기 코드의 주석 부분을 제거하여 활성화하자! 설명은 주석의 주석으로 대체한다.</p>
+
+<p>결론: 함수를 잘 정의하려면 파이썬 내 참조하거나 조작하는 객체의 성격을 구분하고, 그에 맞게 함수를 정의해야 한다!</p>
+:ET
