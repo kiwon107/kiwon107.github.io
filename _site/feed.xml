@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-31T20:02:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-31T20:04:46+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;hi&lt;/li&gt;
@@ -24,11 +24,11 @@
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;laugh&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;푸헤헿&apos;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;우리는 이를 보고 변수 laugh에 문자열 ‘푸헤헿’을 저장했다고 표현한다.&lt;/p&gt;
+&lt;p&gt;우리는 이를 보고 “변수 laugh에 문자열 ‘푸헤헿’을 저장했다.”고 표현한다.&lt;/p&gt;
 
 &lt;p&gt;하지만 상기 코드는 다음과 같음을 알고 있어야 한다.&lt;/p&gt;
 
-&lt;p&gt;변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.&lt;/p&gt;
+&lt;p&gt;“변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.”&lt;/p&gt;
 
 &lt;p&gt;즉, 포스트잇 마냥 가져다 붙이고 이를 참조하는 것으로 봐야한다는 것이다. 포스트 잇을 뗀다면 참조가 불가능 할 것이다.&lt;/p&gt;
 
