@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>  레퍼런스 카운트와 가비지 컬렉션 - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 1. 레퍼런스 카운트와 가비지 컬렉션 - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="  레퍼런스 카운트와 가비지 컬렉션">
+<meta property="og:title" content="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션">
 <meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd1/">
 
 
@@ -306,7 +306,7 @@
         <ul>
           
           
-            <li><a href="/pythonmd/">파이썬 중급 (1)</a></li>
+            <li><a href="/pythonmd/">파이썬 중급 (2)</a></li>
           
         </ul>
         
@@ -337,7 +337,7 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="  레퍼런스 카운트와 가비지 컬렉션">
+    <meta itemprop="headline" content="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
     <meta itemprop="datePublished" content="2021-12-31T00:00:00+09:00">
     
@@ -346,9 +346,7 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd1/" class="u-url" itemprop="url"><ol>
-  <li>레퍼런스 카운트와 가비지 컬렉션</li>
-</ol>
+            <a href="http://localhost:4000/pythonmd/pythonmd1/" class="u-url" itemprop="url">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션
 </a>
           </h1>
           
@@ -412,8 +410,8 @@
 
 <p>다음 코드를 보자</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>    <span class="c1"># Today라는 이름으로 리스트 참조
-</span><span class="n">Today</span> <span class="o">=</span> <span class="s">'게임 좀 만 할까'</span>           <span class="c1"># 변수 Today가 참조 대상을 문자열로 바꿈
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>    <span class="c1"># today라는 이름으로 리스트 참조
+</span><span class="n">today</span> <span class="o">=</span> <span class="s">'게임 좀 만 할까'</span>           <span class="c1"># 변수 today가 참조 대상을 문자열로 바꿈
 </span></code></pre></div></div>
 
 <p>위 상황에서 [‘공부하자’, ‘운동하자’]는 아무도 참조하지 않으므로 소멸 대상이 된다. 메모리에 남겨봤자 공간만 차지하기 때문이다.
@@ -423,10 +421,10 @@
 
 <h2 id="1-2-레퍼런스-카운트">1-2. 레퍼런스 카운트</h2>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>    <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트는 1
-</span><span class="n">Tomorrow</span> <span class="o">=</span> <span class="n">Today</span>                    <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 2로 증가
-</span><span class="n">Today</span> <span class="o">=</span> <span class="s">'게임 좀 만 할까'</span>            <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 1로 감소
-</span><span class="n">Tomorrow</span> <span class="o">=</span> <span class="s">'애들이랑 술 먹을까'</span>  <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 0 됨 -&gt; 가비지 컬렉션 대상
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>    <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트는 1
+</span><span class="n">tomorrow</span> <span class="o">=</span> <span class="n">today</span>                    <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 2로 증가
+</span><span class="n">today</span> <span class="o">=</span> <span class="s">'게임 좀 만 할까'</span>            <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 1로 감소
+</span><span class="n">tomorrow</span> <span class="o">=</span> <span class="s">'애들이랑 술 먹을까'</span>  <span class="c1"># 리스트 ['공부하자', '운동하자'] 의 레퍼런스 카운트 0 됨 -&gt; 가비지 컬렉션 대상
 </span></code></pre></div></div>
 
 <p>객체를 참조하는 변수의 수를 가리켜 ‘레퍼런스 카운트’라 한다. 자세한 내용은 코드 주석을 참고하자.
@@ -498,7 +496,7 @@
       <a href="#" class="pagination--pager disabled">Previous</a>
     
     
-      <a href="/test/test/" class="pagination--pager" title="Test
+      <a href="/pythonmd/pythonmd2/" class="pagination--pager" title="[Python] 2. 수정 가능한 객체와 수정 불가능한 객체
 ">Next</a>
     
   </nav>
@@ -556,6 +554,54 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">01-1. Test
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd2/" rel="permalink">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-12-31T00:00:00+09:00">December 31, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
 </p>
   </article>
 </div>

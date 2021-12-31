@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-31T20:09:17+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-31T20:40:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;hi&lt;/li&gt;
@@ -14,7 +14,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;와우&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry><entry><title type="html">1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry><entry><title type="html">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;1-1-가비지-컬렉션&quot;&gt;1-1. 가비지 컬렉션&lt;/h2&gt;
@@ -34,8 +34,8 @@
 
 &lt;p&gt;다음 코드를 보자&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# Today라는 이름으로 리스트 참조
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 변수 Today가 참조 대상을 문자열로 바꿈
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# today라는 이름으로 리스트 참조
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 변수 today가 참조 대상을 문자열로 바꿈
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;위 상황에서 [‘공부하자’, ‘운동하자’]는 아무도 참조하지 않으므로 소멸 대상이 된다. 메모리에 남겨봤자 공간만 차지하기 때문이다.
@@ -45,10 +45,10 @@
 
 &lt;h2 id=&quot;1-2-레퍼런스-카운트&quot;&gt;1-2. 레퍼런스 카운트&lt;/h2&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트는 1
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Today&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 2로 증가
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 1로 감소
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;애들이랑 술 먹을까&apos;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 0 됨 -&amp;gt; 가비지 컬렉션 대상
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트는 1
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 2로 증가
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 1로 감소
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;애들이랑 술 먹을까&apos;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 0 됨 -&amp;gt; 가비지 컬렉션 대상
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;객체를 참조하는 변수의 수를 가리켜 ‘레퍼런스 카운트’라 한다. 자세한 내용은 코드 주석을 참고하자.
@@ -62,4 +62,33 @@
 
 &lt;p&gt;파이썬 인터프리터는 파이썬 가상머신의 구현 방식에 따라 그 종류가 나뉜다.
 파이썬 가상머신이 C언어로 구현되어 있는 인터프리터는 CPython(가장 일반적이고 널리 사용됨),
-파이썬 가상머신이 자바로 구현되어 있는 인터프리터는 Jython 이라 한다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="reference count" /><category term="garbage collection" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
+파이썬 가상머신이 자바로 구현되어 있는 인터프리터는 Jython 이라 한다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="reference count" /><category term="garbage collection" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</title><link href="http://localhost:4000/pythonmd/pythonmd2/" rel="alternate" type="text/html" title="[Python] 2. 수정 가능한 객체와 수정 불가능한 객체" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd2</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd2/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-1-immutable--mutable&quot;&gt;2-1. Immutable &amp;amp; Mutable&lt;/h2&gt;
+
+&lt;p&gt;Mutable 객체: 객체가 지닌 값의 수정이 가능한 객체&lt;br /&gt;
+Ex) 리스트, 딕셔너리&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 1896625928712
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;요리하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;일찍자자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 1896625928712
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Immutable 객체: 객체가 지닌 값의 수정이 불가능한 객체&lt;br /&gt;
+Ex) 튜플, 문자열&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 1896629021000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;보다시피, 튜플은 저장된 값을 수정하면 새로운 튜플이 만들어진다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="immutable" /><category term="mutable" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
