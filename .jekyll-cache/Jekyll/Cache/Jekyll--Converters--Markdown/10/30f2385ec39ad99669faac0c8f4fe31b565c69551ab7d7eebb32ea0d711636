@@ -1,0 +1,36 @@
+I"<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-가비지-컬렉션">1-1. 가비지 컬렉션</h2>
+
+<p>다음 코드를 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">laugh</span> <span class="o">=</span> <span class="s">'푸헤헿'</span>
+</code></pre></div></div>
+
+<p>우리는 이를 보고 변수 laugh에 문자열 ‘푸헤헿’을 저장했다고 표현한다.</p>
+
+<p>하지만 상기 코드는 다음과 같음을 알고 있어야 한다.</p>
+
+<p>변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.</p>
+
+<p>즉, 포스트잇 마냥 가져다 붙이고 이를 참조하는 것으로 봐야한다는 것이다. 포스트 잇을 뗀다면 참조가 불가능 할 것이다.</p>
+
+<p>다음 코드를 보자</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Today</span> <span class="o">=</span> <span class="p">[</span><span class="s">'공부하자'</span><span class="p">,</span> <span class="s">'운동하자'</span><span class="p">]</span>    <span class="c1"># Today라는 이름으로 리스트 참조
+</span><span class="n">Today</span> <span class="o">=</span> <span class="s">'게임 좀 만 할까'</span>           <span class="c1"># 변수 Today가 참조 대상을 문자열로 바꿈
+</span></code></pre></div></div>
+
+<p>위 상황에서 [‘공부하자’, ‘운동하자’]는 아무도 참조하지 않으므로 소멸 대상이 된다. 메모리에 남겨봤자 공간만 차지하기 때문이다.
+일단 소멸 대상으로 등록만 해두고, 시스템에 시간적인 여유가 생길 때 소멸시키게 된다.</p>
+
+<p>이러한 소멸 규칙 및 과정을 가리켜 ‘가비지 컬렉션’ 이라고 한다.</p>
+
+<h2 id="01-2-test2">01-2. Test2</h2>
+
+<ul>
+  <li>와우</li>
+</ul>
+
+:ET

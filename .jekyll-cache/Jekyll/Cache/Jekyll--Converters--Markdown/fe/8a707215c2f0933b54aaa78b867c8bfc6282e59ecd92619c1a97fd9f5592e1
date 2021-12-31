@@ -1,0 +1,28 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-가비지-컬렉션">1-1. 가비지 컬렉션</h2>
+
+<p>다음 코드를 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">laugh</span> <span class="o">=</span> <span class="s">'푸헤헿'</span>
+</code></pre></div></div>
+
+<p>우리는 이를 보고 변수 laugh에 문자열 ‘푸헤헿’을 저장했다고 표현한다.</p>
+
+<p>하지만 다음과 같음을 알고 있어야 한다.</p>
+
+<p>변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'hi'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'hi'
+</code></pre></div></div>
+
+<h2 id="01-2-test2">01-2. Test2</h2>
+
+<ul>
+  <li>와우</li>
+</ul>
+
+:ET

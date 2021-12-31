@@ -1,0 +1,19 @@
+I"&<h2 id="1-1-가비지-컬렉션">1-1. 가비지 컬렉션</h2>
+
+<ul>
+  <li>hi</li>
+  <li>오 이게 되네</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'hi'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'hi'
+</code></pre></div></div>
+
+<h2 id="01-2-test2">01-2. Test2</h2>
+
+<ul>
+  <li>와우</li>
+</ul>
+
+:ET

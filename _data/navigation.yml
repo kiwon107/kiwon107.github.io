@@ -15,8 +15,18 @@ sidebar:
   nav: "docs"
 
 docs:
-  - title: Test
+  - title: AI
     children:
-      - title: "Test"
-        url: /test/
-        category: "test"
+      - title: "딥러닝"
+        url: /deeplearning/
+        category: "deeplearning"
+  - title: Language
+    children:
+      - title: "파이썬 중급"
+        url: /pythonmd/
+        category: "pythonmd"
+  - title: CS Theory
+    children:
+      - title: "운영체제"
+        url: /os/
+        category: "os"
