@@ -1,0 +1,129 @@
+I"u
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd2/">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#immutable" class="page__taxonomy-item-tag" rel="tag">immutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#mutable" class="page__taxonomy-item-tag" rel="tag">mutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd1/">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#garbage-collection" class="page__taxonomy-item-tag" rel="tag">garbage collection</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#reference-count" class="page__taxonomy-item-tag" rel="tag">reference count</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd3.md/">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.01.02
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#immutable" class="page__taxonomy-item-tag" rel="tag">immutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#mutable" class="page__taxonomy-item-tag" rel="tag">mutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd3/">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.01.02
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#immutable" class="page__taxonomy-item-tag" rel="tag">immutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#mutable" class="page__taxonomy-item-tag" rel="tag">mutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET
