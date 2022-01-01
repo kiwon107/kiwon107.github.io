@@ -473,6 +473,22 @@ Ex) 튜플, 문자열</p>
 
 <p>결론: 함수를 잘 정의하려면 파이썬 내 참조하거나 조작하는 객체의 성격을 구분하고, 그에 맞게 함수를 정의해야 한다!</p>
 
+<p>(2022-01-02) 추가!
+Immutable 객체인 tuple과 str에 대해서도 각각 tuple, str 함수를 이용하여 똑같은 내용을 다른 변수에 저장하면 어떨까?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">num2</span> <span class="o">=</span> <span class="s">'만 백 천 십'</span>
+<span class="n">copy_num</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="n">copy_num2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">copy_num</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">copy_num</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">copy_num2</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2218795445288 2218795445288
+        2218795246032 2218795246032
+</code></pre></div></div>
+
+<p>오히려 리스트랑 반대로 Immutable 객체 생성 함수를 사용하여 복사하면 동일한 메모리 주소를 참조하게 된다.</p>
+
         
       </section>
 
@@ -555,6 +571,54 @@ Ex) 튜플, 문자열</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
+        <a href="/pythonmd/pythonmd3/" rel="permalink">[Python] 3. 깊은 복사와 얕은 복사
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-02T00:00:00+09:00">January 2, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
         <a href="/test/test/" rel="permalink">Test
 </a>
       
@@ -615,54 +679,6 @@ Ex) 튜플, 문자열</p>
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
         <time datetime="2021-12-31T00:00:00+09:00">December 31, 2021</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd3/" rel="permalink">[Python] 3. 깊은 복사와 얕은 복사
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2021-01-02T00:00:00+09:00">January 2, 2021</time>
       </span>
     
 
