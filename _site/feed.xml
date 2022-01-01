@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-02T02:07:41+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">[Python] 3. 깊은 복사와 얕은 복사</title><link href="http://localhost:4000/pythonmd/pythonmd3/" rel="alternate" type="text/html" title="[Python] 3. 깊은 복사와 얕은 복사" /><published>2022-01-02T00:00:00+09:00</published><updated>2022-01-02T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd3</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd3/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-02T03:14:34+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">[Python] 3. 깊은 복사와 얕은 복사</title><link href="http://localhost:4000/pythonmd/pythonmd3/" rel="alternate" type="text/html" title="[Python] 3. 깊은 복사와 얕은 복사" /><published>2022-01-02T00:00:00+09:00</published><updated>2022-01-02T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd3</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd3/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;3-1-두-객체의-비교와-복사&quot;&gt;3-1. 두 객체의 비교와 복사&lt;/h2&gt;
@@ -91,7 +91,23 @@
        2218787620880 2218787620880 140725770218032
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;이제 좋은 거 알았으니, 더 이상 메모리 가지고 장난질 하는 파이썬의 손아귀에 놀아나지 말자!&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="deep copy" /><category term="shallow copy" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+&lt;p&gt;이제 좋은 거 알았으니, 더 이상 메모리 가지고 장난질 하는 파이썬의 손아귀에 놀아나지 말자!&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="deep copy" /><category term="shallow copy" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hi&lt;/li&gt;
+  &lt;li&gt;오 이게 되네&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;hi&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&apos;hi&apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;01-2-test2&quot;&gt;01-2. Test2&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;와우&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry><entry><title type="html">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;1-1-가비지-컬렉션&quot;&gt;1-1. 가비지 컬렉션&lt;/h2&gt;
@@ -236,20 +252,4 @@ Immutable 객체인 tuple과 str에 대해서도 각각 tuple, str 함수를 이
        2218795246032 2218795246032
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;오히려 리스트랑 반대로 Immutable 객체 생성 함수를 사용하여 복사하면 동일한 메모리 주소를 참조하게 된다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="immutable" /><category term="mutable" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">Test</title><link href="http://localhost:4000/test/test/" rel="alternate" type="text/html" title="Test" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/test/test</id><content type="html" xml:base="http://localhost:4000/test/test/">&lt;h2 id=&quot;01-1-test&quot;&gt;01-1. Test&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;hi&lt;/li&gt;
-  &lt;li&gt;오 이게 되네&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;hi&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&apos;hi&apos;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;01-2-test2&quot;&gt;01-2. Test2&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;와우&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry></feed>
+&lt;p&gt;오히려 리스트랑 반대로 Immutable 객체 생성 함수를 사용하여 복사하면 동일한 메모리 주소를 참조하게 된다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="immutable" /><category term="mutable" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
