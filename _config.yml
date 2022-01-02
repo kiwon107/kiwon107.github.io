@@ -106,11 +106,11 @@ author:
   avatar           : "/assets/images/profile.jpg"
   bio              : "AI Researcher & Developer, KSOE"
   location         : "South Korea"
-  email            :
+  email            : "p2881p@naver.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "p2881p@naver.com"
+      # url: "p2881p@naver.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"

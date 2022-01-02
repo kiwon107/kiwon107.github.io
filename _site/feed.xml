@@ -1,4 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-02T03:14:34+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">[Python] 3. 깊은 복사와 얕은 복사</title><link href="http://localhost:4000/pythonmd/pythonmd3/" rel="alternate" type="text/html" title="[Python] 3. 깊은 복사와 얕은 복사" /><published>2022-01-02T00:00:00+09:00</published><updated>2022-01-02T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd3</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd3/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-02T20:08:34+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name></author><entry><title type="html">[Python] 4. 리스트 컴프리헨션</title><link href="http://localhost:4000/pythonmd/pythonmd4/" rel="alternate" type="text/html" title="[Python] 4. 리스트 컴프리헨션" /><published>2022-01-02T00:00:00+09:00</published><updated>2022-01-02T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd4</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd4/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-1-리스트-생성-방법&quot;&gt;4-1. 리스트 생성 방법&lt;/h2&gt;
+
+&lt;p&gt;다음과 같이 for문을 활용하여 3, 6, 9를 요소로 갖는 리스트를 만들 수 있다.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [3, 6, 9]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;그런데 for문을 사용하려니 좀 귀찮다.
+더 짧게 만들어보자!&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [3, 6, 9]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이것이 바로 리스트 컴프리헨션(Comprehension) 이다!&lt;/p&gt;
+
+&lt;p&gt;문법을 설명하자면 다음과 같다. &lt;br /&gt;
+[x * 3 &lt;strong&gt;&lt;u&gt;for x in v1&lt;/u&gt;&lt;/strong&gt;] → v1의 요소들을 하나씩 x에 넣음&lt;br /&gt;
+[&lt;strong&gt;&lt;u&gt;x * 3&lt;/u&gt;&lt;/strong&gt; for x in v1] → x * 3의 결과를 산출하여 리스트에 저장&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4-2-조건-필터-추가하기&quot;&gt;4-2. 조건 필터 추가하기&lt;/h2&gt;
+&lt;p&gt;리스트 컴프리헨션을 사용하는데, 만약 v1의 홀수 값만 활용하여 v2를 만들고 싶다면? &lt;br /&gt;
+다음과 같이 조건 필터를 추가하자!&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 홀수면 x % 2 결과가 1이 나오고, 이는 True로 인식된다.
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [3, 9]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;문법을 설명하자면 다음과 같다. &lt;br /&gt;
+[x * 3 &lt;strong&gt;&lt;u&gt;for x in v1&lt;/u&gt;&lt;/strong&gt; if x % 2] → v1의 요소들을 하나씩 x에 넣음&lt;br /&gt;
+[x * 3 for x in v1 &lt;strong&gt;&lt;u&gt;if x % 2&lt;/u&gt;&lt;/strong&gt;] → x % 2가 True(0이 아님) 인지 확인!&lt;br /&gt;
+[&lt;strong&gt;&lt;u&gt;x * 3&lt;/u&gt;&lt;/strong&gt; for x in v1 if x % 2] → x * 3의 결과를 산출하여 리스트에 저장&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4-3-이중-for-문을-활용한-리스트-컴프리-헨션&quot;&gt;4-3. 이중 for 문을 활용한 리스트 컴프리 헨션&lt;/h2&gt;
+
+&lt;p&gt;만약 다음과 같이 이중 for문으로 리스트를 생성한다 하자.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Beer&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Wine&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;막걸리&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;복분자주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;소주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;+&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [&apos;Beer+막걸리&apos;, &apos;Beer+복분자주&apos;, &apos;Beer+소주&apos;, &apos;Wine+막걸리&apos;, &apos;Wine+복분자주&apos;, &apos;Wine+소주&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;엄청나게 귀찮지 않을까? ㅠㅠ&lt;br /&gt;
+이 또한 리스트 컴프리헨션으로 생성 가능하다!&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Beer&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Wine&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;막걸리&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;복분자주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;소주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;+&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [&apos;Beer+막걸리&apos;, &apos;Beer+복분자주&apos;, &apos;Beer+소주&apos;, &apos;Wine+막걸리&apos;, &apos;Wine+복분자주&apos;, &apos;Wine+소주&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;4-4-이중-for-문에-조건-필터-추가한-리스트-컴프리헨션&quot;&gt;4-4. 이중 for 문에 조건 필터 추가한 리스트 컴프리헨션&lt;/h2&gt;
+
+&lt;p&gt;이중 for문 리스트 컴프리헨션에 조건필터 추가도 가능하다.&lt;br /&gt;
+만약 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;foreign_alc&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;korean_alc&lt;/code&gt; 리스트의 홀수 번째 요소만 활용하고자 한다면?&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Beer&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Wine&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;막걸리&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;복분자주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;소주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;+&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [&apos;Beer+막걸리&apos;, &apos;Beer+소주&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;물론 다음과 같이 if 문을 넣어도 된다.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Beer&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;Wine&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;막걸리&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;복분자주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;소주&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;comb_alc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;+&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreign_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;korean_alc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# if문 순서 주목!
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [&apos;Beer+막걸리&apos;, &apos;Beer+소주&apos;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="list comprehension" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 3. 깊은 복사와 얕은 복사</title><link href="http://localhost:4000/pythonmd/pythonmd3/" rel="alternate" type="text/html" title="[Python] 3. 깊은 복사와 얕은 복사" /><published>2022-01-02T00:00:00+09:00</published><updated>2022-01-02T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd3</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd3/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;3-1-두-객체의-비교와-복사&quot;&gt;3-1. 두 객체의 비교와 복사&lt;/h2&gt;
@@ -107,55 +195,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;와우&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry><entry><title type="html">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-1-가비지-컬렉션&quot;&gt;1-1. 가비지 컬렉션&lt;/h2&gt;
-
-&lt;p&gt;다음 코드를 보자.&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;laugh&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;푸헤헿&apos;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;우리는 이를 보고 “변수 laugh에 문자열 ‘푸헤헿’을 저장했다.”고 표현한다.&lt;/p&gt;
-
-&lt;p&gt;하지만 상기 코드는 다음과 같음을 알고 있어야 한다.&lt;/p&gt;
-
-&lt;p&gt;“변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.”&lt;/p&gt;
-
-&lt;p&gt;즉, 포스트잇 마냥 가져다 붙이고 이를 참조하는 것으로 봐야한다는 것이다. 포스트 잇을 뗀다면 참조가 불가능 할 것이다.&lt;/p&gt;
-
-&lt;p&gt;다음 코드를 보자&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# today라는 이름으로 리스트 참조
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 변수 today가 참조 대상을 문자열로 바꿈
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위 상황에서 [‘공부하자’, ‘운동하자’]는 아무도 참조하지 않으므로 소멸 대상이 된다. 메모리에 남겨봤자 공간만 차지하기 때문이다.
-일단 소멸 대상으로 등록만 해두고, 시스템에 시간적인 여유가 생길 때 소멸시키게 된다.&lt;/p&gt;
-
-&lt;p&gt;이러한 소멸 규칙 및 과정을 가리켜 ‘가비지 컬렉션’ 이라고 한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-2-레퍼런스-카운트&quot;&gt;1-2. 레퍼런스 카운트&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트는 1
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 2로 증가
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 1로 감소
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;애들이랑 술 먹을까&apos;&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 0 됨 -&amp;gt; 가비지 컬렉션 대상
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;객체를 참조하는 변수의 수를 가리켜 ‘레퍼런스 카운트’라 한다. 자세한 내용은 코드 주석을 참고하자.
-레퍼런스 카운트가 0 이라는 것은 소멸 대상으로 등록되어 조만간 소멸된다는 뜻이다.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-3-파이썬-인터프리터&quot;&gt;1-3. 파이썬 인터프리터&lt;/h2&gt;
-&lt;p&gt;파이썬 코드를 작성하고 실행하면, 해당 코드는 파이썬 코드 변환기에 의해 ‘바이트 코드’로 먼저 변환되어 어딘가에 저장된다.
-바이트 코드는 ‘파이썬 가상 머신’ 위에서 실행된다. 따라서, 파이썬 프로그램의 실행 주체는 파이썬 가상 머신이라 할 수 있다. 가비지 컬렉션도 파이썬 가상 머신에서 진행된다.&lt;/p&gt;
-
-&lt;p&gt;파이썬 코드 변환기, 파이썬 가상 머신, 기본적인 라이브러리들을 묶어 ‘파이썬 인터프리터’라 한다.&lt;/p&gt;
-
-&lt;p&gt;파이썬 인터프리터는 파이썬 가상머신의 구현 방식에 따라 그 종류가 나뉜다.
-파이썬 가상머신이 C언어로 구현되어 있는 인터프리터는 CPython(가장 일반적이고 널리 사용됨),
-파이썬 가상머신이 자바로 구현되어 있는 인터프리터는 Jython 이라 한다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="reference count" /><category term="garbage collection" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</title><link href="http://localhost:4000/pythonmd/pythonmd2/" rel="alternate" type="text/html" title="[Python] 2. 수정 가능한 객체와 수정 불가능한 객체" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd2</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd2/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+&lt;/ul&gt;</content><author><name>K.W. Yang</name></author><category term="test" /><category term="Test" /><category term="test" /><summary type="html">01-1. Test</summary></entry><entry><title type="html">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</title><link href="http://localhost:4000/pythonmd/pythonmd2/" rel="alternate" type="text/html" title="[Python] 2. 수정 가능한 객체와 수정 불가능한 객체" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd2</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd2/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;2-1-immutable--mutable&quot;&gt;2-1. Immutable &amp;amp; Mutable&lt;/h2&gt;
@@ -252,4 +292,52 @@ Immutable 객체인 tuple과 str에 대해서도 각각 tuple, str 함수를 이
        2218795246032 2218795246032
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;오히려 리스트랑 반대로 Immutable 객체 생성 함수를 사용하여 복사하면 동일한 메모리 주소를 참조하게 된다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="immutable" /><category term="mutable" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
+&lt;p&gt;오히려 리스트랑 반대로 Immutable 객체 생성 함수를 사용하여 복사하면 동일한 메모리 주소를 참조하게 된다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="immutable" /><category term="mutable" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</title><link href="http://localhost:4000/pythonmd/pythonmd1/" rel="alternate" type="text/html" title="[Python] 1. 레퍼런스 카운트와 가비지 컬렉션" /><published>2021-12-31T00:00:00+09:00</published><updated>2021-12-31T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd1</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd1/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-1-가비지-컬렉션&quot;&gt;1-1. 가비지 컬렉션&lt;/h2&gt;
+
+&lt;p&gt;다음 코드를 보자.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;laugh&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;푸헤헿&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;우리는 이를 보고 “변수 laugh에 문자열 ‘푸헤헿’을 저장했다.”고 표현한다.&lt;/p&gt;
+
+&lt;p&gt;하지만 상기 코드는 다음과 같음을 알고 있어야 한다.&lt;/p&gt;
+
+&lt;p&gt;“변수 laugh가 문자열 ‘푸헤헿’을 참조(Reference)한다.”&lt;/p&gt;
+
+&lt;p&gt;즉, 포스트잇 마냥 가져다 붙이고 이를 참조하는 것으로 봐야한다는 것이다. 포스트 잇을 뗀다면 참조가 불가능 할 것이다.&lt;/p&gt;
+
+&lt;p&gt;다음 코드를 보자&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# today라는 이름으로 리스트 참조
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 변수 today가 참조 대상을 문자열로 바꿈
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 상황에서 [‘공부하자’, ‘운동하자’]는 아무도 참조하지 않으므로 소멸 대상이 된다. 메모리에 남겨봤자 공간만 차지하기 때문이다.
+일단 소멸 대상으로 등록만 해두고, 시스템에 시간적인 여유가 생길 때 소멸시키게 된다.&lt;/p&gt;
+
+&lt;p&gt;이러한 소멸 규칙 및 과정을 가리켜 ‘가비지 컬렉션’ 이라고 한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-2-레퍼런스-카운트&quot;&gt;1-2. 레퍼런스 카운트&lt;/h2&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;공부하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;운동하자&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트는 1
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;today&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 2로 증가
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;today&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;게임 좀 만 할까&apos;&lt;/span&gt;           &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 1로 감소
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tomorrow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;애들이랑 술 먹을까&apos;&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 리스트 [&apos;공부하자&apos;, &apos;운동하자&apos;] 의 레퍼런스 카운트 0 됨 -&amp;gt; 가비지 컬렉션 대상
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;객체를 참조하는 변수의 수를 가리켜 ‘레퍼런스 카운트’라 한다. 자세한 내용은 코드 주석을 참고하자.
+레퍼런스 카운트가 0 이라는 것은 소멸 대상으로 등록되어 조만간 소멸된다는 뜻이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-3-파이썬-인터프리터&quot;&gt;1-3. 파이썬 인터프리터&lt;/h2&gt;
+&lt;p&gt;파이썬 코드를 작성하고 실행하면, 해당 코드는 파이썬 코드 변환기에 의해 ‘바이트 코드’로 먼저 변환되어 어딘가에 저장된다.
+바이트 코드는 ‘파이썬 가상 머신’ 위에서 실행된다. 따라서, 파이썬 프로그램의 실행 주체는 파이썬 가상 머신이라 할 수 있다. 가비지 컬렉션도 파이썬 가상 머신에서 진행된다.&lt;/p&gt;
+
+&lt;p&gt;파이썬 코드 변환기, 파이썬 가상 머신, 기본적인 라이브러리들을 묶어 ‘파이썬 인터프리터’라 한다.&lt;/p&gt;
+
+&lt;p&gt;파이썬 인터프리터는 파이썬 가상머신의 구현 방식에 따라 그 종류가 나뉜다.
+파이썬 가상머신이 C언어로 구현되어 있는 인터프리터는 CPython(가장 일반적이고 널리 사용됨),
+파이썬 가상머신이 자바로 구현되어 있는 인터프리터는 Jython 이라 한다.&lt;/p&gt;</content><author><name>K.W. Yang</name></author><category term="pythonmd" /><category term="python" /><category term="reference count" /><category term="garbage collection" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>

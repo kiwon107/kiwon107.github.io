@@ -22,4 +22,10 @@ var store = [{
         "tags": ["python","deep copy","shallow copy"],
         "url": "/pythonmd/pythonmd3/",
         "teaser": null
+      },{
+        "title": "[Python] 4. 리스트 컴프리헨션",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 4-1. 리스트 생성 방법 다음과 같이 for문을 활용하여 3, 6, 9를 요소로 갖는 리스트를 만들 수 있다. v1 = [1, 2, 3] v2 = [] for i in v1: v2.append(i * 3) v2...","categories": ["pythonmd"],
+        "tags": ["python","list comprehension"],
+        "url": "/pythonmd/pythonmd4/",
+        "teaser": null
       }]
