@@ -1,0 +1,144 @@
+I"�8<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="5-1-iter-함수">5-1. Iter 함수</h2>
+
+<p>다음과 같은 코드를 본적이 있는가?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir_spiderman</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) '톰 홀랜드'
+ '토비 맥과이어'
+ '앤드류 가필드'
+</code></pre></div></div>
+
+<p>이게 어떻게 가능할까?<br />
+iter 함수는 리스트 <code class="language-plaintext highlighter-rouge">spiderman</code>에 접근하는 도구인 ‘iterator 객체’를 생성하여 반환한다.
+‘iterator 객체’는 리스트에서 값을 꺼내는 기능을 제공하는 객체이다.<br /></p>
+
+<p>따라서!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ir_spiderman</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+</code></pre></div></div>
+<p>상기 코드를 실행하면 ir_spiderman은 ‘iterator 객체’를 참조하는 상황이 된다!</p>
+
+<p>next 함수를 호출하여 이 ‘iterator 객체’를 전달하면 리스트에 저장된 값을 하나씩 얻을 수 있다.
+계속 next 함수를 호출하면서 ‘iterator 객체’를 전달하면 첫 번째 값부터 마지막 값까지 순차적으로 반환된다.</p>
+
+<p>마지막 값을 얻었는데 또 next 함수를 호출하면 어떻게 될까?<br /></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">next</span><span class="p">(</span><span class="n">ir_spiderman</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Traceback (most recent call last):
+    File "&lt;stdin&gt;, line 1, in &lt;module&gt;
+        next(ir)
+StopIteration
+</code></pre></div></div>
+
+<p>다음과 같이 StopIteration 예외가 발생한다.</p>
+
+<p>다시 처음부터 값을 얻으려면 <code class="language-plaintext highlighter-rouge">ir_spiderman = iter(spiderman)</code>으로 itoerator 객체를 다시 얻어서 해당 객체에 next함수를 호출하여 전달하면 된다.</p>
+
+<h2 id="5-2-iterable-객체와-iterator-객체-구분">5-2. Iterable 객체와 Iterator 객체 구분</h2>
+
+<p>Iterator 객체 → iter 함수가 생성해서 반환하는 객체<br />
+Iterable 객체 → iter 함수에 인자로 전달 가능한 객체 Ex) 리스트!</p>
+
+<p>그럼 Iterable 객체 여부를 어떻게 확인 할 수 있을까?<br />
+가장 쉬운 방법은 iter 함수에 전달해 보는 것이다. 오류 없이 iterator 객체가 만들어지면 고것은 iterable 객체인 것!</p>
+
+<h2 id="5-3-스페셜-메소드">5-3. 스페셜 메소드</h2>
+
+<p>우리가 앞에서 봤던 코드를 다시 보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir_spiderman</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>사실 이 코드의 실제 함수 호출 형태는 다음과 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir_spiderman</span> <span class="o">=</span> <span class="n">spiderman</span><span class="p">.</span><span class="n">__iter__</span><span class="p">()</span>
+<span class="n">ir_spiderman</span><span class="p">.</span><span class="n">__next__</span><span class="p">()</span>
+<span class="n">ir_spiderman</span><span class="p">.</span><span class="n">__next__</span><span class="p">()</span>
+<span class="n">ir_spiderman</span><span class="p">.</span><span class="n">__next__</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) '톰 홀랜드'
+ '토비 맥과이어'
+ '앤드류 가필드'
+</code></pre></div></div>
+
+<p>따라서 iter 함수와 next 함수 호출은 각각 파이썬 인터프리터에 의해 <code class="language-plaintext highlighter-rouge">__iter__</code> 메소드, <code class="language-plaintext highlighter-rouge">__next__</code> 메소드 호출로 이어진다!<br />
+다음과 같이 파이썬 인터프리터에 의해 자동 호출되는 메소드를 스페셜 메소드 라고 부른다. 스페셜 메소드는 이름의 앞, 뒤에 _를 두 개씩 붙여준다.</p>
+
+<h2 id="5-4-iterable-객체의-종류와-확인-방법">5-4. Iterable 객체의 종류와 확인 방법</h2>
+
+<p>리스트 뿐만 아니라, 튜플, 문자열도 iterator 객체 반환 가능한 iterable 객체이다!</p>
+
+<p>꼭 iter 함수를 써봐야지만 iterable 객체인지 알 수 있나요?<br />
+그렇지 않다. dir 함수를 호출하여 <code class="language-plaintext highlighter-rouge">__iter__</code> 메소드가 존재하는지 확인하는 방법도 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="nb">dir</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+</code></pre></div></div>
+
+<p>또는 <code class="language-plaintext highlighter-rouge">hasattr</code> 함수를 호출하여 <code class="language-plaintext highlighter-rouge">__iter__</code>함수가 있는지 직접 물어보는 것도 가능하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="nb">hasattr</span><span class="p">(</span><span class="n">spiderman</span><span class="p">,</span> <span class="s">'__iter__'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) True
+</code></pre></div></div>
+
+<h2 id="5-5-for-루프와-iterable-객체">5-5. for 루프와 Iterable 객체</h2>
+
+<p>나와 같은 for문 매니아 분들이라면 for 문으로 리스트 값을 하나씩 빼오는 코드를 짜봤을 것이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">ir_spiderman</span> <span class="ow">in</span> <span class="n">spiderman</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ir_spiderman</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">', '</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 톰 홀랜드, 토비 맥과이어, 앤드류 가필드,
+</code></pre></div></div>
+
+<p>사실 이 코드는 내부적으로 다음과 같이 동작한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ir_spiderman</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">ir_spiderman</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">', '</span><span class="p">)</span>
+    <span class="k">except</span> <span class="nb">StopIteration</span><span class="p">:</span>
+        <span class="k">break</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 톰 홀랜드, 토비 맥과이어, 앤드류 가필드,
+</code></pre></div></div>
+
+<p>즉! for 문의 반복 대상은 반드시 ‘iterable 객체’이어야 한다!<br />
+for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동한다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ir_spiderman</span> <span class="ow">in</span> <span class="n">ir</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ir_spiderman</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">', '</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 톰 홀랜드, 토비 맥과이어, 앤드류 가필드,
+</code></pre></div></div>
+
+<p>왜 잘 작동할까?<br />
+바로 iterable 객체나 iterator 객체나 iter 함수를 적용하면 참조 주소가 동일하기 때문이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">spiderman</span> <span class="o">=</span> <span class="p">[</span><span class="s">'톰 홀랜드'</span><span class="p">,</span> <span class="s">'토비 맥과이어'</span><span class="p">,</span> <span class="s">'앤드류 가필드'</span><span class="p">]</span>
+<span class="n">ir</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">spiderman</span><span class="p">)</span>
+<span class="n">ir_spiderman</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">ir_spiderman</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2670056909624
+       2670056909624
+</code></pre></div></div>
+
+<p>그러므로, iterable 객체가 와야 하는 위치에 iterator 객체가 올 수 있다!</p>
+:ET

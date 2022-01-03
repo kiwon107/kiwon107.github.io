@@ -28,4 +28,10 @@ var store = [{
         "tags": ["python","list comprehension"],
         "url": "/pythonmd/pythonmd4/",
         "teaser": null
+      },{
+        "title": "[Python] 5. Iterable 객체와 Iterator 객체",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 5-1. Iter 함수 다음과 같은 코드를 본적이 있는가? spiderman = ['톰 홀랜드', '토비 맥과이어', '앤드류 가필드'] ir_spiderman = iter(spiderman) next(ir) next(ir) next(ir) (결과) '톰 홀랜드' '토비 맥과이어' '앤드류 가필드' 이게 어떻게 가능할까? iter...","categories": ["pythonmd"],
+        "tags": ["python","list Iterable object","Iterator object"],
+        "url": "/pythonmd/pythonmd5/",
+        "teaser": null
       }]
