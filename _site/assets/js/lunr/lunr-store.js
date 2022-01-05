@@ -34,4 +34,10 @@ var store = [{
         "tags": ["python","list Iterable object","Iterator object"],
         "url": "/pythonmd/pythonmd5/",
         "teaser": null
+      },{
+        "title": "[Python] 6. 객체처럼 다뤄지는 함수 그리고 람다",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 6-1. 파이썬에서는 함수도 객체 파이썬은 모든 것을 객체로 처리한다. 참고로 클래스가 메소드와 변수로 구성된 코드 껍데기라면, 객체는 클래스의 코드가 작동되도록 영혼을 불어넣은 것이라 할 수 있다. x = 3.0 type(x) x.is_integer() # 소수점...","categories": ["pythonmd"],
+        "tags": ["python","Object","Function","Lambda"],
+        "url": "/pythonmd/pythonmd6/",
+        "teaser": null
       }]

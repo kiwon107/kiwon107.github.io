@@ -1,0 +1,79 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="6-1-파이썬에서는-함수도-객체">6-1. 파이썬에서는 함수도 객체</h2>
+
+<p>파이썬은 모든 것을 객체로 처리한다.</p>
+
+<p>참고로 클래스가 메소드와 변수로 구성된 코드 껍데기라면, 객체는 클래스의 코드가 작동되도록 영혼을 불어넣은 것이라 할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span><span class="p">.</span><span class="n">is_integer</span><span class="p">()</span> <span class="c1"># 소수점 이하에 값이 있는지 묻는 Float 클래스의 메소드
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) &lt;class 'float'&gt;
+ True
+</code></pre></div></div>
+
+<p>float 클래스에 소수점 이하 값이 있을 경우 True를 리턴하는 메소드가 있고, x는 코드 껍데기 뿐인 float 클래스가 작동되도록 하는 객체인 것이다.</p>
+
+<p>파이썬은 함수도 객체로 처리한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) &lt;class 'function'&gt;
+</code></pre></div></div>
+
+<p>보다시피, func1이라는 함수는 ‘function’이라는 클래스의 객체인 것이다.<br /></p>
+
+<p>함수를 정의하면 파이썬은 함수의 내용을 기반으로 function 클래스의 객체를 생성한다.</p>
+
+<p>객체라면 다음 2가지를 수행할 수 있다.<br />
+1) 매개변수로 함수를 줄 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">say1</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'안뇽?'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">caller</span><span class="p">(</span><span class="n">what</span><span class="p">):</span>
+    <span class="n">what</span><span class="p">()</span>
+
+<span class="n">caller</span><span class="p">(</span><span class="n">say1</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 안뇽?
+</code></pre></div></div>
+
+<p>2) 함수 안에 함수를 만들수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">base</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">base</span>
+
+<span class="n">f2</span> <span class="o">=</span> <span class="n">power</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># x ** 3, f2에는 base 함수가 저장되고, base 함수가 리턴하는 값은 x ** 3 이 된다.
+</span><span class="n">f2</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># 4 ** 3
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 64
+</code></pre></div></div>
+
+<h2 id="6-2-람다">6-2. 람다</h2>
+
+<p>만약 함수를 정의해서 함수를 변수안에 저장해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">tellme</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">tellmeagain</span> <span class="o">=</span> <span class="n">tellme</span>
+<span class="n">tellmeagain</span><span class="p">(</span><span class="s">'안뇽?'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 안뇽?
+</code></pre></div></div>
+
+<p>저장은 했는데, 같은 기능을 하는 함수가 tellme, tellmeagain 2개가 생겨버렸다.<br />
+그냥 변수에 이름 없는 함수를 저장할 순 없을까?</p>
+
+<p>이름 없는 함수! 그것은 바로 람다 함수 이다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tellme</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span> <span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">tellme</span><span class="p">(</span><span class="s">'안뇽?'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 안뇽?
+</code></pre></div></div>
+:ET
