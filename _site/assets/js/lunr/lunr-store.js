@@ -40,4 +40,10 @@ var store = [{
         "tags": ["python","Object","Function","Lambda"],
         "url": "/pythonmd/pythonmd6/",
         "teaser": null
+      },{
+        "title": "[Python] 7. Map & Filter",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 7-1. Map &amp; Filter 설명 없이 바로 코드부터 들어간다. def square(n): return n ** 2 num = [2, 3, 5] num_square = list(map(pow, num)) num_square (결과) [4, 9, 25] 이것만 봐도 map 함수가...","categories": ["pythonmd"],
+        "tags": ["python","Map","Filter"],
+        "url": "/pythonmd/pythonmd7/",
+        "teaser": null
       }]

@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>[Python] 4. 리스트 컴프리헨션 - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 7. Map &amp; Filter - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,8 +22,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="[Python] 4. 리스트 컴프리헨션">
-<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd4/">
+<meta property="og:title" content="[Python] 7. Map &amp; Filter">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd7/">
 
 
   <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
@@ -34,7 +34,7 @@
 
 
 
-  <meta property="article:published_time" content="2022-01-02T00:00:00+09:00">
+  <meta property="article:published_time" content="2022-01-05T00:00:00+09:00">
 
 
 
@@ -45,7 +45,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd4/">
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd7/">
 
 
 
@@ -342,16 +342,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="[Python] 4. 리스트 컴프리헨션">
+    <meta itemprop="headline" content="[Python] 7. Map &amp; Filter">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
-    <meta itemprop="datePublished" content="2022-01-02T00:00:00+09:00">
+    <meta itemprop="datePublished" content="2022-01-05T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd4/" class="u-url" itemprop="url">[Python] 4. 리스트 컴프리헨션
+            <a href="http://localhost:4000/pythonmd/pythonmd7/" class="u-url" itemprop="url">[Python] 7. Map &amp; Filter
 </a>
           </h1>
           
@@ -362,7 +362,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-02T00:00:00+09:00">January 2, 2022</time>
+        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
       </span>
     
 
@@ -390,7 +390,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#4-1-리스트-생성-방법">4-1. 리스트 생성 방법</a></li><li><a href="#4-2-조건-필터-추가하기">4-2. 조건 필터 추가하기</a></li><li><a href="#4-3-이중-for-문을-활용한-리스트-컴프리-헨션">4-3. 이중 for 문을 활용한 리스트 컴프리 헨션</a></li><li><a href="#4-4-이중-for-문에-조건-필터-추가한-리스트-컴프리헨션">4-4. 이중 for 문에 조건 필터 추가한 리스트 컴프리헨션</a></li></ul>
+              <ul class="toc__menu"><li><a href="#7-1-map--filter">7-1. Map &amp; Filter</a></li><li><a href="#7-2-map과-람다">7-2. map과 람다</a></li><li><a href="#7-3-filter">7-3. Filter</a></li><li><a href="#7-4-map과-filter를-대신하는-리스트-컴프리헨션">7-4. map과 filter를 대신하는 리스트 컴프리헨션</a></li></ul>
 
             </nav>
           </aside>
@@ -398,92 +398,117 @@
         <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
 
-<h2 id="4-1-리스트-생성-방법">4-1. 리스트 생성 방법</h2>
+<h2 id="7-1-map--filter">7-1. Map &amp; Filter</h2>
 
-<p>다음과 같이 for문을 활용하여 3, 6, 9를 요소로 갖는 리스트를 만들 수 있다.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">v2</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v1</span><span class="p">:</span>
-    <span class="n">v2</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">v2</span>
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [3, 6, 9]
-</code></pre></div></div>
+<p>설명 없이 바로 코드부터 들어간다.</p>
 
-<p>그런데 for문을 사용하려니 좀 귀찮다.
-더 짧게 만들어보자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">**</span> <span class="mi">2</span>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">v2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v1</span><span class="p">]</span>
-<span class="n">v2</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">num_square</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+<span class="n">num_square</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [3, 6, 9]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [4, 9, 25]
 </code></pre></div></div>
 
-<p>이것이 바로 리스트 컴프리헨션(Comprehension) 이다!</p>
+<p>이것만 봐도 map 함수가 어떤 것인지 알 수 있지 않는가? <br />
+map 함수는 무엇을 리턴하는 걸까? 다음 코드를 보자.</p>
 
-<p>문법을 설명하자면 다음과 같다. <br />
-[x * 3 <strong><u>for x in v1</u></strong>] → v1의 요소들을 하나씩 x에 넣음<br />
-[<strong><u>x * 3</u></strong> for x in v1] → x * 3의 결과를 산출하여 리스트에 저장<br /></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">**</span> <span class="mi">2</span>
 
-<h2 id="4-2-조건-필터-추가하기">4-2. 조건 필터 추가하기</h2>
-<p>리스트 컴프리헨션을 사용하는데, 만약 v1의 홀수 값만 활용하여 v2를 만들고 싶다면? <br />
-다음과 같이 조건 필터를 추가하자!</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">v2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">v1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span> <span class="c1"># 홀수면 x % 2 결과가 1이 나오고, 이는 True로 인식된다.
-</span><span class="n">v2</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">ir</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
+<span class="nb">next</span><span class="p">(</span><span class="n">ir</span><span class="p">)</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [3, 9]
-</code></pre></div></div>
-
-<p>문법을 설명하자면 다음과 같다. <br />
-[x * 3 <strong><u>for x in v1</u></strong> if x % 2] → v1의 요소들을 하나씩 x에 넣음<br />
-[x * 3 for x in v1 <strong><u>if x % 2</u></strong>] → x % 2가 True(0이 아님) 인지 확인!<br />
-[<strong><u>x * 3</u></strong> for x in v1 if x % 2] → x * 3의 결과를 산출하여 리스트에 저장<br /></p>
-
-<h2 id="4-3-이중-for-문을-활용한-리스트-컴프리-헨션">4-3. 이중 for 문을 활용한 리스트 컴프리 헨션</h2>
-
-<p>만약 다음과 같이 이중 for문으로 리스트를 생성한다 하자.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreign_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Beer'</span><span class="p">,</span> <span class="s">'Wine'</span><span class="p">]</span>
-<span class="n">korean_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'막걸리'</span><span class="p">,</span> <span class="s">'복분자주'</span><span class="p">,</span> <span class="s">'소주'</span><span class="p">]</span>
-<span class="n">comb_alc</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">foreign_alc</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">korean_alc</span><span class="p">:</span>
-        <span class="n">comb_alc</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="s">'+'</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
-<span class="n">comb_alc</span>
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['Beer+막걸리', 'Beer+복분자주', 'Beer+소주', 'Wine+막걸리', 'Wine+복분자주', 'Wine+소주']
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 4
+     9
+     25
 </code></pre></div></div>
 
-<p>엄청나게 귀찮지 않을까? ㅠㅠ<br />
-이 또한 리스트 컴프리헨션으로 생성 가능하다!</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreign_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Beer'</span><span class="p">,</span> <span class="s">'Wine'</span><span class="p">]</span>
-<span class="n">korean_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'막걸리'</span><span class="p">,</span> <span class="s">'복분자주'</span><span class="p">,</span> <span class="s">'소주'</span><span class="p">]</span>
-<span class="n">comb_alc</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">+</span><span class="s">'+'</span><span class="o">+</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">foreign_alc</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">korean_alc</span><span class="p">]</span>
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['Beer+막걸리', 'Beer+복분자주', 'Beer+소주', 'Wine+막걸리', 'Wine+복분자주', 'Wine+소주']
-</code></pre></div></div>
+<p>보다시피 map 함수는 iterator 객체를 리턴하게 된다!</p>
 
-<h2 id="4-4-이중-for-문에-조건-필터-추가한-리스트-컴프리헨션">4-4. 이중 for 문에 조건 필터 추가한 리스트 컴프리헨션</h2>
+<p>iterator 객체를 리턴한다는 것은 iterable 객체가 입력으로 들어간다는 것이다.<br />
+map 함수의 두번째 인자는 iterable 객체여야 한다.<br />
+따라서 리스트 뿐만 아니라, 튜플, 문자열도 두번째 인자로 들어갈 수 있다.</p>
 
-<p>이중 for문 리스트 컴프리헨션에 조건필터 추가도 가능하다.<br />
-만약 <code class="language-plaintext highlighter-rouge">foreign_alc</code> 과 <code class="language-plaintext highlighter-rouge">korean_alc</code> 리스트의 홀수 번째 요소만 활용하고자 한다면?</p>
+<p>만약 2개의 매개변수를 갖는 함수에 map 함수를 적용하고 싶다면 다음과 같이 코드를 짜보자.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreign_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Beer'</span><span class="p">,</span> <span class="s">'Wine'</span><span class="p">]</span>
-<span class="n">korean_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'막걸리'</span><span class="p">,</span> <span class="s">'복분자주'</span><span class="p">,</span> <span class="s">'소주'</span><span class="p">]</span>
-<span class="n">comb_alc</span> <span class="o">=</span> <span class="p">[</span><span class="n">foreign_alc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s">'+'</span><span class="o">+</span><span class="n">korean_alc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">foreign_alc</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">korean_alc</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span>
+
+<span class="n">num1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">num2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">nums_sum</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">))</span>
+<span class="n">nums_sum</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['Beer+막걸리', 'Beer+소주']
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [7, 6, 7]
 </code></pre></div></div>
 
-<p>물론 다음과 같이 if 문을 넣어도 된다.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foreign_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Beer'</span><span class="p">,</span> <span class="s">'Wine'</span><span class="p">]</span>
-<span class="n">korean_alc</span> <span class="o">=</span> <span class="p">[</span><span class="s">'막걸리'</span><span class="p">,</span> <span class="s">'복분자주'</span><span class="p">,</span> <span class="s">'소주'</span><span class="p">]</span>
-<span class="n">comb_alc</span> <span class="o">=</span> <span class="p">[</span><span class="n">foreign_alc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s">'+'</span><span class="o">+</span><span class="n">korean_alc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">foreign_alc</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">korean_alc</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span> <span class="c1"># if문 순서 주목!
+<h2 id="7-2-map과-람다">7-2. map과 람다</h2>
+<p>앞서 배운 람다와 이번에 배운 map 함수를 동시에 써먹어볼 시간이다. 그 전에 뭐 하나만 보고 가자.<br />
+바로 ‘iterable 객체 값 역방향으로 정렬하기’이다!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span> <span class="o">=</span> <span class="s">'안녕하세여'</span>
+<span class="n">s</span><span class="p">[</span> <span class="p">:</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 2를 넣으면 한칸씩 띄어서 출력
 </span></code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['Beer+막걸리', 'Beer+소주']
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[결과] '여세하녕안'
 </code></pre></div></div>
+
+<p>됐다! 이제 map 함수와 람다 함수를 적용해보자!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subject</span> <span class="o">=</span> <span class="p">[</span><span class="s">'파이썬'</span><span class="p">,</span> <span class="s">'운영체제'</span><span class="p">,</span> <span class="s">'딥러닝'</span><span class="p">]</span> <span class="c1"># 이번년도 상반기 공부할 내용들...
+</span><span class="n">rev_subject</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span> <span class="p">:</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">subject</span><span class="p">))</span>
+<span class="n">rev_subject</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ['썬이파', '제체영운', '닝러딥']
+</code></pre></div></div>
+
+<p>혹시 <code class="language-plaintext highlighter-rouge">['닝러딥', '제체영운', '썬이파']</code> 가 나올꺼라 생각했나?<br /></p>
+
+<p>map이 iterator 객체를 리턴한다는 것을 항상 기억하자! iterator 객체를 리턴하면 next 함수를 적용할 때 가장 먼저 ‘파이썬’이 나온다. 이 문자열을 반전시킨다.
+그리고 나머지도 똑같이 적용된다 생각하면 금방 이해할 수 있을 것이다!</p>
+
+<h2 id="7-3-filter">7-3. Filter</h2>
+<p>Fileter 함수는 Map 함수와 비슷하다. 차이라면, Map 함수는 함수가 리턴한 값을 그대로 반영하는 반면, Filter 함수는 함수가 True를 리턴한 경우에 대해 iterator 객체 요소 값을 처리한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_odd</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="c1"># 짝수면 0(False) 리턴, 홀수면 1(True) 리턴
+</span>
+<span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">ost</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">find_odd</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+<span class="n">ost</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [1, 3, 5]
+</code></pre></div></div>
+
+<p>보다시피, Filter 함수의 첫번째 인자는 True나 False를 리턴하는 함수가 와야하며, 두번째 인자는 iterable 객체가 와야한다.</p>
+
+<p>마지막 예제는 지금까지 배운 것들을 응용하여, 1~10 중 3의 배수만 골라 제곱을 적용해 리스트에 저장하는 기능을 만들어 보겠다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nums</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">three_squares</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="ow">not</span><span class="p">(</span><span class="n">a</span> <span class="o">%</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">nums</span><span class="p">)))</span>
+<span class="n">three_squares</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [9, 36, 81]
+</code></pre></div></div>
+
+<p>Filter 함수의 경우, True인 값만 리턴하므로 3의 배수인 경우 <code class="language-plaintext highlighter-rouge">a % 3 = 0</code> 이 된다. 따라서 not 함수를 주어 True로 반전 시키도록 한다.</p>
+
+<h2 id="7-4-map과-filter를-대신하는-리스트-컴프리헨션">7-4. map과 filter를 대신하는 리스트 컴프리헨션</h2>
+
+<p>위 예제를 리스트 컴프리헨션으로 나타낼 수 있다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nums</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">three_squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">three_squares</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [9, 36, 81]
+</code></pre></div></div>
+
+<p>뭔가 filter와 map 함수를 동시에 활용한 것보다 더 심플해보인다!</p>
 
         
       </section>
@@ -500,7 +525,9 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#list-comprehension" class="page__taxonomy-item p-category" rel="tag">list comprehension</a><span class="sep">, </span>
+      <a href="/tags/#filter" class="page__taxonomy-item p-category" rel="tag">Filter</a><span class="sep">, </span>
+    
+      <a href="/tags/#map" class="page__taxonomy-item p-category" rel="tag">Map</a><span class="sep">, </span>
     
       <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a>
     
@@ -527,7 +554,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-02T00:00:00+09:00">January 2, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time></p>
 
       </footer>
 
@@ -536,12 +563,11 @@
       
   <nav class="pagination">
     
-      <a href="/pythonmd/pythonmd3/" class="pagination--pager" title="[Python] 3. 깊은 복사와 얕은 복사
+      <a href="/pythonmd/pythonmd6/" class="pagination--pager" title="[Python] 6. 객체처럼 다뤄지는 함수 그리고 람다
 ">Previous</a>
     
     
-      <a href="/pythonmd/pythonmd5/" class="pagination--pager" title="[Python] 5. Iterable 객체와 Iterator 객체
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -555,54 +581,6 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd7/" rel="permalink">[Python] 7. Map &amp; Filter
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
         
           
 
@@ -686,7 +664,55 @@
       <span class="page__meta-readtime">
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd4/" rel="permalink">[Python] 4. 리스트 컴프리헨션
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-02T00:00:00+09:00">January 2, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
         
       </span>
     
