@@ -46,4 +46,10 @@ var store = [{
         "tags": ["python","Map","Filter"],
         "url": "/pythonmd/pythonmd7/",
         "teaser": null
+      },{
+        "title": "[Python] 8. 제너레이터 함수",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 8-1. 제너레이터에 대한 이해와 제너레이터 함수 전 시간에 iterator 객체에 대해 공부하였다. 제너레이터는 iterator 객체의 한 종류이다. 그러므로, 제너레이터를 전달하고 next 함수를 호출하면 값을 하나씩 얻을 수 있다. 제너레이터를 만드는 방법은 크게 두가지가...","categories": ["pythonmd"],
+        "tags": ["python","Generator"],
+        "url": "/pythonmd/pythonmd8/",
+        "teaser": null
       }]
