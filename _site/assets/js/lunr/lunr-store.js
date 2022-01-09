@@ -52,4 +52,10 @@ var store = [{
         "tags": ["python","Generator"],
         "url": "/pythonmd/pythonmd8/",
         "teaser": null
+      },{
+        "title": "[Python] 9. 튜플 패킹 & 언패킹, 네임드 튜플",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 9-1. 패킹과 언패킹 튜플 패킹: 하나 이상의 값을 튜플로 묶는 행위 tpl_one = (12, 15) tpl_two = 12, 15 tpl_one tpl_two (결과) (12, 15) (12, 15) 투플 언패킹: 튜플에 묶여 있는 값들을 풀어내는...","categories": ["pythonmd"],
+        "tags": ["python","tuple","packing","unpacking"],
+        "url": "/pythonmd/pythonmd9/",
+        "teaser": null
       }]

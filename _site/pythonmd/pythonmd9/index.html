@@ -1,0 +1,904 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd9/">
+
+
+  <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-05T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd9/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer, KSOE</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/deeplearning/">딥러닝 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (9)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플">
+    <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-01-05T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/pythonmd/pythonmd9/" class="u-url" itemprop="url">[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#9-1-패킹과-언패킹">9-1. 패킹과 언패킹</a></li><li><a href="#9-2-함수-호출-및-반환-과정에서의-패킹과-언패킹">9-2. 함수 호출 및 반환 과정에서의 패킹과 언패킹</a></li><li><a href="#9-3-for-루프에서의-언패킹">9-3. for 루프에서의 언패킹</a></li><li><a href="#9-4-네임드-튜플의-이해와-작성">9-4. 네임드 튜플의 이해와 작성</a></li><li><a href="#9-5-네임드-튜플-언패킹">9-5. 네임드 튜플 언패킹</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="9-1-패킹과-언패킹">9-1. 패킹과 언패킹</h2>
+
+<p>튜플  패킹: 하나 이상의 값을 튜플로 묶는 행위</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tpl_one</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">tpl_two</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span>
+<span class="n">tpl_one</span>
+<span class="n">tpl_two</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (12, 15)
+      (12, 15)
+</code></pre></div></div>
+
+<p>투플 언패킹: 튜플에 묶여 있는 값들을 풀어내는 행위</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tpl_three</span> <span class="o">=</span> <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">,</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">tpl_three</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sn</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 23 12
+</code></pre></div></div>
+
+<p>언패킹 할 때 다음과 같이 리스트로 묶어서 하나의 변수에 저장할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nums</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 튜플 뿐만 아니라, 리스트 대상으로도 동일하게 동작한다!
+</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="o">*</span><span class="n">others1</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">others2</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="o">*</span><span class="n">others3</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">others1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">others2</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">others3</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 2 [3, 4, 5]
+      1 [2, 3, 4] 5
+      [1, 2, 3] 4 5
+</code></pre></div></div>
+
+<h2 id="9-2-함수-호출-및-반환-과정에서의-패킹과-언패킹">9-2. 함수 호출 및 반환 과정에서의 패킹과 언패킹</h2>
+
+<p>긴 말 없이 코드로 보자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ret_nums</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span>
+
+<span class="n">nums</span> <span class="o">=</span> <span class="n">ret_nums</span><span class="p">()</span>
+<span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">others</span> <span class="o">=</span> <span class="n">ret_nums</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">others</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (1, 2, 3, 4, 5)
+      1 [2, 3, 4, 5]
+</code></pre></div></div>
+
+<p>참고로 함수 선언시, 매개변수에 <code class="language-plaintext highlighter-rouge">*</code>를 적용할 수 있다</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show_nums</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="o">*</span><span class="n">others</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">others</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="s">'yoon'</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="s">'hi'</span><span class="p">)</span>
+
+<span class="n">show_nums</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">show_nums</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1, 2, (3, 4, 5)
+      yoon, 22, (180, 'hi')
+</code></pre></div></div>
+
+<p>튜플을 언패킹 할때, 여러가지 튜플 요소 중 우리가 필요로 하는 요소만 출력하고 싶을 때가 있을 것이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="s">'Yang'</span><span class="p">,</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="s">'010-xxxx-aaaa'</span><span class="p">,</span> <span class="s">'Korea'</span>
+<span class="n">f_name</span><span class="p">,</span> <span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">ph</span><span class="p">,</span> <span class="n">nat</span> <span class="o">=</span> <span class="n">p</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Yang 182
+</code></pre></div></div>
+
+<p>이 때 불필요한 정보까지 변수에 담는건 번거로운 일이니, 다음 코드를 활용해서 불필요한 정보를 저장할 필요 없이 필요한 정보만 쏙쏙 뽑아보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="s">'Yang'</span><span class="p">,</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="s">'010-xxxx-aaaa'</span><span class="p">,</span> <span class="s">'Korea'</span>
+<span class="n">f_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Yang 182
+</code></pre></div></div>
+
+<h2 id="9-3-for-루프에서의-언패킹">9-3. for 루프에서의 언패킹</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ps</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'Won'</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="p">(</span><span class="s">'Joon'</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="p">(</span><span class="s">'Young'</span><span class="p">,</span> <span class="mi">162</span><span class="p">)]</span>
+<span class="c1"># ps = (['Won', 182], ['Joon', 180], ['Young', 162]) # 리스트 안에 튜플로 감싼 요소들도 가능!
+</span><span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Won, 182
+      Joon, 180
+      Young, 162
+</code></pre></div></div>
+
+<h2 id="9-4-네임드-튜플의-이해와-작성">9-4. 네임드 튜플의 이해와 작성</h2>
+
+<p>다음 코드의 12와 15는 무엇을 의미하는 걸까?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tri</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</code></pre></div></div>
+<p>이건 코드 작성자가 언급을 안하면 모른다. 사실 이 책의 저자는 저게 삼각형 밑변과 높이라는 정보를 튜플에 새기고 싶어했다.<br />
+그렇다면, 저기에 삼각형 밑변과 높이라는 정보를 어떻게 줄 수 있을까?
+바로 ‘네임드 튜플’을 활용해서 해당 정보를 줄 수 있다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="n">Tri</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">'Triangle'</span><span class="p">,</span> <span class="p">[</span><span class="s">'bottom'</span><span class="p">,</span> <span class="s">'height'</span><span class="p">])</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Tri</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">bottom</span><span class="p">,</span> <span class="n">t</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 12 15
+      12 15 `Tri = namedtuple('Triangle', ['bottom', 'height'])` 코드 부분을 주목하자! &lt;br/&gt; 해당 코드는 Triangle 이라는 이름의 튜플 성격을 갖는 클래스를 만들기 위한 함수 호출이다! 그리고 첫번째 값의 이름은 bottom, 두번째 값의 이름은 height로 지정하게 된다.
+</code></pre></div></div>
+
+<p>그럼 해당 튜플의 밑변 값을 바꾸고 싶은데, 가능할까? 튜플인데?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Traceback (most recent call last):
+        File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+      TypeError: 'Triangle' object does not support item assignment
+</code></pre></div></div>
+
+<h2 id="9-5-네임드-튜플-언패킹">9-5. 네임드 튜플 언패킹</h2>
+<p>네임드 튜플도 일반 튜플과 동일하게 언패킹 가능하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">Tri</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">t</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 12 15
+      12 15
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#packing" class="page__taxonomy-item p-category" rel="tag">packing</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
+    
+      <a href="/tags/#tuple" class="page__taxonomy-item p-category" rel="tag">tuple</a><span class="sep">, </span>
+    
+      <a href="/tags/#unpacking" class="page__taxonomy-item p-category" rel="tag">unpacking</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#pythonmd" class="page__taxonomy-item p-category" rel="tag">pythonmd</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pythonmd/pythonmd8/" class="pagination--pager" title="[Python] 8. 제너레이터 함수
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd8/" rel="permalink">[Python] 8. 제너레이터 함수
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd7/" rel="permalink">[Python] 7. Map &amp; Filter
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd6/" rel="permalink">[Python] 6. 객체처럼 다뤄지는 함수 그리고 람다
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-05T00:00:00+09:00">January 5, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd5/" rel="permalink">[Python] 5. Iterable 객체와 Iterator 객체
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-03T00:00:00+09:00">January 3, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

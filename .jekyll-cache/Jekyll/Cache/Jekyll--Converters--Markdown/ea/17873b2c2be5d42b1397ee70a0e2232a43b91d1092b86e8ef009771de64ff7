@@ -1,0 +1,121 @@
+I"*7<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="9-1-패킹과-언패킹">9-1. 패킹과 언패킹</h2>
+
+<p>튜플  패킹: 하나 이상의 값을 튜플로 묶는 행위</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tpl_one</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">tpl_two</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span>
+<span class="n">tpl_one</span>
+<span class="n">tpl_two</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (12, 15)
+      (12, 15)
+</code></pre></div></div>
+
+<p>투플 언패킹: 튜플에 묶여 있는 값들을 풀어내는 행위</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tpl_three</span> <span class="o">=</span> <span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">,</span> <span class="n">sn</span> <span class="o">=</span> <span class="n">tpl_three</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">sn</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 23 12
+</code></pre></div></div>
+
+<p>언패킹 할 때 다음과 같이 리스트로 묶어서 하나의 변수에 저장할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nums</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 튜플 뿐만 아니라, 리스트 대상으로도 동일하게 동작한다!
+</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="o">*</span><span class="n">others1</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">others2</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="o">*</span><span class="n">others3</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span> <span class="o">=</span> <span class="n">nums</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">others1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">others2</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">others3</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 2 [3, 4, 5]
+      1 [2, 3, 4] 5
+      [1, 2, 3] 4 5
+</code></pre></div></div>
+
+<h2 id="9-2-함수-호출-및-반환-과정에서의-패킹과-언패킹">9-2. 함수 호출 및 반환 과정에서의 패킹과 언패킹</h2>
+
+<p>긴 말 없이 코드로 보자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">ret_nums</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span>
+
+<span class="n">nums</span> <span class="o">=</span> <span class="n">ret_nums</span><span class="p">()</span>
+<span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">others</span> <span class="o">=</span> <span class="n">ret_nums</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">others</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (1, 2, 3, 4, 5)
+      1 [2, 3, 4, 5]
+</code></pre></div></div>
+
+<p>참고로 함수 선언시, 매개변수에 <code class="language-plaintext highlighter-rouge">*</code>를 적용할 수 있다</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show_nums</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="o">*</span><span class="n">others</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">others</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="s">'yoon'</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="s">'hi'</span><span class="p">)</span>
+
+<span class="n">show_nums</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">show_nums</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1, 2, (3, 4, 5)
+      yoon, 22, (180, 'hi')
+</code></pre></div></div>
+
+<p>튜플을 언패킹 할때, 여러가지 튜플 요소 중 우리가 필요로 하는 요소만 출력하고 싶을 때가 있을 것이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="s">'Yang'</span><span class="p">,</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="s">'010-xxxx-aaaa'</span><span class="p">,</span> <span class="s">'Korea'</span>
+<span class="n">f_name</span><span class="p">,</span> <span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">ph</span><span class="p">,</span> <span class="n">nat</span> <span class="o">=</span> <span class="n">p</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Yang 182
+</code></pre></div></div>
+
+<p>이 때 불필요한 정보까지 변수에 담는건 번거로운 일이니, 다음 코드처럼 필요한 정보만 쏙쏙 뽑아보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span> <span class="o">=</span> <span class="s">'Yang'</span><span class="p">,</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="s">'010-xxxx-aaaa'</span><span class="p">,</span> <span class="s">'Korea'</span>
+<span class="n">f_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">p</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_name</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Yang 182
+</code></pre></div></div>
+
+<h2 id="9-3-for-루프에서의-언패킹">9-3. for 루프에서의 언패킹</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ps</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'Won'</span><span class="p">,</span> <span class="mi">182</span><span class="p">),</span> <span class="p">(</span><span class="s">'Joon'</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="p">(</span><span class="s">'Young'</span><span class="p">,</span> <span class="mi">162</span><span class="p">)]</span>
+<span class="c1"># ps = (['Won', 182], ['Joon', 180], ['Young', 162]) # 리스트 안에 튜플로 감싼 요소들도 가능!
+</span><span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Won, 182
+      Joon, 180
+      Young, 162
+</code></pre></div></div>
+
+<h2 id="9-4-네임드-튜플의-이해와-작성">9-4. 네임드 튜플의 이해와 작성</h2>
+
+<p>다음 코드의 12와 15는 무엇을 의미하는 걸까?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tri</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</code></pre></div></div>
+<p>이건 코드 작성자가 언급을 안하면 모른다. 사실 이 책의 저자는 저게 삼각형 밑변과 높이라는 정보를 튜플에 새기고 싶어했다.<br />
+그렇다면, 저기에 삼각형 밑변과 높이라는 정보를 어떻게 줄 수 있을까?
+바로 ‘네임드 튜플’을 활용해서 해당 정보를 줄 수 있다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="n">Tri</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">'Triangle'</span><span class="p">,</span> <span class="p">[</span><span class="s">'bottom'</span><span class="p">,</span> <span class="s">'height'</span><span class="p">])</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Tri</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">bottom</span><span class="p">,</span> <span class="n">t</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 12 15
+      12 15 `Tri = namedtuple('Triangle', ['bottom', 'height'])` 코드 부분을 주목하자! &lt;br/&gt; 해당 코드는 Triangle 이라는 이름의 튜플 성격을 갖는 클래스를 만들기 위한 함수 호출이다! 그리고 첫번째 값의 이름은 bottom, 두번째 값의 이름은 height로 지정하게 된다.
+</code></pre></div></div>
+
+<p>그럼 해당 튜플의 밑변 값을 바꾸고 싶은데, 가능할까? 튜플인데?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Traceback (most recent call last):
+        File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+      TypeError: 'Triangle' object does not support item assignment
+</code></pre></div></div>
+:ET
