@@ -58,4 +58,10 @@ var store = [{
         "tags": ["python","tuple","packing","unpacking"],
         "url": "/pythonmd/pythonmd9/",
         "teaser": null
+      },{
+        "title": "[Python] 10. dict의 생성과 zip / dict의 루핑 기술과 컴프리헨션",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 10-1. dict 생성 방법 d1 = {'a': 1, 'b': 2, 'c':3} d2 = dict([('a', 1), ('b', 2), ('c', 3)]) d3 = dict(a=1, b=2, c=3) # 키가 문자열일 때! d4 = dict(zip(['a', 'b', 'c'],...","categories": ["pythonmd"],
+        "tags": ["python","dict","view"],
+        "url": "/pythonmd/pythonmd10/",
+        "teaser": null
       }]
