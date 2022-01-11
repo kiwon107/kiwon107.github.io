@@ -64,4 +64,10 @@ var store = [{
         "tags": ["python","dict","view"],
         "url": "/pythonmd/pythonmd10/",
         "teaser": null
+      },{
+        "title": "[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 11-1. iterable 객체와 매개변수 function(*iterable): 리스트, 튜플, 문자열(iterable 객체)을 풀어서 전달 function(**iterable): 딕셔너리 값을 풀어서 전달 def out(a, b, c): print(a, b, c, sep=', ') a = [1, 2, 3] b = (1,...","categories": ["pythonmd"],
+        "tags": ["python","dict","view"],
+        "url": "/pythonmd/pythonmd11/",
+        "teaser": null
       }]
