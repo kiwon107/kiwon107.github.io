@@ -70,4 +70,10 @@ var store = [{
         "tags": ["python","dict","view"],
         "url": "/pythonmd/pythonmd11/",
         "teaser": null
+      },{
+        "title": "[Python] 12. dict & defaultdict & OrderedDict",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 12-1. 키가 존재할 때와 존재하지 않을 때 딕셔너리에 키 존재 시 대입 연산 → 값의 수정 딕셔너리에 해당 키 존재하지 않을 시 대입 연산 → 새로운 키와 값의 추가 키 저장되어 있는 상태에서...","categories": ["pythonmd"],
+        "tags": ["python","defaultdict","OrderedDict"],
+        "url": "/pythonmd/pythonmd12/",
+        "teaser": null
       }]
