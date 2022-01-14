@@ -94,6 +94,29 @@
 
 <!-- end custom head snippets -->
 
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
   </head>
 
   <body class="layout--single">
@@ -311,7 +334,7 @@
         <ul>
           
           
-            <li><a href="/pythonmd/">파이썬 중급 (12)</a></li>
+            <li><a href="/pythonmd/">파이썬 중급 (14)</a></li>
           
         </ul>
         
@@ -329,6 +352,14 @@
             <li><a href="/os/">운영체제 ()</a></li>
           
         </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
         
       </li>
     
@@ -621,7 +652,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/pythonmd/pythonmd12/" rel="permalink">[Python] 12. dict &amp; defaultdict &amp; OrderedDict
+        <a href="/pythonmd/pythonmd14/" rel="permalink">[Python] 14. 정렬 기술
 </a>
       
     </h2>
@@ -633,7 +664,55 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-12T00:00:00+09:00">January 12, 2022</time>
+        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd13/" rel="permalink">[Python] 13. 지료형 분류와 set &amp; frozenset
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
       </span>
     
 
@@ -669,7 +748,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/pythonmd/pythonmd11/" rel="permalink">[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙
+        <a href="/paper/paper1/" rel="permalink">[논문] 1. A Comprehensive Survey on Graph Neural Networks
 </a>
       
     </h2>
@@ -681,7 +760,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-11T00:00:00+09:00">January 11, 2022</time>
+        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
       </span>
     
 
@@ -701,8 +780,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+    <p class="archive__item-excerpt" itemprop="description">01-1. 그래프
 </p>
   </article>
 </div>
@@ -717,7 +795,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/pythonmd/pythonmd10/" rel="permalink">[Python] 10. dict의 생성과 zip / dict의 루핑 기술과 컴프리헨션
+        <a href="/pythonmd/pythonmd12/" rel="permalink">[Python] 12. dict &amp; defaultdict &amp; OrderedDict
 </a>
       
     </h2>
@@ -729,55 +807,7 @@ for 문에는 iterable 객체가 아닌, iterator 객체를 두어도 잘 작동
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-10T00:00:00+09:00">January 10, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd9/" rel="permalink">[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-09T00:00:00+09:00">January 9, 2022</time>
+        <time datetime="2022-01-12T00:00:00+09:00">January 12, 2022</time>
       </span>
     
 

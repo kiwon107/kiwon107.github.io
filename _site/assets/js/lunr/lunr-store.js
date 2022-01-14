@@ -76,4 +76,22 @@ var store = [{
         "tags": ["python","defaultdict","OrderedDict"],
         "url": "/pythonmd/pythonmd12/",
         "teaser": null
+      },{
+        "title": "[논문] 1. A Comprehensive Survey on Graph Neural Networks",
+        "excerpt":"01-1. 그래프 그래프 $G$ 는 다음과 같이 정의된다. $G = (V, E)$. $V$는 노드들의 집합이고, $E$는 엣지들의 집합이다. 노드 $v_{i}$는 $v_{i}\\in V$ 이며, $v_{j}$와 $v_{i}$를 잇는 엣지 $e_{ij}$는 $e_{ij}=(e_{i}, e_{j})\\in E$ 이다. 노드 $v$의 이웃은 $ N(v)=\\{ u \\in V|(v,u) \\in E \\} $ 이다. 인접행렬 $\\mathbf{A}$는 $n \\times n$...","categories": ["paper"],
+        "tags": ["paper"],
+        "url": "/paper/paper1/",
+        "teaser": null
+      },{
+        "title": "[Python] 13. 지료형 분류와 set & frozenset",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 13-1. 자료형 분류 시퀀스 타입: 저장된 값의 순서 정보 존재 Ex) 리스트, 튜플, 레인지, 문자열 인덱싱 연산: 특정 값 하나 참조 Ex) a[0], a[1], … 슬라이싱 연산: 시작과 끝 정하여 참조 Ex) a[0:3]...","categories": ["pythonmd"],
+        "tags": ["python","set","frozenset"],
+        "url": "/pythonmd/pythonmd13/",
+        "teaser": null
+      },{
+        "title": "[Python] 14. 정렬 기술",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 14-1. 리스트의 sort 메소드 l = [3, 4, 1, 2] l.sort() # 오름차순 l l.sort(reverse = True) # 내림차순 l (결과) [1, 2, 3, 4] [4, 3, 2, 1] def name(t): return t[0]...","categories": ["pythonmd"],
+        "tags": ["python","sort","sorted"],
+        "url": "/pythonmd/pythonmd14/",
+        "teaser": null
       }]

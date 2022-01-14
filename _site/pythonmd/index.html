@@ -90,6 +90,29 @@
 
 <!-- end custom head snippets -->
 
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
   </head>
 
   <body class="layout--archive wide">
@@ -307,7 +330,7 @@
         <ul>
           
           
-            <li><a href="/pythonmd/" class="active">파이썬 중급 (12)</a></li>
+            <li><a href="/pythonmd/" class="active">파이썬 중급 (14)</a></li>
           
         </ul>
         
@@ -328,6 +351,14 @@
         
       </li>
     
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
   </ul>
 </nav>
 
@@ -342,6 +373,70 @@
       <h1 id="page-title" class="page__title">파이썬 중급</h1>
     
     
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd14/">[Python] 14. 정렬 기술</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.14
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#sorted" class="page__taxonomy-item-tag" rel="tag">sorted</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#sort" class="page__taxonomy-item-tag" rel="tag">sort</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd13/">[Python] 13. 지료형 분류와 set &amp; frozenset</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.14
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#frozenset" class="page__taxonomy-item-tag" rel="tag">frozenset</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#set" class="page__taxonomy-item-tag" rel="tag">set</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
 <div class="list__item">
   <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
     <div>

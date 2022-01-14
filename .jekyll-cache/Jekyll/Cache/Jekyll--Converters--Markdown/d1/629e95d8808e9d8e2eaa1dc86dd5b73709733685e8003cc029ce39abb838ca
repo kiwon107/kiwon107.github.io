@@ -1,0 +1,11 @@
+I"/<h2 id="01-1-그래프">01-1. 그래프</h2>
+
+<p>그래프 $G$ 는 다음과 같이 정의된다. $G = (V, E)$. $V$는 노드들의 집합이고, $E$는 엣지들의 집합이다.
+노드 $v_{i}$는 $v_{i}\in V$ 이며, $v_{j}$와 $v_{i}$를 잇는 엣지 $e_{ij}$는 $e_{ij}=(e_{i}, e_{j})\in E$ 이다.<br />
+노드 $v$의 이웃은 $ N(v)=\{ u \in V|(v,u) \in E \} $ 이다. 인접행렬 $\mathbf{A}$는 $n \times n$ 매트릭스이며, $e_{ij}\in E$ 일 경우 $A_{ij}=1$ 이고 $e_{ij}\notin E$ 일 경우 $A_{ij}=0$이다.<br />
+그래프는 노드 속성들을 나타내는 $\mathbf{X}$를 가질 수도 있다. $\mathbf{X}\in \boldsymbol{\mathbf{R}}^{n\times d}$는 노드 $v$ 의 특징벡터인 
+$\mathbf{x}_{v}\in \mathbf{R}^{d}$ 를 만족하는 노드 특징 매트릭스(node feature matrix) 이다.<br /></p>
+
+<p>한편, 그래프는 엣지 속성들을 나타내는 $\mathbf{X}^{e}$를 가질 수도 있다. $\mathbf{X}^{e}\in \boldsymbol{\mathbf{R}}^{m\times c}$는 엣지 $(v, u)$ 의 특징벡터인
+$\mathbf{x}_{v,u}^{e}\in \mathbf{R}^{c}$ 이다.</p>
+:ET

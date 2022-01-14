@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Test - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>논문 - Wonny’s DevLog</title>
 <meta name="description" content="AI Researcher &amp; Developer, KSOE">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="Test">
-<meta property="og:url" content="http://localhost:4000/test/">
+<meta property="og:title" content="논문">
+<meta property="og:url" content="http://localhost:4000/paper/">
 
 
   <meta property="og:description" content="AI Researcher &amp; Developer, KSOE">
@@ -41,7 +41,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/test/">
+<link rel="canonical" href="http://localhost:4000/paper/">
 
 
 
@@ -90,6 +90,29 @@
 
 <!-- end custom head snippets -->
 
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
   </head>
 
   <body class="layout--archive wide">
@@ -307,7 +330,7 @@
         <ul>
           
           
-            <li><a href="/pythonmd/">파이썬 중급 (12)</a></li>
+            <li><a href="/pythonmd/">파이썬 중급 (14)</a></li>
           
         </ul>
         
@@ -328,6 +351,14 @@
         
       </li>
     
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
   </ul>
 </nav>
 
@@ -339,29 +370,25 @@
 
   <div class="archive">
     
-      <h1 id="page-title" class="page__title">Test</h1>
+      <h1 id="page-title" class="page__title">논문</h1>
     
     
 <div class="list__item">
   <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
     <div>
       <span>
-        <a href="/test/test/">Test</a>
+        <a href="/paper/paper1/">[논문] 1. A Comprehensive Survey on Graph Neural Networks</a>
       </span>
       <small> 
-        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.14
         <!--Archive page 용-: (post -> page)-->
 <!--page__taxonomy.html에서 가져 옴-->
         
         <span class="page__taxonomy">
-            <span itemprop="keywords"><a href="/categories/#test" class="page__taxonomy-item-category" rel="tag">test</a>
+            <span itemprop="keywords"><a href="/categories/#paper" class="page__taxonomy-item-category" rel="tag">paper</a>
                     
                     
-                    <a href="/tags/#test" class="page__taxonomy-item-tag" rel="tag">Test</a><span class="sep"> </span>
-                
-                    
-                    
-                    <a href="/tags/#test" class="page__taxonomy-item-tag" rel="tag">test</a>
+                    <a href="/tags/#paper" class="page__taxonomy-item-tag" rel="tag">paper</a>
                 
             </span>
         </span>

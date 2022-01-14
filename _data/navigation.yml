@@ -30,3 +30,6 @@ docs:
       - title: "운영체제"
         url: /os/
         category: "os"
+  - title: 논문
+    url: /paper/
+    category: "paper"

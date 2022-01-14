@@ -1,0 +1,31 @@
+I"
+<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="14-1-리스트의-sort-메소드">14-1. 리스트의 sort 메소드</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="n">l</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>  <span class="c1"># 오름차순
+</span><span class="n">l</span>
+
+<span class="n">l</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>  <span class="c1"># 내림차순
+</span><span class="n">l</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [1, 2, 3, 4]
+       [4, 3, 2, 1]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">tl</span> <span class="o">=</span> <span class="p">[(</span><span class="s">'June'</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="s">'Won'</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s">'young'</span><span class="p">,</span> <span class="mi">24</span><span class="p">)]</span>
+
+<span class="n">tl</span><span class="p">.</span><span class="n">sort</span>
+<span class="n">tl</span>
+
+<span class="n">tl</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="n">age</span><span class="p">,</span> <span class="n">reverse</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">tl</span>
+</code></pre></div></div>
+
+:ET
