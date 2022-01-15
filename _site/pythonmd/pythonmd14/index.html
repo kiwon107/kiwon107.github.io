@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>[Python] 14. 정렬 기술 - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 14. 정렬 기술, enumerate와 문자열 비교 - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="[Python] 14. 정렬 기술">
+<meta property="og:title" content="[Python] 14. 정렬 기술, enumerate와 문자열 비교">
 <meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd14/">
 
 
@@ -334,7 +334,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <ul>
           
           
-            <li><a href="/pythonmd/">파이썬 중급 (14)</a></li>
+            <li><a href="/pythonmd/">파이썬 중급 (15)</a></li>
           
         </ul>
         
@@ -373,7 +373,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="[Python] 14. 정렬 기술">
+    <meta itemprop="headline" content="[Python] 14. 정렬 기술, enumerate와 문자열 비교">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
     <meta itemprop="datePublished" content="2022-01-14T00:00:00+09:00">
     
@@ -382,7 +382,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd14/" class="u-url" itemprop="url">[Python] 14. 정렬 기술
+            <a href="http://localhost:4000/pythonmd/pythonmd14/" class="u-url" itemprop="url">[Python] 14. 정렬 기술, enumerate와 문자열 비교
 </a>
           </h1>
           
@@ -421,7 +421,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#14-1-리스트의-sort-메소드">14-1. 리스트의 sort 메소드</a></li><li><a href="#14-2-sorted-함수-사용">14-2. sorted 함수 사용</a></li></ul>
+              <ul class="toc__menu"><li><a href="#14-1-리스트의-sort-메소드">14-1. 리스트의 sort 메소드</a></li><li><a href="#14-2-sorted-함수-사용">14-2. sorted 함수 사용</a></li><li><a href="#14-3-문자열-비교">14-3. 문자열 비교</a></li><li><a href="#14-4-enumerate">14-4. enumerate</a></li></ul>
 
             </nav>
           </aside>
@@ -481,7 +481,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 <h2 id="14-2-sorted-함수-사용">14-2. sorted 함수 사용</h2>
 
-<p>만약 원본은 두고 다른 변수(메모리)에 원본을 정렬한 사본을 저장하고 싶다면 어떻게 해야할까?</p>
+<p>만약 원본은 두고 다른 변수에 원본을 정렬한 사본을 저장하고 싶다면 어떻게 해야할까?</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tl</span> <span class="o">=</span> <span class="p">((</span><span class="s">'June'</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="s">'young'</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="p">(</span><span class="s">'Won'</span><span class="p">,</span> <span class="mi">33</span><span class="p">))</span>
 <span class="n">tl_cp</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tl</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># 정렬된 사본이 리스트에 담긴다! 동일하게 튜플로 만들고 싶으면 tuple(tl_cp) 쓰자!
@@ -491,6 +491,38 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 </code></pre></div></div>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (('June', 30), ('young', 24), ('Won', 33))
        [('Won', 33), ('June', 30), ('young', 24)]
+</code></pre></div></div>
+
+<h2 id="14-3-문자열-비교">14-3. 문자열 비교</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">'A'</span> <span class="o">&lt;</span> <span class="s">'Z'</span>
+<span class="s">'AA'</span> <span class="o">&lt;</span> <span class="s">'AZ'</span>
+<span class="s">'AA'</span> <span class="o">&lt;</span> <span class="s">'AAA'</span>
+<span class="s">'A'</span> <span class="o">&lt;</span> <span class="s">'a'</span>
+<span class="s">'가'</span> <span class="o">&lt;</span> <span class="s">'나'</span>
+<span class="s">'가'</span> <span class="o">&lt;</span> <span class="s">'구'</span>  <span class="c1"># 아야어여오요우유으이 순으로 큼
+</span><span class="s">'가가'</span> <span class="o">&lt;</span> <span class="s">'가나'</span>
+<span class="s">'하하'</span> <span class="o">&lt;</span> <span class="s">'하하하'</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) True
+       True
+       True
+       True
+       True
+       True
+       True
+       True
+</code></pre></div></div>
+
+<h2 id="14-4-enumerate">14-4. enumerate</h2>
+
+<p>enumerate 함수는 iterable 객체를 인자로 전달 받는다. 그러면 전달된 리스트의 값에 0부터 번호를 매겨서 튜플에 감싸 하나씩 반환한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">'삼성'</span><span class="p">,</span> <span class="s">'현대'</span><span class="p">,</span> <span class="s">'기아'</span><span class="p">,</span> <span class="s">'SK'</span><span class="p">,</span> <span class="s">'LG'</span><span class="p">]</span>
+<span class="n">dnames</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span> <span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">),</span> <span class="mi">1</span><span class="p">)}</span>
+<span class="n">dnames</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {1: 'LG', 2: 'SK', 3: '기아', 4: '삼성', 5: '현대'}
 </code></pre></div></div>
 
         
@@ -507,6 +539,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
   <p class="page__taxonomy">
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
+    
+      <a href="/tags/#enumerate" class="page__taxonomy-item p-category" rel="tag">enumerate</a><span class="sep">, </span>
     
       <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
     
@@ -550,7 +584,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/pythonmd/pythonmd15/" class="pagination--pager" title="[Python] 15. 표현식 기반 문자열 조합
+">Next</a>
     
   </nav>
 
@@ -564,6 +599,54 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd15/" rel="permalink">[Python] 15. 표현식 기반 문자열 조합
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
         
           
 
@@ -695,54 +778,6 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd11/" rel="permalink">[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-11T00:00:00+09:00">January 11, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
         
       </span>
     

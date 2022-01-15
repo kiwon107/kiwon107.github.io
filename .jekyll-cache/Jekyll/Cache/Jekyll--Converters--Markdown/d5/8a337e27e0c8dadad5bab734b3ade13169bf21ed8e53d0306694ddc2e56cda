@@ -1,0 +1,13 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="15-1-문자열-조합">15-1. 문자열 조합</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">friend</span> <span class="o">=</span> <span class="p">(</span><span class="s">'Wonny'</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'My friend'</span><span class="p">,</span> <span class="n">friend</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">'is'</span><span class="p">,</span> <span class="n">friend</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">'years old'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'My friend'</span> <span class="o">+</span> <span class="n">friend</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">'is'</span> <span class="o">+</span> <span class="n">friend</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">'years old'</span><span class="p">)</span>
+</code></pre></div></div>
+<h2 id="15-2-표현식-기반-문자열-조합">15-2. 표현식 기반 문자열 조합</h2>
+
+<p>String formating expressions: ‘<strong>%s_%s</strong> % (value, value)’ 스타일 문자열 조합</p>
+:ET

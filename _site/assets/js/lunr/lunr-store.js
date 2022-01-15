@@ -89,9 +89,15 @@ var store = [{
         "url": "/pythonmd/pythonmd13/",
         "teaser": null
       },{
-        "title": "[Python] 14. 정렬 기술",
+        "title": "[Python] 14. 정렬 기술, enumerate와 문자열 비교",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 14-1. 리스트의 sort 메소드 l = [3, 4, 1, 2] l.sort() # 오름차순 l l.sort(reverse = True) # 내림차순 l (결과) [1, 2, 3, 4] [4, 3, 2, 1] def name(t): return t[0]...","categories": ["pythonmd"],
-        "tags": ["python","sort","sorted"],
+        "tags": ["python","sort","sorted","enumerate"],
         "url": "/pythonmd/pythonmd14/",
+        "teaser": null
+      },{
+        "title": "[Python] 15. 표현식 기반 문자열 조합",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 15-1. 문자열 조합 friend = ('Wonny', 33) print('My friend', friend[0], 'is', str(friend[1]), 'years old') print('My friend ' + friend[0] + ' is ' + str(friend[1]) + ' years old') 15-2. 표현식 기반 문자열...","categories": ["pythonmd"],
+        "tags": ["python","string formatting expressions"],
+        "url": "/pythonmd/pythonmd15/",
         "teaser": null
       }]
