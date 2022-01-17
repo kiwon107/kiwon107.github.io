@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>[Python] 15. 표현식 기반 문자열 조합 - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 15. 표현식 / 메소드 기반 문자열 조합 - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="[Python] 15. 표현식 기반 문자열 조합">
+<meta property="og:title" content="[Python] 15. 표현식 / 메소드 기반 문자열 조합">
 <meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd15/">
 
 
@@ -334,7 +334,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <ul>
           
           
-            <li><a href="/pythonmd/">파이썬 중급 (15)</a></li>
+            <li><a href="/pythonmd/">파이썬 중급 (17)</a></li>
           
         </ul>
         
@@ -373,7 +373,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="[Python] 15. 표현식 기반 문자열 조합">
+    <meta itemprop="headline" content="[Python] 15. 표현식 / 메소드 기반 문자열 조합">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
     <meta itemprop="datePublished" content="2022-01-15T00:00:00+09:00">
     
@@ -382,7 +382,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd15/" class="u-url" itemprop="url">[Python] 15. 표현식 기반 문자열 조합
+            <a href="http://localhost:4000/pythonmd/pythonmd15/" class="u-url" itemprop="url">[Python] 15. 표현식 / 메소드 기반 문자열 조합
 </a>
           </h1>
           
@@ -406,7 +406,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -421,7 +421,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#15-1-문자열-조합">15-1. 문자열 조합</a></li><li><a href="#15-2-표현식-기반-문자열-조합">15-2. 표현식 기반 문자열 조합</a></li><li><a href="#15-3-딕셔너리로-출력-대상-지정">15-3. 딕셔너리로 출력 대상 지정</a></li><li><a href="#15-4-세밀한-문자열-조합-지정">15-4. 세밀한 문자열 조합 지정</a></li></ul>
+              <ul class="toc__menu"><li><a href="#15-1-문자열-조합">15-1. 문자열 조합</a></li><li><a href="#15-2-표현식-기반-문자열-조합">15-2. 표현식 기반 문자열 조합</a></li><li><a href="#15-3-딕셔너리로-출력-대상-지정">15-3. 딕셔너리로 출력 대상 지정</a></li><li><a href="#15-4-세밀한-문자열-조합-지정">15-4. 세밀한 문자열 조합 지정</a></li><li><a href="#15-5-메소드-기반-문자열-조합">15-5. 메소드 기반 문자열 조합</a></li><li><a href="#15-6-인덱싱-연산-추가">15-6. 인덱싱 연산 추가</a></li><li><a href="#15-7-보다-세밀한-문자열-구성-지정">15-7. 보다 세밀한 문자열 구성 지정</a></li></ul>
 
             </nav>
           </aside>
@@ -488,6 +488,58 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
        내 키는 +182.100     입니다
 </code></pre></div></div>
 
+<h2 id="15-5-메소드-기반-문자열-조합">15-5. 메소드 기반 문자열 조합</h2>
+
+<p>String formating method calls: <code class="language-plaintext highlighter-rouge">'__{}_{}__'.format(value, value)</code> 스타일 문자열 조합</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">intro1</span> <span class="o">=</span> <span class="s">'{}...{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">'Wonny'</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>
+<span class="n">intro2</span> <span class="o">=</span> <span class="s">'{1}...{0}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">'Wonny'</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span>
+<span class="n">intro3</span> <span class="o">=</span> <span class="s">'{age}...{name}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'Wonny'</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
+
+<span class="n">intro1</span>
+<span class="n">intro2</span>
+<span class="n">intro3</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 'Wonny...33'
+       '33...Wonny'
+       '33...Wonny'
+</code></pre></div></div>
+
+<h2 id="15-6-인덱싱-연산-추가">15-6. 인덱싱 연산 추가</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">intro1</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Wonny'</span><span class="p">,</span> <span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">182</span><span class="p">)]</span>
+<span class="n">intro2</span> <span class="o">=</span> <span class="p">{</span><span class="s">'name'</span><span class="p">:</span><span class="s">'wonny'</span><span class="p">,</span> <span class="s">'age'</span><span class="p">:</span><span class="mi">33</span><span class="p">}</span>
+
+<span class="s">'{0}...{1}...{1[0]}...{1[1]}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="o">*</span><span class="n">intro1</span><span class="p">)</span>
+<span class="s">'name = {0[name]}, age = {0[age]}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">intro2</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 'Wonny...(33, 182)...33...182'
+       'name = wonny, age = 33'
+</code></pre></div></div>
+
+<h2 id="15-7-보다-세밀한-문자열-구성-지정">15-7. 보다 세밀한 문자열 구성 지정</h2>
+
+<p>위에서 배운 <code class="language-plaintext highlighter-rouge">$[flags][width][.precision]f</code> 지정 할 수 있다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'내 키는 {0:d} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mi">182</span><span class="p">))</span>  <span class="c1"># 182에 소수 넣으면 ValueError 발생!
+</span><span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:012.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:+12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:&lt;12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>  <span class="c1"># 왼쪽으로 붙임
+</span><span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:&gt;12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>  <span class="c1"># 오른쪽으로 붙임
+</span><span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:*^12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>  <span class="c1"># 가운데 정렬 후 빈공간 *로 채움
+</span><span class="k">print</span><span class="p">(</span><span class="s">'정확한 내 키는 {0:+&lt;12.3f} 입니다'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mf">182.1</span><span class="p">))</span>  <span class="c1"># 왼쪽 정렬 후 빈공간 +로 채움
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 내 키는 182 입니다
+       정확한 내 키는      182.100 입니다
+       정확한 내 키는 00000182.100 입니다
+       정확한 내 키는     +182.100 입니다
+       정확한 내 키는 182.100      입니다
+       정확한 내 키는      182.100 입니다
+       정확한 내 키는 **182.100*** 입니다
+       정확한 내 키는 182.100+++++ 입니다
+</code></pre></div></div>
+
 
         
       </section>
@@ -506,7 +558,9 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     
       <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
     
-      <a href="/tags/#string-formatting-expressions" class="page__taxonomy-item p-category" rel="tag">string formatting expressions</a>
+      <a href="/tags/#string-formatting-expressions" class="page__taxonomy-item p-category" rel="tag">string formatting expressions</a><span class="sep">, </span>
+    
+      <a href="/tags/#string-formatting-method-calls" class="page__taxonomy-item p-category" rel="tag">string formatting method calls</a>
     
     </span>
   </p>
@@ -544,7 +598,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/pythonmd/pythonmd16/" class="pagination--pager" title="[Python] 16. 클래스와 객체의 본질
+">Next</a>
     
   </nav>
 
@@ -558,6 +613,149 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd17/" rel="permalink">[Python] 17. 상속
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/paper/paper2/" rel="permalink">[논문] 2. Deep One-Class Classification (Deep SVDD)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I. Motivation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd16/" rel="permalink">[Python] 16. 클래스와 객체의 본질
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-16T00:00:00+09:00">January 16, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
         
           
 
@@ -594,149 +792,6 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd13/" rel="permalink">[Python] 13. 지료형 분류와 set &amp; frozenset
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/paper/paper1/" rel="permalink">[논문] 1. A Comprehensive Survey on Graph Neural Networks
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">01-1. 그래프
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd12/" rel="permalink">[Python] 12. dict &amp; defaultdict &amp; OrderedDict
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-12T00:00:00+09:00">January 12, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
         
       </span>
     

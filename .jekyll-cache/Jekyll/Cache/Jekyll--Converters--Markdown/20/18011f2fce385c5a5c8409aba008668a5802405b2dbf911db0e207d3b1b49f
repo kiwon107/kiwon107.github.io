@@ -1,0 +1,19 @@
+I"�<h2 id="i-motivation">I. Motivation</h2>
+
+<p>해당 논문에서는 Deep Support Vector Data Description(Deep SVDD)를 소개한다. Deep SVDD는 초구(Hypersphere)의 부피를 최소화하는 신경망을 훈련한다.
+이 초구의 부피는 그림 2-1과 같이 데이터를 둘러싸서 정상 데이터의 범위를 나타내는 역할을 한다. 초구의 부피를 최소화 하도록 훈련된 이 신경망은 데이터 포인트들을 초구의 중앙에 가깝게 매핑시켜 정상 데이터 내 공통 요인을 추출한다.</p>
+
+<p class="align-center"><img src="/assets/images/paper/2-1.JPG" alt="그림 2-1. Deep SVDD" /></p>
+<p>그림 2-1. Deep SVDD <br /></p>
+
+<h2 id="ii-deep-svdd">II Deep SVDD</h2>
+
+<h3 id="ii1-the-deep-svdd-objective">II.1 The Deep SVDD Objective</h3>
+
+<p>Deep SVDD로 데이터를 둘러싼 가장 작은 사이즈를 갖는 초구를 찾기 위해 최소 부피 측정을 위한 목적 함수를 빌드 하는 법에 대해 다룬다.</p>
+
+<p>Input 공간: $\chi \subseteq \mathbb{R}^{d}$ <br />
+Output 공간: $\xi \subseteq \mathbb{R}^{p}$ <br />
+신경망: $\phi (\cdot ;\omega ) : \chi \rightarrow \xi$</p>
+
+:ET

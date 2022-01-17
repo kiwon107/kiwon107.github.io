@@ -95,9 +95,27 @@ var store = [{
         "url": "/pythonmd/pythonmd14/",
         "teaser": null
       },{
-        "title": "[Python] 15. 표현식 기반 문자열 조합",
+        "title": "[Python] 15. 표현식 / 메소드 기반 문자열 조합",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 15-1. 문자열 조합 friend = ('Wonny', 33) print('My friend', friend[0], 'is', str(friend[1]), 'years old') print('My friend ' + friend[0] + ' is ' + str(friend[1]) + ' years old') 15-2. 표현식 기반 문자열...","categories": ["pythonmd"],
-        "tags": ["python","string formatting expressions"],
+        "tags": ["python","string formatting expressions","string formatting method calls"],
         "url": "/pythonmd/pythonmd15/",
+        "teaser": null
+      },{
+        "title": "[Python] 16. 클래스와 객체의 본질",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 16-1. 객체 안에 변수가 만들어지는 시점 클래스: 객체를 만들기 위한 일종의 설계도로써 클래스 내 들어갈 변수(데이터)와 메소드(기능)을 결정함 객체: 클래스를 기반으로 만들어진 실제 사물 class Simple: # def __init__(self): # self.i = 0...","categories": ["pythonmd"],
+        "tags": ["python"],
+        "url": "/pythonmd/pythonmd16/",
+        "teaser": null
+      },{
+        "title": "[논문] 2. Deep One-Class Classification (Deep SVDD)",
+        "excerpt":"I. Motivation 해당 논문에서는 Deep Support Vector Data Description(Deep SVDD)를 소개한다. Deep SVDD는 초구(Hypersphere)의 부피를 최소화하는 신경망을 훈련함. 이 초구의 부피는 그림 2-1과 같이 데이터를 둘러싸서 정상 데이터의 범위를 나타내는 역할을 함. 초구의 부피를 최소화 하도록 훈련된 이 신경망은 데이터 포인트들을 초구의 중앙에 가깝게 매핑시켜 정상 데이터 내 공통 요인을...","categories": ["paper"],
+        "tags": ["paper"],
+        "url": "/paper/paper2/",
+        "teaser": null
+      },{
+        "title": "[Python] 17. 상속",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 17-1. 부모 클래스와 자식 클래스 다음 그림을 보자. 그림 17-1. 파이썬 상속의 예 (참조: https://techvidvan.com/tutorials/python-inheritance/) Vehicle 클래스: 부모클래스, 슈퍼클래스, 상위클래스 Car, Bus, Bike 클래스: 자식클래스, 서브클래스, 하위클래스 상속을 하면 부모클래스가 갖는 모든 메소드를...","categories": ["pythonmd"],
+        "tags": ["python"],
+        "url": "/pythonmd/pythonmd17/",
         "teaser": null
       }]

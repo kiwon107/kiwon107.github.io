@@ -1,0 +1,48 @@
+I"�<h2 id="i-motivation">I. Motivation</h2>
+
+<p>해당 논문에서는 Deep Support Vector Data Description(Deep SVDD)를 소개한다. Deep SVDD는 초구(Hypersphere)의 부피를 최소화하는 신경망을 훈련한다.
+이 초구의 부피는 그림 2-1과 같이 데이터를 둘러싸서 정상 데이터의 범위를 나타내는 역할을 한다. 초구의 부피를 최소화 하도록 훈련된 이 신경망은 데이터 포인트들을 초구의 중앙에 가깝게 매핑시켜 정상 데이터 내 공통 요인을 추출한다.</p>
+
+<p class="align-center"><img src="/assets/images/paper/2-1.JPG" alt="그림 2-1. Deep SVDD" /></p>
+<p>그림 2-1. Deep SVDD <br /></p>
+
+<h2 id="ii-deep-svdd">II Deep SVDD</h2>
+
+<h3 id="ii1-the-deep-svdd-objective">II.1 The Deep SVDD Objective</h3>
+
+<p>Deep SVDD로 데이터를 둘러싼 가장 작은 사이즈를 갖는 초구를 찾기 위해 초구가 최소 부피를 갖도록 목적 함수를 빌드 하는 법에 대해 다룬다.</p>
+
+<ul>
+  <li>Input 공간: $\chi \subseteq \mathbb{R}^{d}$ <br /></li>
+  <li>Output 공간: $\xi \subseteq \mathbb{R}^{p}$ <br /></li>
+  <li>신경망: $\phi (\cdot ;\omega ) : \chi \rightarrow \xi$ <br /></li>
+  <li>Weight 셋: $\omega = \{ \mathbf{W}^{1},…, \mathbf{W}^{L} \} $ <br /></li>
+  <li>$\mathbf{W}^{l}$: 레이어 $l\in \{ 1,…,L \}$ 의 Weights<br /></li>
+  <li>$\phi (x ;\omega )\in \xi$: 파라미터 $\omega$ 를 갖는 신경망으로써 $\mathbf{x}\in \chi$ 의 feature를 표현</li>
+</ul>
+
+<p>Deep SVDD의 목적: 반지름 $R&gt;0$ 을 갖고, 중앙 $c\in \xi$ 에 위치하며, 출력 공간 $\xi$ 에서 정상데이터를 잘 감싼, 초구가 최소의 부피를 갖도록 하는 매핑함수를 만들기 위해 최적의 파라미터 $\xi$ 을 학습하는것!</p>
+
+<p>$\chi$ 에서 훈련데이터 $D_{n}=\{ x_{1}, …, x_{n} \}$ 이 주어질 때, Soft-boundary Deep SVDD 목적함수는 그림 2-2와 같다.<br /></p>
+
+<p class="align-center"><img src="/assets/images/paper/2-2.JPG" alt="그림 2-2. Soft-boundary Deep SVDD 목적함수" /></p>
+<p>그림 2-2. Soft-boundary Deep SVDD 목적함수 <br /></p>
+
+<ul>
+  <li>초구의 부피를 줄이려면, 위 식에서 $R^{2}$을 최소화 해야한다.<br /></li>
+  <li>그림 2-2에서 두번째 텀은 구 바깥에 놓인 점들에 대한 패널티 텀이다.<br /></li>
+  <li>하이퍼파라미터 $v \in (0,1]$ 는 구의 부피(정상 범위)와 경계선 위반(이상치 범위) 사이의 트레이드오프를 조정한다.<br /></li>
+  <li>마지막 텀은 신경망 파라미터 $\omega$ 에 대한 Weight 감쇠 규제이며, $ \lambda &gt; 0  $ 이다. $ \| \cdot \|_F $ 는 프로베니우스 놈 이다.</li>
+</ul>
+
+<p>대부분의 훈련데이터가 정상이라 가정하면, 간단한 형태의 추가 목적함수(그림 2-3)를 활용할 수 있다.</p>
+
+<p class="align-center"><img src="/assets/images/paper/2-3.JPG" alt="그림 2-3. One-Class Deep SVDD 목적함수" /></p>
+<p>그림 2-3. One-Class Deep SVDD 목적함수 <br /></p>
+
+<p>Soft-boundary Deep SVDD 목적함수와 One-Class Deep SVDD 목적함수 차이</p>
+<ul>
+  <li>Soft-boundary Deep SVDD 목적함수는 초구 외부에 있는 데이터와 초구의 반지름에 패널티를 주어 초구를 축소시킴.</li>
+  <li>One-Class Deep SVDD 목적함수는 모든 데이터와 초구 중앙의 평균 거리를 최소화 하여 초구를 축소시킴. 즉, 데이터들을 초구의 중앙 $\mathbf{c}$</li>
+</ul>
+:ET

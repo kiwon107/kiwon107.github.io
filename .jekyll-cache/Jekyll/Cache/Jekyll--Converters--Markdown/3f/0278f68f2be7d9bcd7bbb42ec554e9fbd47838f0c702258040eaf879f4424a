@@ -1,0 +1,71 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="16-1-객체-안에-변수가-만들어지는-시점">16-1. 객체 안에 변수가 만들어지는 시점</h2>
+
+<ul>
+  <li>클래스: 객체를 만들기 위한 일종의 설계도로써 클래스 내 들어갈 변수(데이터)와 메소드(기능)을 결정함</li>
+  <li>객체: 클래스를 기반으로 만들어진 실제 사물</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="c1"># def __init__(self):
+</span>  <span class="c1">#  self.i = 0
+</span>  <span class="k">def</span> <span class="nf">seti</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span>   <span class="c1"># 처음 이 문장 실행될 때 객체 내 변수 i가 만들어짐!
+</span>  <span class="k">def</span> <span class="nf">geti</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># 객체 내 변수 i가 생성 안됐는데 이 메소드가 호출되면 AttributeError 발생됨! 따라서 __init__로 객체 내 필요한 변수 초기화 필요!
+</span>    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">i</span>
+</code></pre></div></div>
+
+<h2 id="16-2-객체에-변수와-메소드-붙였다-떼었다-해보기">16-2. 객체에 변수와 메소드 붙였다 떼었다 해보기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SoSimple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">geti</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">i</span>
+    
+<span class="n">ss</span> <span class="o">=</span> <span class="n">SoSimple</span><span class="p">()</span>
+<span class="n">ss</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">27</span>
+<span class="n">ss</span><span class="p">.</span><span class="n">hello</span> <span class="o">=</span> <span class="k">lambda</span> <span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">'Hello~'</span><span class="p">)</span>
+
+<span class="n">ss</span><span class="p">.</span><span class="n">geti</span><span class="p">()</span>
+<span class="n">ss</span><span class="p">.</span><span class="n">hello</span><span class="p">()</span>
+
+<span class="k">del</span> <span class="n">ss</span><span class="p">.</span><span class="n">i</span>
+<span class="k">del</span> <span class="n">ss</span><span class="p">.</span><span class="n">hello</span>
+
+<span class="n">ss</span><span class="p">.</span><span class="n">geti</span><span class="p">()</span>
+<span class="n">ss</span><span class="p">.</span><span class="n">hello</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 27
+       Hello~
+       Traceback (most recent call last):
+        File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+        File "&lt;stdin&gt;", line 3, in geti
+       AttributeError: 'SoSimple' object has no attribute 'i'
+       Traceback (most recent call last):
+        File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+       AttributeError: 'SoSimple' object has no attribute 'hello'
+</code></pre></div></div>
+
+<h2 id="16-3-클래스에-변수-추가하기">16-3. 클래스에 변수 추가하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
+  <span class="k">def</span> <span class="nf">geti</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">i</span>
+
+<span class="n">Simple</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="mi">7</span> <span class="c1"># 클래스에 속하는 변수 만듬
+</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">s1</span><span class="p">.</span><span class="n">geti</span><span class="p">(),</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">s2</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">s2</span><span class="p">.</span><span class="n">geti</span><span class="p">(),</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">', '</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 7, 5
+       7, 3
+</code></pre></div></div>
+
+<p>이처럼 클래스에 속하는 변수를 만들 수 있으며, 객체에 찾는 변수가 없으면 해당 객체의 클래스로 찾아가서 해당 변수를 찾는다!</p>
+:ET
