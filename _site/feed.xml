@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-18T18:37:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 18. isinstance 함수와 object 클래스</title><link href="http://localhost:4000/pythonmd/pythonmd18/" rel="alternate" type="text/html" title="[Python] 18. isinstance 함수와 object 클래스" /><published>2022-01-18T00:00:00+09:00</published><updated>2022-01-18T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd18</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd18/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-18T18:38:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 18. isinstance 함수와 object 클래스</title><link href="http://localhost:4000/pythonmd/pythonmd18/" rel="alternate" type="text/html" title="[Python] 18. isinstance 함수와 object 클래스" /><published>2022-01-18T00:00:00+09:00</published><updated>2022-01-18T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd18</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd18/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;18-1-isinstance-함수&quot;&gt;18-1. isinstance 함수&lt;/h2&gt;
@@ -29,7 +29,7 @@
 
 &lt;p&gt;위 결과로 보아 입력 인자 객체가 입력 인자 클래스의 객체인 경우, 혹은 입력 인자 객체가 입력 인자 클래스를 직접 상속하거나 간접 상속하는 경우 True를 반환한다!&lt;/p&gt;
 
-&lt;h2 id=&quot;17-2-object-클래스&quot;&gt;17-2. object 클래스&lt;/h2&gt;
+&lt;h2 id=&quot;18-2-object-클래스&quot;&gt;18-2. object 클래스&lt;/h2&gt;
 
 &lt;p&gt;파이썬의 모든 클래스는 object 클래스를 직접 또는 간접 상속한다!&lt;/p&gt;
 
@@ -51,7 +51,7 @@
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) [&apos;__class__&apos;, &apos;__delattr__&apos;, &apos;__dir__&apos;, &apos;__doc__&apos;, &apos;__eq__&apos;, &apos;__format__&apos;, &apos;__ge__&apos;, &apos;__getattribute__&apos;, &apos;__gt__&apos;, &apos;__hash__&apos;, &apos;__init__&apos;, &apos;__init_subclass__&apos;, &apos;__le__&apos;, &apos;__lt__&apos;, &apos;__ne__&apos;, &apos;__new__&apos;, &apos;__reduce__&apos;, &apos;__reduce_ex__&apos;, &apos;__repr__&apos;, &apos;__setattr__&apos;, &apos;__sizeof__&apos;, &apos;__str__&apos;, &apos;__subclasshook__&apos;]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;17-3-issubclass-함수&quot;&gt;17-3. issubclass 함수&lt;/h2&gt;
+&lt;h2 id=&quot;18-3-issubclass-함수&quot;&gt;18-3. issubclass 함수&lt;/h2&gt;
 &lt;p&gt;issubclass 함수의 첫번째 인자와 두번째 인자 모두 클래스를 받는다. 첫번째 인자의 클래스가 두번째 인자의 클래스를 상속할 경우 True를 반환한다!&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
