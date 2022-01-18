@@ -103,7 +103,7 @@ var store = [{
       },{
         "title": "[Python] 16. 클래스와 객체의 본질",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 16-1. 객체 안에 변수가 만들어지는 시점 클래스: 객체를 만들기 위한 일종의 설계도로써 클래스 내 들어갈 변수(데이터)와 메소드(기능)을 결정함 객체: 클래스를 기반으로 만들어진 실제 사물 class Simple: # def __init__(self): # self.i = 0...","categories": ["pythonmd"],
-        "tags": ["python"],
+        "tags": ["python","class","object"],
         "url": "/pythonmd/pythonmd16/",
         "teaser": null
       },{
@@ -115,7 +115,13 @@ var store = [{
       },{
         "title": "[Python] 17. 상속",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 17-1. 부모 클래스와 자식 클래스 다음 그림을 보자. 그림 17-1. 파이썬 상속의 예 (참조: https://techvidvan.com/tutorials/python-inheritance/) Vehicle 클래스: 부모클래스, 슈퍼클래스, 상위클래스 Car, Bus, Bike 클래스: 자식클래스, 서브클래스, 하위클래스 상속을 하면 부모클래스가 갖는 모든 메소드를...","categories": ["pythonmd"],
-        "tags": ["python"],
+        "tags": ["python","inheritance"],
         "url": "/pythonmd/pythonmd17/",
+        "teaser": null
+      },{
+        "title": "[Python] 18. isinstance 함수와 object 클래스",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 18-1. isinstance 함수 isinstance(object, classinfo) → 객체의 클래스 유형을 확인하는 함수 class Vehicle: pass class Car(Vehicle): pass class ElectricCar(Car): pass isinstance([1, 2], list) ec = ElectricCar() isinstance(ec, ElectricCar) isinstance(ec, Car) isinstance(ec, Vehicle) (결과)...","categories": ["pythonmd"],
+        "tags": ["python","instance","object class"],
+        "url": "/pythonmd/pythonmd18/",
         "teaser": null
       }]

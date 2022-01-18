@@ -81,6 +81,10 @@
 <lastmod>2022-01-17T00:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/pythonmd/pythonmd18/</loc>
+<lastmod>2022-01-18T00:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/paper/</loc>
 </url>
 <url>
@@ -116,5 +120,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page4/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page5/</loc>
 </url>
 </urlset>

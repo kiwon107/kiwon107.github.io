@@ -1,0 +1,29 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="18-1-isinstance-함수">18-1. isinstance 함수</h2>
+
+<p>isinstance(object, classinfo) → 객체의 클래스 유형을 확인하는 함수</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Vehicle</span><span class="p">:</span>
+  <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">Vehicle</span><span class="p">):</span>
+  <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">ElectricCar</span><span class="p">(</span><span class="n">Car</span><span class="p">):</span>
+  <span class="k">pass</span>
+
+<span class="nb">isinstance</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+
+<span class="n">ec</span> <span class="o">=</span> <span class="n">ElectricCar</span><span class="p">()</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span> <span class="n">ElectricCar</span><span class="p">)</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span> <span class="n">Car</span><span class="p">)</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span> <span class="n">Vehicle</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) True
+       True
+       True
+       True
+</code></pre></div></div>
+:ET
