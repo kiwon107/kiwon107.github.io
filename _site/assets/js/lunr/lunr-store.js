@@ -124,4 +124,10 @@ var store = [{
         "tags": ["python","instance","object class"],
         "url": "/pythonmd/pythonmd18/",
         "teaser": null
+      },{
+        "title": "[Python] 19. 스페셜 메소드",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 19-1. 스페셜 메소드 스페셜 메소드: 이름을 명시하지 않고 다른 경로를 통해 or 상황에 따라 자동으로 호출되는 메소드 형태: __name__ t = (1, 2, 3) len(t) # == t.__len__() itr = iter(t) # ==...","categories": ["pythonmd"],
+        "tags": ["python","special method","iterable","iterator"],
+        "url": "/pythonmd/pythonmd19/",
+        "teaser": null
       }]
