@@ -130,4 +130,10 @@ var store = [{
         "tags": ["python","special method","iterable","iterator"],
         "url": "/pythonmd/pythonmd19/",
         "teaser": null
+      },{
+        "title": "[Python] 20. 연산자 오버로딩",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 20-1. 연산자 오버로딩 간단히 이해하기 class Account: def __init__(self, aid, abl): self.aid = aid self.abl = abl def __add__(self, m): self.abl += m print('__add__') def __sub__(self, m): self.abl -= m print('__sub__') def __call__(self):...","categories": ["pythonmd"],
+        "tags": ["python","operator overloading"],
+        "url": "/pythonmd/pythonmd20/",
+        "teaser": null
       }]
