@@ -1,0 +1,900 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Python] 21. 정보은닉과 dict - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Python] 21. 정보은닉과 dict">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd21/">
+
+
+  <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-21T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd21/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer, KSOE</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/deeplearning/">딥러닝 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (21)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Python] 21. 정보은닉과 dict">
+    <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-01-21T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/pythonmd/pythonmd21/" class="u-url" itemprop="url">[Python] 21. 정보은닉과 <strong>dict</strong>
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#21-1-속성-감추기">21-1. 속성 감추기</a></li><li><a href="#21-2-dict">21-2. dict</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="21-1-속성-감추기">21-1. 속성 감추기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">=</span> <span class="n">a</span>
+  <span class="k">def</span> <span class="nf">add_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">'나이 정보 오류'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">+=</span> <span class="n">a</span>
+  
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'{0}: {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">__name</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">__age</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">add_age</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="c1"># p.__age -= 1 # 이 문장 실행하면 오류 발생된다!
+</span>  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) James: 23
+</code></pre></div></div>
+
+<p>위 예제의 <code class="language-plaintext highlighter-rouge">__(변수명)</code>에 주목하자! 평소 보는 변수명과는 많이 다르다.<br /></p>
+<ul>
+  <li>객체 내 변수(속성) 이름 앞에 언더바(<code class="language-plaintext highlighter-rouge">__</code>)를 붙이면 이 변수에 직접 접근할 수 없다!</li>
+</ul>
+
+<p>왜 이런게 필요할까? <br />
+만약 실수로 <code class="language-plaintext highlighter-rouge">p.__age</code>에 접근해서 <code class="language-plaintext highlighter-rouge">+=</code> 연산을 하려 했는데 <code class="language-plaintext highlighter-rouge">-=</code>연산을 했다고 하자. 이런 사소한 문법적 오류를 발견하기는 쉽지 않다. 그래서 객체 외부에서 객체 내 변수에 직접 접근하지 못하도록 막을 수 있게 만들었다. 그리고 메소드를 이용하여 <code class="language-plaintext highlighter-rouge">+=</code> 연산에 해당하는 기능을 만들고 여기에 접근하도록 구현한 것이다. 그러면 덜 헷갈릴 것이니까!</p>
+
+<p>참고로 파이썬에는 <code class="language-plaintext highlighter-rouge">_(변수명)</code>, 즉 언더바를 하나만 사용하면 실제 객체 내 해당 변수에 직접 접근이 가능하지만, 해당 변수에 직접 접근하지 말아야 한다! 라는 암묵적인 규칙이 있다고 한다.</p>
+
+<h2 id="21-2-dict">21-2. <strong>dict</strong></h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_age</span> <span class="o">=</span> <span class="n">a</span>
+  
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+  <span class="n">p</span><span class="p">.</span><span class="nb">len</span> <span class="o">=</span> <span class="mi">178</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">adr</span> <span class="o">=</span> <span class="s">'Korea'</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {'_name': 'James', '_age': 22}
+       {'_name': 'James', '_age': 22, 'len': 178, 'adr': 'Korea'}
+</code></pre></div></div>
+
+<p>보다시피, 객채는 <code class="language-plaintext highlighter-rouge">__dict__</code>라는 스페셜 메소드를 갖고 있으며, 여기에는 해당 객체의 변수 정보가 담긴다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_s</span> <span class="o">=</span> <span class="n">s</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'{0}: {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_n</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">_s</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">sp</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s">'my'</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+  <span class="n">sp</span><span class="p">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">'_n'</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">10</span>
+  <span class="n">sp</span><span class="p">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">'_s'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'your'</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 10: my
+       20: your
+</code></pre></div></div>
+
+<p>21-1에서 <code class="language-plaintext highlighter-rouge">_(변수명)</code>은 직접 접근이 안된다고 배웠다. 하지만 <code class="language-plaintext highlighter-rouge">__dict__</code>에 접근하면, 객체 내 <code class="language-plaintext highlighter-rouge">_(변수명)</code> 형태의 변수 값을 수정할 수 있게 된다!<br />
+즉, 객체 내 변수의 값은 <code class="language-plaintext highlighter-rouge">__dict__</code>를 통해서 관리가 되고 있는 것이다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">=</span> <span class="n">a</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {'_Person__name': 'James', '_Person__age': 22}
+</code></pre></div></div>
+
+<p>객체 내 변수 이름을 <code class="language-plaintext highlighter-rouge">__(변수명)</code>, 즉 언더바를 2개 붙여서 변수를 생성하면 <code class="language-plaintext highlighter-rouge">__dict__</code>에는 다음과 같은 패턴으로 키가 생성된다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__AttrName</code> → <code class="language-plaintext highlighter-rouge">_ClassName__AttrName</code></li>
+</ul>
+
+<p>이제 왜 언더바 2개를 붙인 객체 내 변수에는 접근이 안되는지 이해가 됐능가?!?</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/" class="page__taxonomy-item p-category" rel="tag">__</a><span class="sep">, </span>
+    
+      <a href="/tags/#dict" class="page__taxonomy-item p-category" rel="tag">__dict__</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#pythonmd" class="page__taxonomy-item p-category" rel="tag">pythonmd</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pythonmd/pythonmd20/" class="pagination--pager" title="[Python] 20. 연산자 오버로딩
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd20/" rel="permalink">[Python] 20. 연산자 오버로딩
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-20T00:00:00+09:00">January 20, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd19/" rel="permalink">[Python] 19. 스페셜 메소드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-19T00:00:00+09:00">January 19, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd18/" rel="permalink">[Python] 18. isinstance 함수와 object 클래스
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-18T00:00:00+09:00">January 18, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd17/" rel="permalink">[Python] 17. 상속
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
