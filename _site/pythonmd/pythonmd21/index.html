@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>[Python] 21. 정보은닉과 dict - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 21. 정보은닉과 dict, __slots__의 효과 - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="[Python] 21. 정보은닉과 dict">
+<meta property="og:title" content="[Python] 21. 정보은닉과 dict, __slots__의 효과">
 <meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd21/">
 
 
@@ -373,7 +373,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="[Python] 21. 정보은닉과 dict">
+    <meta itemprop="headline" content="[Python] 21. 정보은닉과 dict, __slots__의 효과">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
     <meta itemprop="datePublished" content="2022-01-21T00:00:00+09:00">
     
@@ -382,7 +382,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd21/" class="u-url" itemprop="url">[Python] 21. 정보은닉과 <strong>dict</strong>
+            <a href="http://localhost:4000/pythonmd/pythonmd21/" class="u-url" itemprop="url">[Python] 21. 정보은닉과 <strong>dict</strong>, __slots__의 효과
 </a>
           </h1>
           
@@ -406,7 +406,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          3 minute read
         
       </span>
     
@@ -421,7 +421,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#21-1-속성-감추기">21-1. 속성 감추기</a></li><li><a href="#21-2-dict">21-2. dict</a></li></ul>
+              <ul class="toc__menu"><li><a href="#21-1-속성-감추기">21-1. 속성 감추기</a></li><li><a href="#21-2-dict">21-2. dict</a></li><li><a href="#21-3-dict-단점과-그-해결책">21-3. dict 단점과 그 해결책</a></li><li><a href="#21-4-dict-있을-때와-slots-있을-때-속도차이">21-4. dict 있을 때와 slots 있을 때 속도차이</a></li></ul>
 
             </nav>
           </aside>
@@ -529,6 +529,104 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 <p>이제 왜 언더바 2개를 붙인 객체 내 변수에는 접근이 안되는지 이해가 됐능가?!?</p>
 
+<h2 id="21-3-dict-단점과-그-해결책">21-3. <strong>dict</strong> 단점과 그 해결책</h2>
+<p>딕셔너리는 키와 값을 갖다보니  리스트나 튜플에 비해 메모리 사용량이 많다. 이에 따라, 많은 수의 객체를 생성하는 경우 객체 하나 당 존재하는 <code class="language-plaintext highlighter-rouge">__dict__</code>의 존재는 부담이 된다.</p>
+
+<p>이 때 <code class="language-plaintext highlighter-rouge">__slots__</code> 이란 녀석을 이용해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="n">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s">'x'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">,</span> <span class="s">'z'</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p1</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">p2</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+  <span class="c1"># p2.w = 7   # 이거 넣으면 AttributeError: 'Point3D' object has no attribute 'w' 에러 발생!
+</span>  <span class="c1"># print(p1.__dict__)  # 이거 넣으면 AttributeError: 'Point3D' object has no attribute '__dict__' 에러 발생!
+</span>  <span class="k">print</span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">__slots__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (1, 2, 3)
+       (7, 7, 7)
+       ('x', 'y', 'z')
+</code></pre></div></div>
+
+<p>이처럼, 객체 내 변수를 x, y, z만 제한하는 효과를 줄 수 있으며, 객체별로 <code class="language-plaintext highlighter-rouge">__dict__</code>가 생성되지 않게되어 메모리를 효과적으로 관리할 수 있다. 또한, 클래스당 <code class="language-plaintext highlighter-rouge">__slots__</code> 하나만 생성된다는 것도 메모리 측면에서 개이득이다.</p>
+
+<h2 id="21-4-dict-있을-때와-slots-있을-때-속도차이">21-4. <strong>dict</strong> 있을 때와 <strong>slots</strong> 있을 때 속도차이</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># == p.__dict__['x'] = p.__dict__['x'] + 1 방식으로 접근함!
+</span>      <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+  <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (9000001, 9000001, 9000001)
+       2.5983912000010605
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="n">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s">'x'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">,</span> <span class="s">'z'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># == p.__dict__['x'] = p.__dict__['x'] + 1 방식으로 접근함!
+</span>      <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="c1"># == print(p.__dict__['x'], p.__dict__['y'], p.__dict__['z']) 와 같음
+</span>  <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (9000001, 9000001, 9000001)
+       2.40482350000093 
+</code></pre></div></div>
+
+<p>보다시피, <code class="language-plaintext highlighter-rouge">__slots__</code>이 있을 때 조금 더 빨리 실행된다!</p>
+
         
       </section>
 
@@ -547,6 +645,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <a href="/tags/" class="page__taxonomy-item p-category" rel="tag">__</a><span class="sep">, </span>
     
       <a href="/tags/#dict" class="page__taxonomy-item p-category" rel="tag">__dict__</a><span class="sep">, </span>
+    
+      <a href="/tags/#slots" class="page__taxonomy-item p-category" rel="tag">__slots__</a><span class="sep">, </span>
     
       <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a>
     

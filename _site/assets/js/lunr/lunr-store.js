@@ -137,9 +137,9 @@ var store = [{
         "url": "/pythonmd/pythonmd20/",
         "teaser": null
       },{
-        "title": "[Python] 21. 정보은닉과 __dict__",
+        "title": "[Python] 21. 정보은닉과 __dict__, __slots__의 효과",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 21-1. 속성 감추기 class Person: def __init__(self, n, a): self.__name = n self.__age = a def add_age(self, a): if(a &lt; 0): print('나이 정보 오류') else: self.__age += a def __str__(self): return '{0}: {1}'.format(self.__name,...","categories": ["pythonmd"],
-        "tags": ["python","__","__dict__"],
+        "tags": ["python","__","__dict__","__slots__"],
         "url": "/pythonmd/pythonmd21/",
         "teaser": null
       }]

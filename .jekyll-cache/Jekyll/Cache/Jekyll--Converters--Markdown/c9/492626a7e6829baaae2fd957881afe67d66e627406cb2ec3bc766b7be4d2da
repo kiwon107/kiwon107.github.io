@@ -1,0 +1,200 @@
+I"&Z<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="21-1-속성-감추기">21-1. 속성 감추기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">=</span> <span class="n">a</span>
+  <span class="k">def</span> <span class="nf">add_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">'나이 정보 오류'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">+=</span> <span class="n">a</span>
+  
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'{0}: {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">__name</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">__age</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">add_age</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="c1"># p.__age -= 1 # 이 문장 실행하면 오류 발생된다!
+</span>  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) James: 23
+</code></pre></div></div>
+
+<p>위 예제의 <code class="language-plaintext highlighter-rouge">__(변수명)</code>에 주목하자! 평소 보는 변수명과는 많이 다르다.<br /></p>
+<ul>
+  <li>객체 내 변수(속성) 이름 앞에 언더바(<code class="language-plaintext highlighter-rouge">__</code>)를 붙이면 이 변수에 직접 접근할 수 없다!</li>
+</ul>
+
+<p>왜 이런게 필요할까? <br />
+만약 실수로 <code class="language-plaintext highlighter-rouge">p.__age</code>에 접근해서 <code class="language-plaintext highlighter-rouge">+=</code> 연산을 하려 했는데 <code class="language-plaintext highlighter-rouge">-=</code>연산을 했다고 하자. 이런 사소한 문법적 오류를 발견하기는 쉽지 않다. 그래서 객체 외부에서 객체 내 변수에 직접 접근하지 못하도록 막을 수 있게 만들었다. 그리고 메소드를 이용하여 <code class="language-plaintext highlighter-rouge">+=</code> 연산에 해당하는 기능을 만들고 여기에 접근하도록 구현한 것이다. 그러면 덜 헷갈릴 것이니까!</p>
+
+<p>참고로 파이썬에는 <code class="language-plaintext highlighter-rouge">_(변수명)</code>, 즉 언더바를 하나만 사용하면 실제 객체 내 해당 변수에 직접 접근이 가능하지만, 해당 변수에 직접 접근하지 말아야 한다! 라는 암묵적인 규칙이 있다고 한다.</p>
+
+<h2 id="21-2-dict">21-2. <strong>dict</strong></h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_age</span> <span class="o">=</span> <span class="n">a</span>
+  
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+  <span class="n">p</span><span class="p">.</span><span class="nb">len</span> <span class="o">=</span> <span class="mi">178</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">adr</span> <span class="o">=</span> <span class="s">'Korea'</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {'_name': 'James', '_age': 22}
+       {'_name': 'James', '_age': 22, 'len': 178, 'adr': 'Korea'}
+</code></pre></div></div>
+
+<p>보다시피, 객채는 <code class="language-plaintext highlighter-rouge">__dict__</code>라는 스페셜 메소드를 갖고 있으며, 여기에는 해당 객체의 변수 정보가 담긴다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">_s</span> <span class="o">=</span> <span class="n">s</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'{0}: {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_n</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">_s</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">sp</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s">'my'</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+  <span class="n">sp</span><span class="p">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">'_n'</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">10</span>
+  <span class="n">sp</span><span class="p">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">'_s'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'your'</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 10: my
+       20: your
+</code></pre></div></div>
+
+<p>21-1에서 <code class="language-plaintext highlighter-rouge">_(변수명)</code>은 직접 접근이 안된다고 배웠다. 하지만 <code class="language-plaintext highlighter-rouge">__dict__</code>에 접근하면, 객체 내 <code class="language-plaintext highlighter-rouge">_(변수명)</code> 형태의 변수 값을 수정할 수 있게 된다!<br />
+즉, 객체 내 변수의 값은 <code class="language-plaintext highlighter-rouge">__dict__</code>를 통해서 관리가 되고 있는 것이다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__age</span> <span class="o">=</span> <span class="n">a</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">'James'</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {'_Person__name': 'James', '_Person__age': 22}
+</code></pre></div></div>
+
+<p>객체 내 변수 이름을 <code class="language-plaintext highlighter-rouge">__(변수명)</code>, 즉 언더바를 2개 붙여서 변수를 생성하면 <code class="language-plaintext highlighter-rouge">__dict__</code>에는 다음과 같은 패턴으로 키가 생성된다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__AttrName</code> → <code class="language-plaintext highlighter-rouge">_ClassName__AttrName</code></li>
+</ul>
+
+<p>이제 왜 언더바 2개를 붙인 객체 내 변수에는 접근이 안되는지 이해가 됐능가?!?</p>
+
+<h2 id="21-3-dict-단점과-그-해결책">21-3. <strong>dict</strong> 단점과 그 해결책</h2>
+<p>딕셔너리는 키와 값을 갖다보니  리스트나 튜플에 비해 메모리 사용량이 많다. 이에 따라, 많은 수의 객체를 생성하는 경우 객체 하나 당 존재하는 <code class="language-plaintext highlighter-rouge">__dict__</code>의 존재는 부담이다.</p>
+
+<p>이 때 <code class="language-plaintext highlighter-rouge">__slots__</code> 이란 녀석을 이용해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="n">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s">'x'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">,</span> <span class="s">'z'</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">p1</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">p2</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+  <span class="c1"># p2.w = 7   # 이거 넣으면 AttributeError: 'Point3D' object has no attribute 'w' 에러 발생!
+</span>  <span class="c1"># print(p1.__dict__)  # 이거 넣으면 AttributeError: 'Point3D' object has no attribute '__dict__' 에러 발생!
+</span>  <span class="k">print</span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">__slots__</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (1, 2, 3)
+       (7, 7, 7)
+       ('x', 'y', 'z')
+</code></pre></div></div>
+
+<p>이처럼, 객체 내 변수를 x, y, z만 제한하는 효과를 줄 수 있으며, 객체별로 <code class="language-plaintext highlighter-rouge">__dict__</code>가 생성되지 않게되어 메모리를 효과적으로 관리할 수 있다. 또한, 클래스당 <code class="language-plaintext highlighter-rouge">__slots__</code> 하나만 생성된다는 것도 메모리 측면에서 개이득이다.</p>
+
+<h2 id="21-4-dict-있을-때와-slots-있을-때-속도차이">21-4. <strong>dict</strong> 있을 때와 <strong>slots</strong> 있을 때 속도차이</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># == p.__dict__['x'] = p.__dict__['x'] + 1 방식으로 접근함!
+</span>      <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+  <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (9000001, 9000001, 9000001)
+       2.5983912000010605
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">timeit</span>
+
+<span class="n">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s">'x'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">,</span> <span class="s">'z'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Point3D</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">'({0}, {1}, {2})'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">start</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Point3D</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3000</span><span class="p">):</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># == p.__dict__['x'] = p.__dict__['x'] + 1 방식으로 접근함!
+</span>      <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">z</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+  <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+  <span class="n">stop</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">.</span><span class="n">default_timer</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">stop</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (9000001, 9000001, 9000001)
+       2.40482350000093
+</code></pre></div></div>
+:ET
