@@ -1,0 +1,29 @@
+I".<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="22-1-안전하게-접근하기">22-1. 안전하게 접근하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  
+  <span class="k">def</span> <span class="nf">setn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+  <span class="n">n</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+  
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+:ET

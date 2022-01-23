@@ -1,0 +1,1003 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Python] 22. 프로퍼티 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Python] 22. 프로퍼티">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd22/">
+
+
+  <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-23T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd22/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer, KSOE</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/deeplearning/">딥러닝 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (22)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Python] 22. 프로퍼티">
+    <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-01-23T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/pythonmd/pythonmd22/" class="u-url" itemprop="url">[Python] 22. 프로퍼티
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-23T00:00:00+09:00">January 23, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#22-1-안전하게-접근하기">22-1. 안전하게 접근하기</a></li><li><a href="#22-2-property">22-2. property</a></li><li><a href="#22-3-또-다른-방식">22-3. 또 다른 방식</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="22-1-안전하게-접근하기">22-1. 안전하게 접근하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  
+  <span class="k">def</span> <span class="nf">setn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+  <span class="n">n</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+  
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1
+       2
+</code></pre></div></div>
+
+<p>위 코드에서 <code class="language-plaintext highlighter-rouge">getn</code> 함수는 값 꺼내는 역할, <code class="language-plaintext highlighter-rouge">setn</code> 함수는 값 수정하는 역할을 한다.<br />
+위와 같이 코드를 짤 경우, 잦은 메소드 호출로 코드가 복잡해 보일 수 있다. 다음 예제 처럼 말이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  <span class="k">def</span> <span class="nf">setn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">n1</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="n">n2</span><span class="p">.</span><span class="n">getn</span><span class="p">()</span> <span class="o">+</span> <span class="n">n3</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 5
+</code></pre></div></div>
+
+<p>메소드가 자주 호출되어서 자칫하면 헷갈릴 수 있을 것 같다. 어떻게 이를 간단해 보이도록 만들 수 있을까? 이때 프로퍼티를 이용해보자!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  <span class="k">def</span> <span class="nf">setn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">getn</span><span class="p">,</span> <span class="n">setn</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">n1</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">n3</span><span class="p">.</span><span class="n">n</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 5
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">n = property(getn, setn)</code> 을 프로퍼티 설정 이라고 한다. 이 코드는 속성 n의 값을 참조하는 경우 getn을 호출해서 반환되는 값을 전달하고, 속성 n에 값을 저장하는 경우에는 setn을 호출하여 그 값을 전달한다! 라는 의미를 갖는다. 이 코드는 property 객체의 생성으로 이어진다!</p>
+
+<h2 id="22-2-property">22-2. property</h2>
+<p>다음과 같이 property 객체 생성과 함께 getn과 setn 메소드 등록을 별도의 문장으로 진행할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">setn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="nb">property</span><span class="p">()</span> 
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">getter</span><span class="p">(</span><span class="n">getn</span><span class="p">)</span>  <span class="c1"># getter 등록된 새 property 객체 생성 및 반환
+</span>  <span class="k">def</span> <span class="nf">setn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">setter</span><span class="p">(</span><span class="n">setn</span><span class="p">)</span>  <span class="c1"># setter 등록된 새 property 객체 생성 및 반환
+</span>  
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">n1</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">n3</span><span class="p">.</span><span class="n">n</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 5
+</code></pre></div></div>
+
+<p>다음과 같이 프로퍼티에 등록할 메소드 이름을 동일하게 둘 수도 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="k">def</span> <span class="nf">pm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">pm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">setter</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">n1</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">n3</span><span class="p">.</span><span class="n">n</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 5
+</code></pre></div></div>
+
+<h2 id="22-3-또-다른-방식">22-3. 또 다른 방식</h2>
+<p>데코레이터 라는 녀석을 기반으로 프로퍼티를 지정할 수 있다. 가장 간결한 방법인데, 데코레이터에 대한 설명은 다음에 설명을 하도록 한다.
+예제 부터 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="o">@</span><span class="nb">property</span>
+  <span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+  <span class="o">@</span><span class="n">n</span><span class="p">.</span><span class="n">setter</span>
+  <span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">n1</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n2</span><span class="p">.</span><span class="n">n</span> <span class="o">+</span> <span class="n">n3</span><span class="p">.</span><span class="n">n</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 5
+</code></pre></div></div>
+
+<p>코드 별로 확인해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="nb">property</span>
+<span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+</code></pre></div></div>
+<p>요 부분은 property 객체를 생성하면서 바로 다음에 등장하는 메소드를 getter로 지정한다. 그리고 이 property 객체를 n에 저장한다! 즉 다음 코드와 동일하다 볼 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">__n</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+<p>사실 위 코드는 말이 좀 안된다(실제 적용해보면 에러남. 메소드 n에 객체를 저장하다니?). 아무래도 데코레이터 개념을 익혀야 이해할 수 있을 것 같다.</p>
+
+<p>그 다음 코드를 보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">n</span><span class="p">.</span><span class="n">setter</span>
+<span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+</code></pre></div></div>
+<p>이 부분은 다음 등장하는 메소드를 n 저장된 property 객체의 setter에 등록하며, 이 property 객체를 n에 저장한다. 즉 다음 코드와 동일하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">__n</span> <span class="o">=</span> <span class="n">n</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">setter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#getter" class="page__taxonomy-item p-category" rel="tag">getter</a><span class="sep">, </span>
+    
+      <a href="/tags/#property" class="page__taxonomy-item p-category" rel="tag">property</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
+    
+      <a href="/tags/#setter" class="page__taxonomy-item p-category" rel="tag">setter</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#pythonmd" class="page__taxonomy-item p-category" rel="tag">pythonmd</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-23T00:00:00+09:00">January 23, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pythonmd/pythonmd21/" class="pagination--pager" title="[Python] 21. 정보은닉과 dict, __slots__의 효과
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd21/" rel="permalink">[Python] 21. 정보은닉과 <strong>dict</strong>, __slots__의 효과
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd20/" rel="permalink">[Python] 20. 연산자 오버로딩
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-20T00:00:00+09:00">January 20, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd19/" rel="permalink">[Python] 19. 스페셜 메소드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-19T00:00:00+09:00">January 19, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd18/" rel="permalink">[Python] 18. isinstance 함수와 object 클래스
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-18T00:00:00+09:00">January 18, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

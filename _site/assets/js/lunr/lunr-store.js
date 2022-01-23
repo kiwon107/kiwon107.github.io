@@ -142,4 +142,10 @@ var store = [{
         "tags": ["python","__","__dict__","__slots__"],
         "url": "/pythonmd/pythonmd21/",
         "teaser": null
+      },{
+        "title": "[Python] 22. 프로퍼티",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 22-1. 안전하게 접근하기 class Natural: def __init__(self, n): if(n&lt;1): self.__n = 1 else: self.__n = n def getn(self): return self.__n def setn(self, n): if(n&lt;1): self.__n = 1 else: self.__n = n def main():...","categories": ["pythonmd"],
+        "tags": ["python","property","getter","setter"],
+        "url": "/pythonmd/pythonmd22/",
+        "teaser": null
       }]
