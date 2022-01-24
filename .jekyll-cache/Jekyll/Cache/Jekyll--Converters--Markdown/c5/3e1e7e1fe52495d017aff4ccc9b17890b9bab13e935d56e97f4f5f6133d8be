@@ -1,0 +1,17 @@
+I"*<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="23-1-함수를-만들어서-반환하는-함수">23-1. 함수를 만들어서 반환하는 함수</h2>
+<p>네스티드 함수: 함수 안에 정의된 함수</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">maker</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span> <span class="o">*</span> <span class="n">n</span>
+  <span class="k">return</span> <span class="n">inner</span>
+
+<span class="n">f1</span> <span class="o">=</span> <span class="n">maker</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">f1</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 14
+</code></pre></div></div>
+:ET

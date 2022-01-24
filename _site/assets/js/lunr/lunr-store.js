@@ -148,4 +148,10 @@ var store = [{
         "tags": ["python","property","getter","setter"],
         "url": "/pythonmd/pythonmd22/",
         "teaser": null
+      },{
+        "title": "[Python] 23. 네스티드 함수와 클로저",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 23-1. 함수를 만들어서 반환하는 함수 네스티드 함수: 함수 안에 정의된 함수 def maker(m): def inner(n): return m * n return inner f1 = maker(2) f1(7) (결과) 14 23-2. 클로져 위 예제에서 m은 maker...","categories": ["pythonmd"],
+        "tags": ["python","nested","closure"],
+        "url": "/pythonmd/pythonmd23/",
+        "teaser": null
       }]

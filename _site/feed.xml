@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-23T20:03:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 22. 프로퍼티</title><link href="http://localhost:4000/pythonmd/pythonmd22/" rel="alternate" type="text/html" title="[Python] 22. 프로퍼티" /><published>2022-01-23T00:00:00+09:00</published><updated>2022-01-23T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd22</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd22/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-24T19:15:13+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 23. 네스티드 함수와 클로저</title><link href="http://localhost:4000/pythonmd/pythonmd23/" rel="alternate" type="text/html" title="[Python] 23. 네스티드 함수와 클로저" /><published>2022-01-24T00:00:00+09:00</published><updated>2022-01-24T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd23</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd23/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;23-1-함수를-만들어서-반환하는-함수&quot;&gt;23-1. 함수를 만들어서 반환하는 함수&lt;/h2&gt;
+&lt;p&gt;네스티드 함수: 함수 안에 정의된 함수&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;maker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 14
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;23-2-클로져&quot;&gt;23-2. 클로져&lt;/h2&gt;
+&lt;p&gt;위 예제에서 m은 maker 함수 안에서만 존재하는 변수이다. 그렇다면, maker 함수 밖에서도 m이 유효할까?&lt;br /&gt;
+결과적으로는 예제에서 정의한 inner 함수가 변수 m의 값을 어딘가에 저장해 놓고 쓴다!&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;클로져: 안쪽에 위치한 네스티드 함수가 자신이 필요한 변수의 값을 어딘가에 저장해 놓고 쓰는 테크닉!&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;maker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;111&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__closure__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cell_contents&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 변수 m의 값을 저장해 놓은 위치이다!
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 111
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 예제에서 보다시피, 네스티드 함수 inner가 변수 m의 값을 저장해 놓은 위치는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__closure__&lt;/code&gt; 변수의 인덱스 0 위치에 저장된 객체의 변수인 cell_contents 이다!&lt;/p&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="nested" /><category term="closure" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 22. 프로퍼티</title><link href="http://localhost:4000/pythonmd/pythonmd22/" rel="alternate" type="text/html" title="[Python] 22. 프로퍼티" /><published>2022-01-23T00:00:00+09:00</published><updated>2022-01-23T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd22</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd22/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;22-1-안전하게-접근하기&quot;&gt;22-1. 안전하게 접근하기&lt;/h2&gt;
@@ -1224,19 +1258,4 @@
        정확한 내 키는      182.100 입니다
        정확한 내 키는 **182.100*** 입니다
        정확한 내 키는 182.100+++++ 입니다
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="string formatting expressions" /><category term="string formatting method calls" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[논문] 1. A Comprehensive Survey on Graph Neural Networks</title><link href="http://localhost:4000/paper/paper1/" rel="alternate" type="text/html" title="[논문] 1. A Comprehensive Survey on Graph Neural Networks" /><published>2022-01-14T00:00:00+09:00</published><updated>2022-01-14T00:00:00+09:00</updated><id>http://localhost:4000/paper/paper1</id><content type="html" xml:base="http://localhost:4000/paper/paper1/">&lt;h2 id=&quot;01-1-그래프&quot;&gt;01-1. 그래프&lt;/h2&gt;
-
-&lt;p&gt;그래프 $G$ 는 다음과 같이 정의된다. $G = (V, E)$. $V$는 노드들의 집합이고, $E$는 엣지들의 집합이다.
-노드 $v_{i}$는 $v_{i}\in V$ 이며, $v_{j}$와 $v_{i}$를 잇는 엣지 $e_{ij}$는 $e_{ij}=(e_{i}, e_{j})\in E$ 이다.&lt;/p&gt;
-
-&lt;p&gt;노드 $v$의 이웃은 $ N(v)=\{ u \in V|(v,u) \in E \} $ 이다. 인접행렬 $\mathbf{A}$는 $n \times n$ 매트릭스이며, $e_{ij}\in E$ 일 경우 $A_{ij}=1$ 이고 $e_{ij}\notin E$ 일 경우 $A_{ij}=0$ 이다.&lt;br /&gt;
-&lt;br /&gt;
-그래프는 노드 속성들을 나타내는 $\mathbf{X}$ 를 가질 수도 있다. $\mathbf{X}\in \boldsymbol{\mathbf{R}}^{n\times d}$ 는 노드 $v$ 의 특징벡터인 
-$\mathbf{x}_{v}\in \mathbf{R}^{d}$ 를 만족하는 노드 특징 매트릭스(node feature matrix) 이다.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;한편, 그래프는 엣지 속성들을 나타내는 $\mathbf{X}^{e}$ 를 가질 수도 있다. $\mathbf{X}^{e}\in \boldsymbol{\mathbf{R}}^{m\times c}$ 는 엣지 $(v, u)$ 의 특징벡터인
-$\mathbf{x}_{v,u}^{e}\in \mathbf{R}^{c}$ 를 만족하는 엣지 특징 매트릭스(edge feature matrix)이다.&lt;/p&gt;
-
-&lt;p&gt;Directed 그래프, Undirected 그래프가 있다. 두 그래프의 차이는 방향이 있는가 없는가의 차이이며, Undirected 그래프는 방향이 없기 때문에 대각성분을 기준으로 대칭이다.(이미지)&lt;/p&gt;
-
-&lt;p&gt;Spatial-temporal 그래프도 있다. 이는 노드 속성들이 시간에 따라 변하는 그래프이다. 다음과 같이 $G^{(t)}=(\mathbf{V}, \mathbf{E}, \mathbf{X}^{(t)})$ 로 나타낼 수 있으며 $\mathbf{X}^{(t)}\in \mathbf{R}^{n\times d}$ 를 만족한다&lt;/p&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="paper" /><category term="paper" /><summary type="html">01-1. 그래프</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="string formatting expressions" /><category term="string formatting method calls" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
