@@ -154,4 +154,10 @@ var store = [{
         "tags": ["python","nested","closure"],
         "url": "/pythonmd/pythonmd23/",
         "teaser": null
+      },{
+        "title": "[Python] 24. 데코레이터",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 24-1. 데코레이터에 대한 이해 def smile(): print(\"^_^\") def confused(): print(\"@_@\") def deco(func): def df(): print('emotion!') func() print('emotion!') return df smile = deco(smile) smile() confused = deco(confused) confused() (결과) emotion! ^_^ emotion! emotion! @_@...","categories": ["pythonmd"],
+        "tags": ["python","decorator"],
+        "url": "/pythonmd/pythonmd24/",
+        "teaser": null
       }]

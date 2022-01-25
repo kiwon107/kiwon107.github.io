@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙 - Wonny’s DevLog</title>
+<!-- begin _includes/seo.html --><title>[Python] 24. 데코레이터 - Wonny’s DevLog</title>
 <meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
 
 
@@ -22,8 +22,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Wonny's DevLog">
-<meta property="og:title" content="[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙">
-<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd11/">
+<meta property="og:title" content="[Python] 24. 데코레이터">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd24/">
 
 
   <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
@@ -34,7 +34,7 @@
 
 
 
-  <meta property="article:published_time" content="2022-01-11T00:00:00+09:00">
+  <meta property="article:published_time" content="2022-01-25T00:00:00+09:00">
 
 
 
@@ -45,7 +45,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd11/">
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd24/">
 
 
 
@@ -373,16 +373,16 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙">
+    <meta itemprop="headline" content="[Python] 24. 데코레이터">
     <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
-    <meta itemprop="datePublished" content="2022-01-11T00:00:00+09:00">
+    <meta itemprop="datePublished" content="2022-01-25T00:00:00+09:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/pythonmd/pythonmd11/" class="u-url" itemprop="url">[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙
+            <a href="http://localhost:4000/pythonmd/pythonmd24/" class="u-url" itemprop="url">[Python] 24. 데코레이터
 </a>
           </h1>
           
@@ -393,7 +393,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-11T00:00:00+09:00">January 11, 2022</time>
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
       </span>
     
 
@@ -406,7 +406,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -421,7 +421,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#11-1-iterable-객체와-매개변수">11-1. iterable 객체와 매개변수</a></li><li><a href="#11-2-딕셔너리와-매개변수">11-2. 딕셔너리와 매개변수</a></li></ul>
+              <ul class="toc__menu"><li><a href="#24-1-데코레이터에-대한-이해">24-1. 데코레이터에 대한 이해</a></li><li><a href="#24-2-전달-인자가-있는-함수-기반의-데코레이터">24-2. 전달 인자가 있는 함수 기반의 데코레이터</a></li><li><a href="#24-3--기반으로">24-3. @ 기반으로</a></li><li><a href="#24-4-데코레이터-함수-두-번-이상-통과하기">24-4. 데코레이터 함수 두 번 이상 통과하기</a></li></ul>
 
             </nav>
           </aside>
@@ -429,69 +429,102 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
 
-<h2 id="11-1-iterable-객체와-매개변수">11-1. iterable 객체와 매개변수</h2>
+<h2 id="24-1-데코레이터에-대한-이해">24-1. 데코레이터에 대한 이해</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">smile</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"^_^"</span><span class="p">)</span>
 
-<p>function(*iterable): 리스트, 튜플, 문자열(iterable 객체)을 풀어서 전달<br />
-function(**iterable): 딕셔너리 값을 풀어서 전달</p>
+<span class="k">def</span> <span class="nf">confused</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"@_@"</span><span class="p">)</span>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">out</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">', '</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">deco</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">df</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'emotion!'</span><span class="p">)</span>
+    <span class="n">func</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'emotion!'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">df</span>
 
-<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">c</span> <span class="o">=</span> <span class="s">'abc'</span>
-<span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="n">out</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">)</span>  <span class="c1"># 키가 전달됨
-</span><span class="n">out</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>  <span class="c1"># 값이 전달됨
-</span><span class="n">out</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">items</span><span class="p">()))</span>
+<span class="n">smile</span> <span class="o">=</span> <span class="n">deco</span><span class="p">(</span><span class="n">smile</span><span class="p">)</span>
+<span class="n">smile</span><span class="p">()</span>
+<span class="n">confused</span> <span class="o">=</span> <span class="n">deco</span><span class="p">(</span><span class="n">confused</span><span class="p">)</span>
+<span class="n">confused</span><span class="p">()</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1, 2, 3
-       1, 2, 3
-       a, b, c
-       a, b, c
-       1, 2, 3
-       ('a', 1), ('b', 2), ('c', 3)
-</code></pre></div></div>
-
-<h2 id="11-2-딕셔너리와-매개변수">11-2. 딕셔너리와 매개변수</h2>
-
-<p>def function(*args): 값들이 튜플로 묶여서 args로 전달</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">out</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-<span class="n">out</span><span class="p">()</span>
-<span class="n">out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-</code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) ()
-       (1,)
-       (1, 2)
-       (1, 2, 3)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) emotion!
+       ^_^
+       emotion!
+       emotion!
+       @_@
+       emotion!
 </code></pre></div></div>
 
-<p>def function(**args): 전달되는 내용이 딕셔너리로 묶여서 args로 전달</p>
+<p>데코레이터 함수: smile과 confused 와 같이 기능을 추가해주는 함수<br /></p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">out</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<p>위 예에서는 데코레이터 함수가, 인자로 전달된 함수에 기능을 추가하는 방식으로 코드가 작성되었다.</p>
 
-<span class="n">out</span><span class="p">()</span>
-<span class="n">out</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">out</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<h2 id="24-2-전달-인자가-있는-함수-기반의-데코레이터">24-2. 전달 인자가 있는 함수 기반의 데코레이터</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">adder3</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">+</span> <span class="n">n3</span>
+
+<span class="k">def</span> <span class="nf">adder_deco</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">ad</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="c1"># 튜플 패킹
+</span>    <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">' + '</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">' '</span><span class="p">)</span>  <span class="c1"># 튜플 언패킹
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"= {0}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)))</span>  <span class="c1"># 튜플 언패킹
+</span>  <span class="k">return</span> <span class="n">ad</span>
+
+<span class="n">adder3</span> <span class="o">=</span> <span class="n">adder_deco</span><span class="p">(</span><span class="n">adder3</span><span class="p">)</span>
+<span class="n">adder3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) {}
-       {'a': 1}
-       {'a': 1, 'b': 2}
-       {'a': 1, 'b': 2, 'c': 3}
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 + 2 + 3 = 6
 </code></pre></div></div>
 
-<p>*args와 **args를 동시에 둘 수도 있다!</p>
+<h2 id="24-3--기반으로">24-3. @ 기반으로</h2>
+<p>이건 좀 충격적인 코드이다.<br />
+24-2 코드를 다음과 같이도 표현할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">adder_deco</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">ad</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">' + '</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">' '</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"= {0}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)))</span>
+  <span class="k">return</span> <span class="n">ad</span>
+
+<span class="o">@</span><span class="n">adder_deco</span>
+<span class="k">def</span> <span class="nf">adder3</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">+</span> <span class="n">n3</span>
+
+<span class="n">adder3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 + 2 + 3 = 6
+</code></pre></div></div>
+
+<p>이렇게 해석 가능하다.<br />
+adder3 함수를 deco인 adder_deco에 전달하고, 이때 반한되는 함수를 다시 adder3에 담는다.</p>
+
+<h2 id="24-4-데코레이터-함수-두-번-이상-통과하기">24-4. 데코레이터 함수 두 번 이상 통과하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">deco1</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'deco1'</span><span class="p">)</span>
+    <span class="n">func</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">inner</span>
+
+<span class="k">def</span> <span class="nf">deco2</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">inner</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'deco2'</span><span class="p">)</span>
+    <span class="n">func</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">inner</span>
+
+<span class="o">@</span><span class="n">deco1</span>
+<span class="o">@</span><span class="n">deco2</span>
+<span class="k">def</span> <span class="nf">simple</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'simple'</span><span class="p">)</span>
+
+<span class="n">simple</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) deco1
+       deco2
+       simple
+</code></pre></div></div>
+
+<p>위 코드의 <code class="language-plaintext highlighter-rouge">simple()</code>은 다음과 같다.<br />
+<code class="language-plaintext highlighter-rouge">simple = deco1(deco2(simple))</code></p>
 
         
       </section>
@@ -508,11 +541,9 @@ function(**iterable): 딕셔너리 값을 풀어서 전달</p>
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#dict" class="page__taxonomy-item p-category" rel="tag">dict</a><span class="sep">, </span>
+      <a href="/tags/#decorator" class="page__taxonomy-item p-category" rel="tag">decorator</a><span class="sep">, </span>
     
-      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
-    
-      <a href="/tags/#view" class="page__taxonomy-item p-category" rel="tag">view</a>
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a>
     
     </span>
   </p>
@@ -537,7 +568,7 @@ function(**iterable): 딕셔너리 값을 풀어서 전달</p>
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-11T00:00:00+09:00">January 11, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time></p>
 
       </footer>
 
@@ -546,12 +577,11 @@ function(**iterable): 딕셔너리 값을 풀어서 전달</p>
       
   <nav class="pagination">
     
-      <a href="/pythonmd/pythonmd10/" class="pagination--pager" title="[Python] 10. dict의 생성과 zip / dict의 루핑 기술과 컴프리헨션
+      <a href="/pythonmd/pythonmd23/" class="pagination--pager" title="[Python] 23. 네스티드 함수와 클로저
 ">Previous</a>
     
     
-      <a href="/pythonmd/pythonmd12/" class="pagination--pager" title="[Python] 12. dict &amp; defaultdict &amp; OrderedDict
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -565,54 +595,6 @@ function(**iterable): 딕셔너리 값을 풀어서 전달</p>
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd24/" rel="permalink">[Python] 24. 데코레이터
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
         
           
 
@@ -745,6 +727,54 @@ function(**iterable): 딕셔너리 값을 풀어서 전달</p>
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd20/" rel="permalink">[Python] 20. 연산자 오버로딩
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-20T00:00:00+09:00">January 20, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
         
       </span>
     

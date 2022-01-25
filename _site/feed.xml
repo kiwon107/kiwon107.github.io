@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-24T19:15:13+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 23. 네스티드 함수와 클로저</title><link href="http://localhost:4000/pythonmd/pythonmd23/" rel="alternate" type="text/html" title="[Python] 23. 네스티드 함수와 클로저" /><published>2022-01-24T00:00:00+09:00</published><updated>2022-01-24T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd23</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd23/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-25T22:18:49+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Wonny’s DevLog</title><subtitle>AI Researcher &amp; Developer, KSOE</subtitle><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><entry><title type="html">[Python] 24. 데코레이터</title><link href="http://localhost:4000/pythonmd/pythonmd24/" rel="alternate" type="text/html" title="[Python] 24. 데코레이터" /><published>2022-01-25T00:00:00+09:00</published><updated>2022-01-25T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd24</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd24/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;24-1-데코레이터에-대한-이해&quot;&gt;24-1. 데코레이터에 대한 이해&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;smile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;^_^&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;confused&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@_@&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;emotion!&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;emotion!&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;smile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;smile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;smile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;confused&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;confused&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;confused&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) emotion!
+       ^_^
+       emotion!
+       emotion!
+       @_@
+       emotion!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;데코레이터 함수: smile과 confused 와 같이 기능을 추가해주는 함수&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;위 예에서는 데코레이터 함수가, 인자로 전달된 함수에 기능을 추가하는 방식으로 코드가 작성되었다.&lt;/p&gt;
+
+&lt;h2 id=&quot;24-2-전달-인자가-있는-함수-기반의-데코레이터&quot;&gt;24-2. 전달 인자가 있는 함수 기반의 데코레이터&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;adder3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;adder_deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 튜플 패킹
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; + &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 튜플 언패킹
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;= {0}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 튜플 언패킹
+&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ad&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;adder3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adder_deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adder3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;adder3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 1 + 2 + 3 = 6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;24-3--기반으로&quot;&gt;24-3. @ 기반으로&lt;/h2&gt;
+&lt;p&gt;이건 좀 충격적인 코드이다.&lt;br /&gt;
+24-2 코드를 다음과 같이도 표현할 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;adder_deco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; + &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos; &apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;= {0}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ad&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adder_deco&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;adder3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n3&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;adder3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 1 + 2 + 3 = 6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이렇게 해석 가능하다.&lt;br /&gt;
+adder3 함수를 deco인 adder_deco에 전달하고, 이때 반한되는 함수를 다시 adder3에 담는다.&lt;/p&gt;
+
+&lt;h2 id=&quot;24-4-데코레이터-함수-두-번-이상-통과하기&quot;&gt;24-4. 데코레이터 함수 두 번 이상 통과하기&lt;/h2&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;deco1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;deco1&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;deco2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;inner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;deco2&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inner&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deco1&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deco2&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;simple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;simple&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;simple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) deco1
+       deco2
+       simple
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 코드의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;simple()&lt;/code&gt;은 다음과 같다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;simple = deco1(deco2(simple))&lt;/code&gt;&lt;/p&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="decorator" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 23. 네스티드 함수와 클로저</title><link href="http://localhost:4000/pythonmd/pythonmd23/" rel="alternate" type="text/html" title="[Python] 23. 네스티드 함수와 클로저" /><published>2022-01-24T00:00:00+09:00</published><updated>2022-01-24T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd23</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd23/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;23-1-함수를-만들어서-반환하는-함수&quot;&gt;23-1. 함수를 만들어서 반환하는 함수&lt;/h2&gt;
@@ -849,7 +947,77 @@
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) True
        True
        False
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="instance" /><category term="object class" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 17. 상속</title><link href="http://localhost:4000/pythonmd/pythonmd17/" rel="alternate" type="text/html" title="[Python] 17. 상속" /><published>2022-01-17T00:00:00+09:00</published><updated>2022-01-17T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd17</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd17/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="instance" /><category term="object class" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[논문] 2. Deep One-Class Classification (Deep SVDD)</title><link href="http://localhost:4000/paper/paper2/" rel="alternate" type="text/html" title="[논문] 2. Deep One-Class Classification (Deep SVDD)" /><published>2022-01-17T00:00:00+09:00</published><updated>2022-01-17T00:00:00+09:00</updated><id>http://localhost:4000/paper/paper2</id><content type="html" xml:base="http://localhost:4000/paper/paper2/">&lt;h2 id=&quot;i-motivation&quot;&gt;I. Motivation&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;해당 논문에서는 Deep Support Vector Data Description(Deep SVDD)를 소개한다. Deep SVDD는 초구(Hypersphere)의 부피를 최소화하는 신경망을 훈련함.&lt;/li&gt;
+  &lt;li&gt;이 초구의 부피는 그림 2-1과 같이 데이터를 둘러싸서 정상 데이터의 범위를 나타내는 역할을 함.&lt;/li&gt;
+  &lt;li&gt;초구의 부피를 최소화 하도록 훈련된 이 신경망은 데이터 포인트들을 초구의 중앙에 가깝게 매핑시켜 정상 데이터 내 공통 요인을 추출.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-1.JPG&quot; alt=&quot;그림 2-1. Deep SVDD&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;그림 2-1. Deep SVDD &lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;ii-deep-svdd&quot;&gt;II Deep SVDD&lt;/h2&gt;
+
+&lt;h3 id=&quot;ii1-the-deep-svdd-objective&quot;&gt;II.1 The Deep SVDD Objective&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Deep SVDD로 데이터를 둘러싼 가장 작은 사이즈를 갖는 초구를 찾기 위해 초구가 최소 부피를 갖도록 목적 함수를 빌드 하는 법에 대해 다룸.&lt;/li&gt;
+  &lt;li&gt;수식
+    &lt;ul&gt;
+      &lt;li&gt;Input 공간: $\chi \subseteq \mathbb{R}^{d}$ &lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;Output 공간: $\xi \subseteq \mathbb{R}^{p}$ &lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;신경망: $\phi (\cdot ;\omega ) : \chi \rightarrow \xi$ &lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;Weight 셋: $\omega = \{ \mathbf{W}^{1},…, \mathbf{W}^{L} \} $ &lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;$\mathbf{W}^{l}$: 레이어 $l\in \{ 1,…,L \}$ 의 Weights&lt;br /&gt;&lt;/li&gt;
+      &lt;li&gt;$\phi (x ;\omega )\in \xi$: 파라미터 $\omega$ 를 갖는 신경망으로써 $\mathbf{x}\in \chi$ 의 feature를 표현&lt;br /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Deep SVDD의 목적: 반지름 $R&amp;gt;0$ 을 갖고, 중앙 $c\in \xi$ 에 위치하며, 출력 공간 $\xi$ 에서 정상데이터를 잘 감싼, 초구가 최소의 부피를 갖도록 하는 매핑함수를 만들기 위해 최적의 파라미터 $\omega$ 을 학습하는것!&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;$\chi$ 에서 훈련데이터 $D_{n}=\{ x_{1}, …, x_{n} \}$ 이 주어질 때, Soft-boundary Deep SVDD 목적함수는 그림 2-2와 같음.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-2.JPG&quot; alt=&quot;그림 2-2. Soft-boundary Deep SVDD 목적함수&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;그림 2-2. Soft-boundary Deep SVDD 목적함수 &lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;초구의 부피를 줄이려면, 위 식에서 $R^{2}$을 최소화 해야함.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;그림 2-2에서 두번째 텀은 구 바깥에 놓인 점들에 대한 패널티 텀.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;하이퍼파라미터 $v \in (0,1]$ 는 구의 부피(정상 범위)와 경계선 위반(이상치 범위) 사이의 트레이드오프를 조정.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;마지막 텀은 신경망 파라미터 $\omega$ 에 대한 Weight 감쇠 규제이며, $ \lambda &amp;gt; 0  $ 이다. $ \| \cdot \|_F $ 는 프로베니우스 놈.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;대부분의 훈련데이터가 정상이라 가정하면, 간단한 형태의 추가 목적함수(그림 2-3)를 활용할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-3.JPG&quot; alt=&quot;그림 2-3. One-Class Deep SVDD 목적함수&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;그림 2-3. One-Class Deep SVDD 목적함수 &lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Soft-boundary Deep SVDD 목적함수와 One-Class Deep SVDD 목적함수 차이
+    &lt;ul&gt;
+      &lt;li&gt;Soft-boundary Deep SVDD 목적함수는 초구 외부에 있는 데이터와 초구의 반지름에 패널티를 주어 초구를 축소시킴.&lt;/li&gt;
+      &lt;li&gt;One-Class Deep SVDD 목적함수는 모든 데이터와 초구 중앙의 평균 거리를 최소화 하여 초구를 축소시킴. 즉, 데이터들을 초구의 중앙 $\mathbf{c}$ 에 가깝게 매핑시키기 위해 신경망이 정상데이터의 공통 요소를 추출하도록 훈련되어야함.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;테스트 포인트 $\mathbf{x}\in \chi $ 에 대해 Anomaly score $s$ 를 다음과 같이 정의함.&lt;br /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;$s(\mathbf{x})=\| \phi (\mathbf{x};\omega ^{*})-\mathbf{c} \|^{2}$ &lt;br /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;$ \omega ^{*} $ 는 훈련된 모델의 신경망 파라미터.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Soft-boundary Deep SVDD의 경우, 훈련 모델의 최종 반지름 $ R^{*} $ 을 빼서 socre를 조정함. 초구 안에 포인트가 위치하면 Negative score, 바깥에 위치하면 Positive score.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Deep SVDD는 낮은 메모리 복잡도를 갖고, 이미 학습된 파라미터를 갖고 있으므로 빠른 테스팅이 가능.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ii2-optimization-of-deep-svdd&quot;&gt;II.2 Optimization of Deep SVDD&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;오차역전법을 활용하여 파라미터 $\omega$ 최적화하기 위해 확률적 경사 하강법(SGD) 사용함&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;여러개의 GPU 사용하여 각 배치 단위의 데이터들을 병렬로 처리할 수 있음&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;신경망 파라미터 $\omega$ 와 $R$ 은 스케일이 서로 다름&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;따라서, $R$ 은 고정시킨채 $\omega$ 에 대해서만 $k\in \mathbb{N}$ 에포크로 훈련시키고, $k$ 에포크 이후에는 업데이트 된 $\omega$ 을 갖는 신경망으로부터 반지름 $R$ 을 구함(Alternating minimization/block coordinate descent approach).&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="paper" /><category term="paper" /><summary type="html">I. Motivation</summary></entry><entry><title type="html">[Python] 17. 상속</title><link href="http://localhost:4000/pythonmd/pythonmd17/" rel="alternate" type="text/html" title="[Python] 17. 상속" /><published>2022-01-17T00:00:00+09:00</published><updated>2022-01-17T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd17</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd17/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;17-1-부모-클래스와-자식-클래스&quot;&gt;17-1. 부모 클래스와 자식 클래스&lt;/h2&gt;
@@ -963,77 +1131,7 @@
        cargo: 50
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;위 상황은 자식클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 메소드 내 부모클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 메소드가 호출되어야 하는 상황이다. 그래야 객체 생성 시 필요로 하는 모든 변수를 초기화 할 수 있다. 이 때 자식클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 는 부모의 변수를 초기화 할 값도 함께 전달받아야 한다!&lt;/p&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="inheritance" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[논문] 2. Deep One-Class Classification (Deep SVDD)</title><link href="http://localhost:4000/paper/paper2/" rel="alternate" type="text/html" title="[논문] 2. Deep One-Class Classification (Deep SVDD)" /><published>2022-01-17T00:00:00+09:00</published><updated>2022-01-17T00:00:00+09:00</updated><id>http://localhost:4000/paper/paper2</id><content type="html" xml:base="http://localhost:4000/paper/paper2/">&lt;h2 id=&quot;i-motivation&quot;&gt;I. Motivation&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;해당 논문에서는 Deep Support Vector Data Description(Deep SVDD)를 소개한다. Deep SVDD는 초구(Hypersphere)의 부피를 최소화하는 신경망을 훈련함.&lt;/li&gt;
-  &lt;li&gt;이 초구의 부피는 그림 2-1과 같이 데이터를 둘러싸서 정상 데이터의 범위를 나타내는 역할을 함.&lt;/li&gt;
-  &lt;li&gt;초구의 부피를 최소화 하도록 훈련된 이 신경망은 데이터 포인트들을 초구의 중앙에 가깝게 매핑시켜 정상 데이터 내 공통 요인을 추출.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-1.JPG&quot; alt=&quot;그림 2-1. Deep SVDD&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;그림 2-1. Deep SVDD &lt;br /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;ii-deep-svdd&quot;&gt;II Deep SVDD&lt;/h2&gt;
-
-&lt;h3 id=&quot;ii1-the-deep-svdd-objective&quot;&gt;II.1 The Deep SVDD Objective&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Deep SVDD로 데이터를 둘러싼 가장 작은 사이즈를 갖는 초구를 찾기 위해 초구가 최소 부피를 갖도록 목적 함수를 빌드 하는 법에 대해 다룸.&lt;/li&gt;
-  &lt;li&gt;수식
-    &lt;ul&gt;
-      &lt;li&gt;Input 공간: $\chi \subseteq \mathbb{R}^{d}$ &lt;br /&gt;&lt;/li&gt;
-      &lt;li&gt;Output 공간: $\xi \subseteq \mathbb{R}^{p}$ &lt;br /&gt;&lt;/li&gt;
-      &lt;li&gt;신경망: $\phi (\cdot ;\omega ) : \chi \rightarrow \xi$ &lt;br /&gt;&lt;/li&gt;
-      &lt;li&gt;Weight 셋: $\omega = \{ \mathbf{W}^{1},…, \mathbf{W}^{L} \} $ &lt;br /&gt;&lt;/li&gt;
-      &lt;li&gt;$\mathbf{W}^{l}$: 레이어 $l\in \{ 1,…,L \}$ 의 Weights&lt;br /&gt;&lt;/li&gt;
-      &lt;li&gt;$\phi (x ;\omega )\in \xi$: 파라미터 $\omega$ 를 갖는 신경망으로써 $\mathbf{x}\in \chi$ 의 feature를 표현&lt;br /&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Deep SVDD의 목적: 반지름 $R&amp;gt;0$ 을 갖고, 중앙 $c\in \xi$ 에 위치하며, 출력 공간 $\xi$ 에서 정상데이터를 잘 감싼, 초구가 최소의 부피를 갖도록 하는 매핑함수를 만들기 위해 최적의 파라미터 $\omega$ 을 학습하는것!&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;$\chi$ 에서 훈련데이터 $D_{n}=\{ x_{1}, …, x_{n} \}$ 이 주어질 때, Soft-boundary Deep SVDD 목적함수는 그림 2-2와 같음.&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-2.JPG&quot; alt=&quot;그림 2-2. Soft-boundary Deep SVDD 목적함수&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;그림 2-2. Soft-boundary Deep SVDD 목적함수 &lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;초구의 부피를 줄이려면, 위 식에서 $R^{2}$을 최소화 해야함.&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;그림 2-2에서 두번째 텀은 구 바깥에 놓인 점들에 대한 패널티 텀.&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;하이퍼파라미터 $v \in (0,1]$ 는 구의 부피(정상 범위)와 경계선 위반(이상치 범위) 사이의 트레이드오프를 조정.&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;마지막 텀은 신경망 파라미터 $\omega$ 에 대한 Weight 감쇠 규제이며, $ \lambda &amp;gt; 0  $ 이다. $ \| \cdot \|_F $ 는 프로베니우스 놈.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;대부분의 훈련데이터가 정상이라 가정하면, 간단한 형태의 추가 목적함수(그림 2-3)를 활용할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p class=&quot;align-center&quot;&gt;&lt;img src=&quot;/assets/images/paper/2-3.JPG&quot; alt=&quot;그림 2-3. One-Class Deep SVDD 목적함수&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;그림 2-3. One-Class Deep SVDD 목적함수 &lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Soft-boundary Deep SVDD 목적함수와 One-Class Deep SVDD 목적함수 차이
-    &lt;ul&gt;
-      &lt;li&gt;Soft-boundary Deep SVDD 목적함수는 초구 외부에 있는 데이터와 초구의 반지름에 패널티를 주어 초구를 축소시킴.&lt;/li&gt;
-      &lt;li&gt;One-Class Deep SVDD 목적함수는 모든 데이터와 초구 중앙의 평균 거리를 최소화 하여 초구를 축소시킴. 즉, 데이터들을 초구의 중앙 $\mathbf{c}$ 에 가깝게 매핑시키기 위해 신경망이 정상데이터의 공통 요소를 추출하도록 훈련되어야함.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;테스트 포인트 $\mathbf{x}\in \chi $ 에 대해 Anomaly score $s$ 를 다음과 같이 정의함.&lt;br /&gt;
-    &lt;ul&gt;
-      &lt;li&gt;$s(\mathbf{x})=\| \phi (\mathbf{x};\omega ^{*})-\mathbf{c} \|^{2}$ &lt;br /&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;$ \omega ^{*} $ 는 훈련된 모델의 신경망 파라미터.&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;Soft-boundary Deep SVDD의 경우, 훈련 모델의 최종 반지름 $ R^{*} $ 을 빼서 socre를 조정함. 초구 안에 포인트가 위치하면 Negative score, 바깥에 위치하면 Positive score.&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;Deep SVDD는 낮은 메모리 복잡도를 갖고, 이미 학습된 파라미터를 갖고 있으므로 빠른 테스팅이 가능.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;ii2-optimization-of-deep-svdd&quot;&gt;II.2 Optimization of Deep SVDD&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;오차역전법을 활용하여 파라미터 $\omega$ 최적화하기 위해 확률적 경사 하강법(SGD) 사용함&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;여러개의 GPU 사용하여 각 배치 단위의 데이터들을 병렬로 처리할 수 있음&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;신경망 파라미터 $\omega$ 와 $R$ 은 스케일이 서로 다름&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;따라서, $R$ 은 고정시킨채 $\omega$ 에 대해서만 $k\in \mathbb{N}$ 에포크로 훈련시키고, $k$ 에포크 이후에는 업데이트 된 $\omega$ 을 갖는 신경망으로부터 반지름 $R$ 을 구함(Alternating minimization/block coordinate descent approach).&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="paper" /><category term="paper" /><summary type="html">I. Motivation</summary></entry><entry><title type="html">[Python] 16. 클래스와 객체의 본질</title><link href="http://localhost:4000/pythonmd/pythonmd16/" rel="alternate" type="text/html" title="[Python] 16. 클래스와 객체의 본질" /><published>2022-01-16T00:00:00+09:00</published><updated>2022-01-16T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd16</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd16/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+&lt;p&gt;위 상황은 자식클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 메소드 내 부모클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 메소드가 호출되어야 하는 상황이다. 그래야 객체 생성 시 필요로 하는 모든 변수를 초기화 할 수 있다. 이 때 자식클래스의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__init__&lt;/code&gt; 는 부모의 변수를 초기화 할 값도 함께 전달받아야 한다!&lt;/p&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="inheritance" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 16. 클래스와 객체의 본질</title><link href="http://localhost:4000/pythonmd/pythonmd16/" rel="alternate" type="text/html" title="[Python] 16. 클래스와 객체의 본질" /><published>2022-01-16T00:00:00+09:00</published><updated>2022-01-16T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd16</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd16/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;16-1-객체-안에-변수가-만들어지는-시점&quot;&gt;16-1. 객체 안에 변수가 만들어지는 시점&lt;/h2&gt;
@@ -1146,116 +1244,4 @@
 &lt;span class=&quot;n&quot;&gt;what2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;what&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;w1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;what&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;w2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;what2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# what은 객체이기 때문에 what2 라는 변수에 담아 객체를 생성할 수 있다!
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="class" /><category term="object" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry><entry><title type="html">[Python] 15. 표현식 / 메소드 기반 문자열 조합</title><link href="http://localhost:4000/pythonmd/pythonmd15/" rel="alternate" type="text/html" title="[Python] 15. 표현식 / 메소드 기반 문자열 조합" /><published>2022-01-15T00:00:00+09:00</published><updated>2022-01-15T00:00:00+09:00</updated><id>http://localhost:4000/pythonmd/pythonmd15</id><content type="html" xml:base="http://localhost:4000/pythonmd/pythonmd15/">&lt;p&gt;본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;15-1-문자열-조합&quot;&gt;15-1. 문자열 조합&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;My friend&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;is&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;years old&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;My friend &apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos; is &apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos; years old&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h2 id=&quot;15-2-표현식-기반-문자열-조합&quot;&gt;15-2. 표현식 기반 문자열 조합&lt;/h2&gt;
-
-&lt;p&gt;String formating expressions: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;__%s_%s__ % (value, value)&lt;/code&gt; 스타일 문자열 조합&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;My name is %s&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;My friend %s is %d years old and %fcm talls&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;%s 는 문자열 %d는 정수, %f는 실수를 표현하는데 사용한다.&lt;br /&gt;
-%s, %f와 같은 것을 서식 지시자, 타입 지시자 라고 부른다.&lt;br /&gt;
-만약 타입 지시자를 불일치한 자료형과 사용하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TypeError&lt;/code&gt;가 발생하게 된다. 물론 예외는 있다&lt;/p&gt;
-
-&lt;p&gt;정수를 %f 위치에 가져다 놓으면 정수가 실수로 자동 변환됨. &lt;br /&gt;
-실수를 %d 위치에 가져다 놓으면 실수가 정수로 자동 변환(소수점 버림 연산)됨.&lt;/p&gt;
-
-&lt;h2 id=&quot;15-3-딕셔너리로-출력-대상-지정&quot;&gt;15-3. 딕셔너리로 출력 대상 지정&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;이름은 %(name)s 이고 나이는 %(age)d 이다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;name&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;age&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;15-4-세밀한-문자열-조합-지정&quot;&gt;15-4. 세밀한 문자열 조합 지정&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$[flags][width][.precision]f&lt;/code&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[flag]&lt;/code&gt;: - 또는 0 또는 +를 넣어서 특별한 신호 줌
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;+&lt;/code&gt; : 부호 정보도 함께 출력 (0보다 크면 +, 0보다 작으면 -)&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt; : 빈 공간을 0으로 채움&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-&lt;/code&gt; : 공간이 남을 때 왼쪽으로 붙여서 출력&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[width]&lt;/code&gt;: 폭, 어느 정도 넓이 확보하고 출력할지 결정&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[.precision]&lt;/code&gt;: 정밀도, 소수 이하 몇째 자리까지 출력할지 결정&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 %12.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 %012.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 %+12.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 %-12.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 %-+12.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 %(속성)s는 %(키)-+12.3f 입니다&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;속성&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;키&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;키&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 딕셔너리도 적용 가능
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 내 키는      182.100 입니다
-       내 키는 00000182.100 입니다
-       내 키는     +182.100 입니다
-       내 키는 182.100      입니다
-       내 키는 +182.100     입니다
-       내 키는 +182.100     입니다
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;15-5-메소드-기반-문자열-조합&quot;&gt;15-5. 메소드 기반 문자열 조합&lt;/h2&gt;
-
-&lt;p&gt;String formating method calls: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&apos;__{}_{}__&apos;.format(value, value)&lt;/code&gt; 스타일 문자열 조합&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;intro1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;{}...{}&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;intro2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;{1}...{0}&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;intro3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;{age}...{name}&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;intro1&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;intro2&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;intro3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) &apos;Wonny...33&apos;
-       &apos;33...Wonny&apos;
-       &apos;33...Wonny&apos;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;15-6-인덱싱-연산-추가&quot;&gt;15-6. 인덱싱 연산 추가&lt;/h2&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;intro1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;Wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;182&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;intro2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;name&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;wonny&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&apos;age&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;s&quot;&gt;&apos;{0}...{1}...{1[0]}...{1[1]}&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intro1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;&apos;name = {0[name]}, age = {0[age]}&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intro2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) &apos;Wonny...(33, 182)...33...182&apos;
-       &apos;name = wonny, age = 33&apos;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;15-7-보다-세밀한-문자열-구성-지정&quot;&gt;15-7. 보다 세밀한 문자열 구성 지정&lt;/h2&gt;
-
-&lt;p&gt;위에서 배운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$[flags][width][.precision]f&lt;/code&gt; 지정 할 수 있다!&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;내 키는 {0:d} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;182&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 182에 소수 넣으면 ValueError 발생!
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:012.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:+12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:&amp;lt;12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 왼쪽으로 붙임
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:&amp;gt;12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 오른쪽으로 붙임
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:*^12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 가운데 정렬 후 빈공간 *로 채움
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;정확한 내 키는 {0:+&amp;lt;12.3f} 입니다&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;182.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# 왼쪽 정렬 후 빈공간 +로 채움
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(결과) 내 키는 182 입니다
-       정확한 내 키는      182.100 입니다
-       정확한 내 키는 00000182.100 입니다
-       정확한 내 키는     +182.100 입니다
-       정확한 내 키는 182.100      입니다
-       정확한 내 키는      182.100 입니다
-       정확한 내 키는 **182.100*** 입니다
-       정확한 내 키는 182.100+++++ 입니다
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="string formatting expressions" /><category term="string formatting method calls" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>K.W. Yang</name><email>p2881p@naver.com</email></author><category term="pythonmd" /><category term="python" /><category term="class" /><category term="object" /><summary type="html">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</summary></entry></feed>
