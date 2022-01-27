@@ -1,0 +1,1046 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Python] 25. 클래스 메소드와 static 메소드 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Python] 25. 클래스 메소드와 static 메소드">
+<meta property="og:url" content="http://localhost:4000/pythonmd/pythonmd25/">
+
+
+  <meta property="og:description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-26T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/pythonmd/pythonmd25/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/machinelearning/">머신러닝(사이킷런) ()</a></li>
+          
+          
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (1)</a></li>
+          
+          
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (26)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Python] 25. 클래스 메소드와 static 메소드">
+    <meta itemprop="description" content="본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-01-26T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/pythonmd/pythonmd25/" class="u-url" itemprop="url">[Python] 25. 클래스 메소드와 static 메소드
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-26T00:00:00+09:00">January 26, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#25-1-클래스-변수에-대한-이해">25-1. 클래스 변수에 대한 이해</a></li><li><a href="#25-2-static-메소드">25-2. static 메소드</a></li><li><a href="#25-3-class-메소드">25-3. class 메소드</a></li><li><a href="#25-4-static-메소드보다-class-메소드가-더-어울리는-경우">25-4. static 메소드보다 class 메소드가 더 어울리는 경우</a></li><li><a href="#25-5-static-메소드보다-class-메소드가-완전-더-어울리는-경우">25-5. static 메소드보다 class 메소드가 완전 더 어울리는 경우</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="25-1-클래스-변수에-대한-이해">25-1. 클래스 변수에 대한 이해</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">iv</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># iv는 인스턴스 변수(첫 대입 연산에서 생성되는 변수로써 객체별로 존재) 
+</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">iv</span>  <span class="c1"># 인스턴스 변수는 개게 통해 접근!
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 10
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">cv</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 클래스 변수! 클래스 Simple에 속하는 변수임
+</span>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">iv</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">Simple</span><span class="p">.</span><span class="n">cv</span>   <span class="c1"># 클래스 변수는 클래스 이름으로 접근 가능!
+</span><span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">cv</span>  <span class="c1"># 클래스 변수는 객체를 통해서도 접근 가능!
+</span><span class="n">s</span><span class="p">.</span><span class="n">iv</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 20
+       20
+       10
+</code></pre></div></div>
+
+<p>클래스 변수는 인스턴스 변수랑 헷갈려보일 수 있음! 따라서 클래스 이름을 통해 접근하는 것을 권함</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>   <span class="c1"># 클래스 내에서 클래스 변수에 접근하는 방법
+</span>  <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Simple</span><span class="p">.</span><span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">s1</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s2</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span> 
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s3</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<p>(결과) 1
+          2
+          3</p>
+
+<h2 id="25-2-static-메소드">25-2. static 메소드</h2>
+<p>바로 위 예제에서 get_count 메소드를 호출하려면 객체가 있어야 한다.<br />
+static 메소드는 클래스에 속하는 메소드로, 객체 생성 없이 호출이 가능하다는 장점이 있다. 클래스 변수와 상당히 유사하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">sm</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'static method'</span><span class="p">)</span>
+  <span class="n">sm</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>  <span class="c1"># sm 메소드를 static 메소드로 만드는 방법!
+</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">sm</span><span class="p">()</span>  <span class="c1"># static 메소드는 클래스 이름 통해 호출 가능하다!
+</span>  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">sm</span><span class="p">()</span>       <span class="c1"># static 메소드는 객체를 통해서도 호출 가능하다!
+</span>
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) static method
+       static method
+</code></pre></div></div>
+
+<p>static 메소드와 인스턴스 메소드 차이는 첫번째 인자로 <code class="language-plaintext highlighter-rouge">self</code>를 전달 받지 못하냐, 받을 수 있냐에 있다.<br />
+클래스에 속한 메소드이니 당연히 <code class="language-plaintext highlighter-rouge">self</code>를 인자로 전달 받지 못한다.</p>
+
+<p>위 예제의 코드를 보면 뭔가 떠오르는게 있지 않는가? <code class="language-plaintext highlighter-rouge">sm = staticmethod(sm)</code><br />
+바로 전에 데코레이터에서 봤다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+  
+  <span class="o">@</span><span class="nb">staticmethod</span>
+  <span class="k">def</span> <span class="nf">get_count</span><span class="p">():</span>  <span class="c1"># 매개변수 self가 없는 static 메소드 선언!
+</span>    <span class="k">return</span> <span class="n">Simple</span><span class="p">.</span><span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0
+       1
+</code></pre></div></div>
+
+<h2 id="25-3-class-메소드">25-3. class 메소드</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">num</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="o">@</span><span class="nb">staticmethod</span>  <span class="c1"># static 메소드 만들기 위한 데코레이터
+</span>  <span class="k">def</span> <span class="nf">sm</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'st~ 5 + {0} = {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Simple</span><span class="p">.</span><span class="n">num</span><span class="o">+</span><span class="n">i</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>  <span class="c1"># class 메소드 만들기 위한 데코레이터
+</span>  <span class="k">def</span> <span class="nf">cm</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>  <span class="c1"># cls만 빼면 static 메소드와 동일!
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">'cl~ 5 + {0} = {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Simple</span><span class="p">.</span><span class="n">num</span><span class="o">+</span><span class="n">i</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">sm</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">cm</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">sm</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">cm</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) st~ 5 + 3 = 8
+       cl~ 5 + 3 = 8
+       st~ 5 + 4 = 9
+       cl~ 5 + 4 = 9
+</code></pre></div></div>
+
+<p>class 메소드는 cls인자를 갖는다는 것만 빼면 static 메소드와 동일하다.
+그럼 cls 인자는 무엇을 의미할까?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">.</span><span class="n">count</span>  
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>  <span class="c1"># get_count의 cls에 전달되는 것은 Simple 클래스!
+</span>  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0
+       1
+</code></pre></div></div>
+
+<p>보다시피 cls에 전달되는 것은 Simple 클래스이다!
+즉, <code class="language-plaintext highlighter-rouge">return cls.count</code>가 <code class="language-plaintext highlighter-rouge">return Simple.count</code>가 되는 것이다!</p>
+
+<p>다음처럼 클래스 메소드를 이용하여 객체를 생성할 수도 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">n</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">getn</span><span class="p">()</span> <span class="o">+</span> <span class="n">n2</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'{0} + {1} = {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">getn</span><span class="p">(),</span> <span class="n">n2</span><span class="p">.</span><span class="n">getn</span><span class="p">(),</span> <span class="n">n3</span><span class="p">.</span><span class="n">getn</span><span class="p">()))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 + 2 = 3
+</code></pre></div></div>
+
+<h2 id="25-4-static-메소드보다-class-메소드가-더-어울리는-경우">25-4. static 메소드보다 class 메소드가 더 어울리는 경우</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Date</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+  
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'{0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">next_day</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">today</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">today</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">d1</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="n">d1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">d2</span> <span class="o">=</span> <span class="n">Date</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+  <span class="n">d2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2025, 4, 5
+       2025, 4, 6
+</code></pre></div></div>
+
+<p>위 예제에서 <code class="language-plaintext highlighter-rouge">next_day</code> 메소드는 새로운 객체 생성 및 반환하는 역할을 한다. 이러한 메소드를 ‘팩토리 메소드’라 한다. 클래스 메소드는 클래스 정보가 전달이 되기 때문에, 팩토리 메소드를 만드는데 매우 적합하다!</p>
+
+<h2 id="25-5-static-메소드보다-class-메소드가-완전-더-어울리는-경우">25-5. static 메소드보다 class 메소드가 완전 더 어울리는 경우</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Date</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'{0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">next_day</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">today</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">today</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># static 메소드로 구현하려 했다면, 조건문으로 두 개 만들어야...
+</span>
+<span class="k">class</span> <span class="nc">KDate</span><span class="p">(</span><span class="n">Date</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'KOR: {0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">JDate</span><span class="p">(</span><span class="n">Date</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'JPN: {0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">kd1</span> <span class="o">=</span> <span class="n">KDate</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+  <span class="n">kd1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">kd2</span> <span class="o">=</span> <span class="n">KDate</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">kd1</span><span class="p">)</span> <span class="c1"># KDate가 cls로 넘어감
+</span>  <span class="n">kd2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">jd1</span> <span class="o">=</span> <span class="n">JDate</span><span class="p">(</span><span class="mi">2027</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">19</span><span class="p">)</span>
+  <span class="n">jd1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">jd2</span> <span class="o">=</span> <span class="n">JDate</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">jd1</span><span class="p">)</span> <span class="c1"># JDate가 cls로 넘어감
+</span>  <span class="n">jd2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) KOR: 2025, 4, 12
+       KOR: 2025, 4, 13
+       JPN: 2027, 5, 19
+       JPN: 2027, 5, 20
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#class-method" class="page__taxonomy-item p-category" rel="tag">class method</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
+    
+      <a href="/tags/#static-method" class="page__taxonomy-item p-category" rel="tag">static method</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#pythonmd" class="page__taxonomy-item p-category" rel="tag">pythonmd</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-26T00:00:00+09:00">January 26, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/pythonmd/pythonmd24/" class="pagination--pager" title="[Python] 24. 데코레이터
+">Previous</a>
+    
+    
+      <a href="/pythonmd/pythonmd26/" class="pagination--pager" title="[Python] 26. name &amp; main
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd26/" rel="permalink">[Python] 26. <strong>name</strong> &amp; <strong>main</strong>
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-27T00:00:00+09:00">January 27, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd24/" rel="permalink">[Python] 24. 데코레이터
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt1/" rel="permalink">[Deeplearning(pytorch)] 1. 텐서와 Autograd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/pythonmd/pythonmd23/" rel="permalink">[Python] 23. 네스티드 함수와 클로저
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-24T00:00:00+09:00">January 24, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

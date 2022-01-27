@@ -1,0 +1,837 @@
+I"m}
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd26/">[Python] 25. 클래스 메소드와 static 메소드</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.27
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#class-method" class="page__taxonomy-item-tag" rel="tag">class method</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#static-method" class="page__taxonomy-item-tag" rel="tag">static method</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd25/">[Python] 25. 클래스 메소드와 static 메소드</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.26
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#class-method" class="page__taxonomy-item-tag" rel="tag">class method</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#static-method" class="page__taxonomy-item-tag" rel="tag">static method</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd24/">[Python] 24. 데코레이터</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.25
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#decorator" class="page__taxonomy-item-tag" rel="tag">decorator</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd23/">[Python] 23. 네스티드 함수와 클로저</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.24
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#closure" class="page__taxonomy-item-tag" rel="tag">closure</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#nested" class="page__taxonomy-item-tag" rel="tag">nested</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd22/">[Python] 22. 프로퍼티</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.23
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#getter" class="page__taxonomy-item-tag" rel="tag">getter</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#property" class="page__taxonomy-item-tag" rel="tag">property</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#setter" class="page__taxonomy-item-tag" rel="tag">setter</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd21/">[Python] 21. 정보은닉과 __dict__, __slots__의 효과</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.21
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#dict" class="page__taxonomy-item-tag" rel="tag">__dict__</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#slots" class="page__taxonomy-item-tag" rel="tag">__slots__</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/" class="page__taxonomy-item-tag" rel="tag">__</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd20/">[Python] 20. 연산자 오버로딩</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.20
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#operator-overloading" class="page__taxonomy-item-tag" rel="tag">operator overloading</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd19/">[Python] 19. 스페셜 메소드</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.19
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#iterable" class="page__taxonomy-item-tag" rel="tag">iterable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#iterator" class="page__taxonomy-item-tag" rel="tag">iterator</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#special-method" class="page__taxonomy-item-tag" rel="tag">special method</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd18/">[Python] 18. isinstance 함수와 object 클래스</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.18
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#instance" class="page__taxonomy-item-tag" rel="tag">instance</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#object-class" class="page__taxonomy-item-tag" rel="tag">object class</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd17/">[Python] 17. 상속</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.17
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#inheritance" class="page__taxonomy-item-tag" rel="tag">inheritance</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd16/">[Python] 16. 클래스와 객체의 본질</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.16
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#class" class="page__taxonomy-item-tag" rel="tag">class</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#object" class="page__taxonomy-item-tag" rel="tag">object</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd15/">[Python] 15. 표현식 / 메소드 기반 문자열 조합</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.15
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#string-formatting-expressions" class="page__taxonomy-item-tag" rel="tag">string formatting expressions</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#string-formatting-method-calls" class="page__taxonomy-item-tag" rel="tag">string formatting method calls</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd14/">[Python] 14. 정렬 기술, enumerate와 문자열 비교</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.14
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#enumerate" class="page__taxonomy-item-tag" rel="tag">enumerate</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#sorted" class="page__taxonomy-item-tag" rel="tag">sorted</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#sort" class="page__taxonomy-item-tag" rel="tag">sort</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd13/">[Python] 13. 지료형 분류와 set &amp; frozenset</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.14
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#frozenset" class="page__taxonomy-item-tag" rel="tag">frozenset</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#set" class="page__taxonomy-item-tag" rel="tag">set</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd12/">[Python] 12. dict &amp; defaultdict &amp; OrderedDict</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.12
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#defaultdict" class="page__taxonomy-item-tag" rel="tag">defaultdict</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#ordereddict" class="page__taxonomy-item-tag" rel="tag">OrderedDict</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd11/">[Python] 11. 함수 호출과 매개변수 선언시 *와 **의 사용 규칙</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.11
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#dict" class="page__taxonomy-item-tag" rel="tag">dict</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#view" class="page__taxonomy-item-tag" rel="tag">view</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd10/">[Python] 10. dict의 생성과 zip / dict의 루핑 기술과 컴프리헨션</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.10
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#dict" class="page__taxonomy-item-tag" rel="tag">dict</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#view" class="page__taxonomy-item-tag" rel="tag">view</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd9/">[Python] 9. 튜플 패킹 &amp; 언패킹, 네임드 튜플</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.09
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#packing" class="page__taxonomy-item-tag" rel="tag">packing</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#tuple" class="page__taxonomy-item-tag" rel="tag">tuple</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#unpacking" class="page__taxonomy-item-tag" rel="tag">unpacking</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd8/">[Python] 8. 제너레이터 함수</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.07
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#generator" class="page__taxonomy-item-tag" rel="tag">Generator</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd7/">[Python] 7. Map &amp; Filter</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.06
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#filter" class="page__taxonomy-item-tag" rel="tag">Filter</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#map" class="page__taxonomy-item-tag" rel="tag">Map</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd6/">[Python] 6. 객체처럼 다뤄지는 함수 그리고 람다</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.05
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#function" class="page__taxonomy-item-tag" rel="tag">Function</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#lambda" class="page__taxonomy-item-tag" rel="tag">Lambda</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#object" class="page__taxonomy-item-tag" rel="tag">Object</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd5/">[Python] 5. Iterable 객체와 Iterator 객체</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.03
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#iterator-object" class="page__taxonomy-item-tag" rel="tag">Iterator object</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#list-iterable-object" class="page__taxonomy-item-tag" rel="tag">list Iterable object</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd4/">[Python] 4. 리스트 컴프리헨션</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.02
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#list-comprehension" class="page__taxonomy-item-tag" rel="tag">list comprehension</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd3/">[Python] 3. 깊은 복사와 얕은 복사</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.02
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#deep-copy" class="page__taxonomy-item-tag" rel="tag">deep copy</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#shallow-copy" class="page__taxonomy-item-tag" rel="tag">shallow copy</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd2/">[Python] 2. 수정 가능한 객체와 수정 불가능한 객체</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#immutable" class="page__taxonomy-item-tag" rel="tag">immutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#mutable" class="page__taxonomy-item-tag" rel="tag">mutable</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pythonmd/pythonmd1/">[Python] 1. 레퍼런스 카운트와 가비지 컬렉션</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.12.31
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pythonmd" class="page__taxonomy-item-category" rel="tag">pythonmd</a>
+                    
+                    
+                    <a href="/tags/#garbage-collection" class="page__taxonomy-item-tag" rel="tag">garbage collection</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#python" class="page__taxonomy-item-tag" rel="tag">python</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#reference-count" class="page__taxonomy-item-tag" rel="tag">reference count</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

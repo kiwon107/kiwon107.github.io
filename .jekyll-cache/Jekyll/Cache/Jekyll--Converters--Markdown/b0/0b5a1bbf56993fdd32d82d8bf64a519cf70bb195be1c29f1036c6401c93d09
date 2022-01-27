@@ -1,0 +1,243 @@
+I"�d<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="25-1-클래스-변수에-대한-이해">25-1. 클래스 변수에 대한 이해</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">iv</span> <span class="o">=</span> <span class="mi">10</span>   <span class="c1"># iv는 인스턴스 변수(첫 대입 연산에서 생성되는 변수로써 객체별로 존재) 
+</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">iv</span>  <span class="c1"># 인스턴스 변수는 개게 통해 접근!
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 10
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">cv</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># 클래스 변수! 클래스 Simple에 속하는 변수임
+</span>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">iv</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">Simple</span><span class="p">.</span><span class="n">cv</span>   <span class="c1"># 클래스 변수는 클래스 이름으로 접근 가능!
+</span><span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">cv</span>  <span class="c1"># 클래스 변수는 객체를 통해서도 접근 가능!
+</span><span class="n">s</span><span class="p">.</span><span class="n">iv</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 20
+       20
+       10
+</code></pre></div></div>
+
+<p>클래스 변수는 인스턴스 변수랑 헷갈려보일 수 있음! 따라서 클래스 이름을 통해 접근하는 것을 권함</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>   <span class="c1"># 클래스 내에서 클래스 변수에 접근하는 방법
+</span>  <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Simple</span><span class="p">.</span><span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">s1</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s2</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span> 
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s3</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<p>(결과) 1
+          2
+          3</p>
+
+<h2 id="25-2-static-메소드">25-2. static 메소드</h2>
+<p>바로 위 예제에서 get_count 메소드를 호출하려면 객체가 있어야 한다.<br />
+static 메소드는 클래스에 속하는 메소드로, 객체 생성 없이 호출이 가능하다는 장점이 있다. 클래스 변수와 상당히 유사하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">sm</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'static method'</span><span class="p">)</span>
+  <span class="n">sm</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>  <span class="c1"># sm 메소드를 static 메소드로 만드는 방법!
+</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">sm</span><span class="p">()</span>  <span class="c1"># static 메소드는 클래스 이름 통해 호출 가능하다!
+</span>  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">sm</span><span class="p">()</span>       <span class="c1"># static 메소드는 객체를 통해서도 호출 가능하다!
+</span>
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) static method
+       static method
+</code></pre></div></div>
+
+<p>static 메소드와 인스턴스 메소드 차이는 첫번째 인자로 <code class="language-plaintext highlighter-rouge">self</code>를 전달 받지 못하냐, 받을 수 있냐에 있다.<br />
+클래스에 속한 메소드이니 당연히 <code class="language-plaintext highlighter-rouge">self</code>를 인자로 전달 받지 못한다.</p>
+
+<p>위 예제의 코드를 보면 뭔가 떠오르는게 있지 않는가? <code class="language-plaintext highlighter-rouge">sm = staticmethod(sm)</code><br />
+바로 전에 데코레이터에서 봤다!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+  
+  <span class="o">@</span><span class="nb">staticmethod</span>
+  <span class="k">def</span> <span class="nf">get_count</span><span class="p">():</span>  <span class="c1"># 매개변수 self가 없는 static 메소드 선언!
+</span>    <span class="k">return</span> <span class="n">Simple</span><span class="p">.</span><span class="n">count</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0
+       1
+</code></pre></div></div>
+
+<h2 id="25-3-class-메소드">25-3. class 메소드</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">num</span> <span class="o">=</span> <span class="mi">5</span>
+
+  <span class="o">@</span><span class="nb">staticmethod</span>  <span class="c1"># static 메소드 만들기 위한 데코레이터
+</span>  <span class="k">def</span> <span class="nf">sm</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'st~ 5 + {0} = {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Simple</span><span class="p">.</span><span class="n">num</span><span class="o">+</span><span class="n">i</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>  <span class="c1"># class 메소드 만들기 위한 데코레이터
+</span>  <span class="k">def</span> <span class="nf">cm</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>  <span class="c1"># cls만 빼면 static 메소드와 동일!
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">'cl~ 5 + {0} = {1}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Simple</span><span class="p">.</span><span class="n">num</span><span class="o">+</span><span class="n">i</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">sm</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">Simple</span><span class="p">.</span><span class="n">cm</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">sm</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+  <span class="n">s</span><span class="p">.</span><span class="n">cm</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) st~ 5 + 3 = 8
+       cl~ 5 + 3 = 8
+       st~ 5 + 4 = 9
+       cl~ 5 + 4 = 9
+</code></pre></div></div>
+
+<p>class 메소드는 cls인자를 갖는다는 것만 빼몬 static 메소드와 동일하다.
+그럼 cls 인자는 무엇을 의미할까?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Simple</span><span class="p">:</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">Simple</span><span class="p">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">.</span><span class="n">count</span>  
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>  <span class="c1"># get_count의 cls에 전달되는 것은 Simple 클래스!
+</span>  <span class="n">s</span> <span class="o">=</span> <span class="n">Simple</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">Simple</span><span class="p">.</span><span class="n">get_count</span><span class="p">())</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0
+       1
+</code></pre></div></div>
+
+<p>보다시피 cls에 전달되는 것은 Simple 클래스이다!
+즉, <code class="language-plaintext highlighter-rouge">return cls.count</code>가 <code class="language-plaintext highlighter-rouge">return Simple.count</code>가 되는 것이다!</p>
+
+<p>다음처럼 클래스 메소드를 이용하여 객체를 생성할 수도 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Natural</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+  <span class="k">def</span> <span class="nf">getn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">n</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">getn</span><span class="p">()</span> <span class="o">+</span> <span class="n">n2</span><span class="p">.</span><span class="n">getn</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">n1</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">n2</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">n3</span> <span class="o">=</span> <span class="n">Natural</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'{0} + {1} = {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n1</span><span class="p">.</span><span class="n">getn</span><span class="p">(),</span> <span class="n">n2</span><span class="p">.</span><span class="n">getn</span><span class="p">(),</span> <span class="n">n3</span><span class="p">.</span><span class="n">getn</span><span class="p">()))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1 + 2 = 3
+</code></pre></div></div>
+
+<h2 id="25-4-static-메소드보다-class-메소드가-더-어울리는-경우">25-4. static 메소드보다 class 메소드가 더 어울리는 경우</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Date</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+  
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'{0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">next_day</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">today</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">today</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">d1</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="n">d1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">d2</span> <span class="o">=</span> <span class="n">Date</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+  <span class="n">d2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2025, 4, 5
+       2025, 4, 6
+</code></pre></div></div>
+
+<p>위 예제에서 <code class="language-plaintext highlighter-rouge">next_day</code> 메소드는 새로운 객체 생성 및 반환하는 역할을 한다. 이러한 메소드를 ‘팩토리 메소드’라 한다. 클래스 메소드는 클래스 정보가 전달이 되기 때문에, 팩토리 메소드를 만드는데 매우 적합하다!</p>
+
+<h2 id="25-5-static-메소드보다-class-메소드가-완전-더-어울리는-경우">25-5. static 메소드보다 class 메소드가 완전 더 어울리는 경우</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Date</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'{0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+  
+  <span class="o">@</span><span class="nb">classmethod</span>
+  <span class="k">def</span> <span class="nf">next_day</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">today</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">today</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="n">today</span><span class="p">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># static 메소드로 구현하려 했다면, 조건문으로 두 개 만들어야...
+</span>
+<span class="k">class</span> <span class="nc">KDate</span><span class="p">(</span><span class="n">Date</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'KOR: {0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">JDate</span><span class="p">(</span><span class="n">Date</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'JPN: {0}, {1}, {2}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">kd1</span> <span class="o">=</span> <span class="n">KDate</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+  <span class="n">kd1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">kd2</span> <span class="o">=</span> <span class="n">Date</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">kd1</span><span class="p">)</span>
+  <span class="n">kd2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">jd1</span> <span class="o">=</span> <span class="n">JDate</span><span class="p">(</span><span class="mi">2027</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">19</span><span class="p">)</span>
+  <span class="n">jd1</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+  <span class="n">jd2</span> <span class="o">=</span> <span class="n">Date</span><span class="p">.</span><span class="n">next_day</span><span class="p">(</span><span class="n">jd1</span><span class="p">)</span>
+  <span class="n">jd2</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) KOR: 2025, 4, 12
+       KOR: 2025, 4, 13
+       JPN: 2027, 5, 19
+       JPN: 2027, 5, 20
+</code></pre></div></div>
+:ET

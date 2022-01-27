@@ -155,9 +155,27 @@ var store = [{
         "url": "/pythonmd/pythonmd23/",
         "teaser": null
       },{
+        "title": "[Deeplearning(pytorch)] 1. 텐서와 Autograd",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 텐서의 차원 자유자재로 다루기 파이토치 임포트 import torch 텐서: 파이토치에서 다양한 수식 계산하는데 사용하는 가장 기본적인 자료구조로써 숫자들을 특정한 모양으로 배열한 것 텐서는 ‘차원’ 또는 ‘랭크’ 라는 개념 가짐 랭크0 텐서: 스칼라,...","categories": ["deeplearningpyt"],
+        "tags": ["deeplearning","pytorch","ANN"],
+        "url": "/deeplearningpyt/deeplearningpyt1/",
+        "teaser": null
+      },{
         "title": "[Python] 24. 데코레이터",
         "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 24-1. 데코레이터에 대한 이해 def smile(): print(\"^_^\") def confused(): print(\"@_@\") def deco(func): def df(): print('emotion!') func() print('emotion!') return df smile = deco(smile) smile() confused = deco(confused) confused() (결과) emotion! ^_^ emotion! emotion! @_@...","categories": ["pythonmd"],
         "tags": ["python","decorator"],
         "url": "/pythonmd/pythonmd24/",
+        "teaser": null
+      },{
+        "title": "[Python] 25. 클래스 메소드와 static 메소드",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 25-1. 클래스 변수에 대한 이해 class Simple: def __init__(self): self.iv = 10 # iv는 인스턴스 변수(첫 대입 연산에서 생성되는 변수로써 객체별로 존재) s = Simple() s.iv # 인스턴스 변수는 개게 통해 접근! (결과)...","categories": ["pythonmd"],
+        "tags": ["python","class method","static method"],
+        "url": "/pythonmd/pythonmd25/",
+        "teaser": null
+      },{
+        "title": "[Python] 26. __name__ & __main__",
+        "excerpt":"본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 26-1. name # who_are_you.py def main(): print('file name: who_are_you.py') print('__name__: {0}'.format(__name__)) main() (결과) file name: who_are_you.py __name__: __main__ import who_are_you # who_are_you.py의 main 함수 실행 print('play importer') print('__name__: {0}'.format(__name__)) (결과) file name: who_are_you.py...","categories": ["pythonmd"],
+        "tags": ["python","__name__"],
+        "url": "/pythonmd/pythonmd26/",
         "teaser": null
       }]

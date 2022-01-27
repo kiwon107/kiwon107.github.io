@@ -1,0 +1,66 @@
+I"�<p>본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="26-1-name">26-1. <strong>name</strong></h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># who_are_you.py
+</span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'file name: who_are_you.py'</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'__name__: {0}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">__name__</span><span class="p">))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) file name: who_are_you.py
+       __name__: __main__
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">who_are_you</span>  <span class="c1"># who_are_you.py의 main 함수 실행
+</span><span class="k">print</span><span class="p">(</span><span class="s">'play importer'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'__name__: {0}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">__name__</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) file name: who_are_you.py
+       __name__: who_are_you
+       file name: who_are_you.py
+       __name__: __main__
+</code></pre></div></div>
+
+<p>파이썬은 파일별로 각각 변수 <code class="language-plaintext highlighter-rouge">__name__</code>을 만든다!</p>
+
+<p>모든 스크립트 파일에는 자신만의 <code class="language-plaintext highlighter-rouge">__name__</code>라는 변수가 있다. 여기에 파일의 이름이 문자열의 형태로 담기게 된다. 실행의 시작이 되는 스크립트 파일의 <code class="language-plaintext highlighter-rouge">__name__</code>에는 <code class="language-plaintext highlighter-rouge">__main__</code> 이라는 문자열이 담긴다.</p>
+
+<h2 id="26-2-if-name--main">26-2. if <strong>name</strong> == ‘<strong>main</strong>’</h2>
+<p>파이썬 스크립트 파일에는 직접 실행할 내용이 담기거나, 다른 스크립트 파일에서 사용하도록 만든 내용이 담긴다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># adder.py
+</span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 7
+       14
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># divider.py
+</span><span class="kn">import</span> <span class="nn">adder</span> <span class="k">as</span> <span class="n">ad</span>
+
+<span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">n2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">divide</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">divide</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">ad</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2.0
+       3.0
+       5
+</code></pre></div></div>
+:ET

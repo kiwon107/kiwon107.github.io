@@ -17,9 +17,15 @@ sidebar:
 docs:
   - title: AI
     children:
-      - title: "딥러닝"
-        url: /deeplearning/
-        category: "deeplearning"
+      - title: "머신러닝(사이킷런)"
+        url: /machinelearning/
+        category: "machinelearning"
+      - title: "딥러닝(파이토치)"
+        url: /deeplearningpyt/
+        category: "deeplearningpyt"
+      - title: "딥러닝(텐서플로우)"
+        url: /deeplearningtens/
+        category: "deeplearningtens"
   - title: Language
     children:
       - title: "파이썬 중급"

@@ -1,0 +1,159 @@
+I"@<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-텐서의-차원-자유자재로-다루기">1-1. 텐서의 차원 자유자재로 다루기</h2>
+<p>파이토치 임포트</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+</code></pre></div></div>
+
+<ul>
+  <li>텐서: 파이토치에서 다양한 수식 계산하는데 사용하는 가장 기본적인 자료구조로써 숫자들을 특정한 모양으로 배열한 것</li>
+  <li>텐서는 ‘차원’ 또는 ‘랭크’ 라는 개념 가짐
+    <ul>
+      <li>랭크0 텐서: 스칼라, Ex) 1, 모양은 <code class="language-plaintext highlighter-rouge">[]</code></li>
+      <li>랭크1 텐서: 벡터, Ex) [1, 2, 3], 모양은 <code class="language-plaintext highlighter-rouge">[3]</code></li>
+      <li>랭크2 텐서: 행렬, Ex) [[1, 2, 3]], 모양은 <code class="language-plaintext highlighter-rouge">[1, 3]</code></li>
+      <li>랭크3 텐서: 3차원 행렬, Ex) [[[1, 2, 3]]], 모양은 <code class="language-plaintext highlighter-rouge">[1, 1, 3]</code></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Size: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>  <span class="c1"># 텐서의 구체적 모양
+</span><span class="k">print</span><span class="p">(</span><span class="s">'Shape: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># 텐서의 구체적 모양
+</span><span class="k">print</span><span class="p">(</span><span class="s">'랭크(차원): '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">ndimension</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># 랭크 2 텐서의 첫번째 자리에 1이라는 차원값 추가하여 [1, 3, 3] 모양의 랭크 3 텐서로 변경
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Size: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> 
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>  
+<span class="k">print</span><span class="p">(</span><span class="s">'랭크(차원): '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">ndimension</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 텐서의 랭크 중, 크기가 1인 랭크를 삭제하여 다시 랭크 2 텐서로 되돌림
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Size: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> 
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>  
+<span class="k">print</span><span class="p">(</span><span class="s">'랭크(차원): '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">ndimension</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># 랭크 2의 [3, 3] 모양인 x를 랭크 1의 [9] 모양으로 바꿈. 텐서의 원소 개수는 바꿀 수 없으므로, 잘못 입력시 에러 발생됨(Ex. 8로 변경 불가능).
+</span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Size: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> 
+<span class="k">print</span><span class="p">(</span><span class="s">'Shape: '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>  
+<span class="k">print</span><span class="p">(</span><span class="s">'랭크(차원): '</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">ndimension</span><span class="p">())</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) tensor([[1, 2, 3],
+               [4, 5, 6],
+               [7, 8, 9]])
+       Size:  torch.Size([3, 3])
+       Shape:  torch.Size([3, 3])
+       랭크(차원):  2
+       ----------------------------
+       tensor([[[1, 2, 3],
+               [4, 5, 6],
+               [7, 8, 9]]])
+       Size:  torch.Size([1, 3, 3])
+       Shape:  torch.Size([1, 3, 3])
+       랭크(차원):  3
+       ----------------------------
+       tensor([[1, 2, 3],
+               [4, 5, 6],
+               [7, 8, 9]])
+       Size:  torch.Size([3, 3])
+       Shape:  torch.Size([3, 3])
+       랭크(차원):  2
+       ----------------------------
+       tensor([1, 2, 3, 4, 5, 6, 7, 8, 9])
+       Size:  torch.Size([9])
+       Shape:  torch.Size([9])
+       랭크(차원):  1
+</code></pre></div></div>
+
+<h2 id="1-2-텐서를-이용한-연산과-행렬곱">1-2. 텐서를 이용한 연산과 행렬곱</h2>
+<ul>
+  <li>행렬: 랭크 2인 텐서와 같은 개념. 숫자들을 네모꼴로 배치한 2차원 배열.</li>
+  <li>행렬의 높이를 ‘행’, 너비를 ‘열’ 이라 함</li>
+  <li>A, B라는 두 행렬로 행렬곱 하려면 다음 조건 성립해야함
+    <ul>
+      <li>A의 열 수와 B의 행 수는 같아야 함</li>
+      <li>행렬곱 A*B의 결과 행렬의 행 개수는 A와 같고, 열의 개수는 B와 같음</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span> <span class="c1"># 정규분포에서 무작위로 실수값 뽑아 텐서 생성하는 randn함수로 5x3 shape의 텐서 생성
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">]])</span> <span class="c1"># 실수형 원소 값는 3x3 shape의 텐서
+</span><span class="k">print</span><span class="p">(</span><span class="s">"w size: "</span><span class="p">,</span> <span class="n">w</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"x size: "</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"w:"</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"x:"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"b size:"</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"b:"</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">wx</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"wx size:"</span><span class="p">,</span> <span class="n">wx</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"wx:"</span><span class="p">,</span> <span class="n">wx</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'----------------------------'</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">wx</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"result size:"</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"result:"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) w size:  torch.Size([5, 3])
+       x size:  torch.Size([3, 2])
+       w: tensor([[ 0.6106,  0.0583, -0.6274],
+               [ 0.0542,  0.3214,  0.2737],
+               [-1.4459,  0.4687,  1.3794],
+               [ 0.4403, -0.2277, -0.1737],
+               [-1.3437, -0.5235, -1.4958]])
+       x: tensor([[1., 2.],
+               [3., 4.],
+               [5., 6.]])
+       ----------------------------
+       b size: torch.Size([5, 2])
+       b: tensor([[-2.2417, -1.6182],
+               [ 0.6943,  0.4118],
+               [ 0.9479,  0.6748],
+               [ 0.9508, -0.8875],
+               [-0.3306,  0.2391]])
+       ----------------------------
+       wx size: torch.Size([5, 2])
+       wx: tensor([[ -2.3514,  -2.3099],
+               [  2.3866,   3.0358],
+               [  6.8571,   7.2593],
+               [ -1.1116,  -1.0729],
+               [-10.3932, -13.7562]])
+       ----------------------------
+       result size: torch.Size([5, 2])
+       result: tensor([[ -4.5931,  -3.9281],
+               [  3.0809,   3.4477],
+               [  7.8050,   7.9340],
+               [ -0.1609,  -1.9604],
+               [-10.7238, -13.5172]])
+</code></pre></div></div>
+
+<h2 id="1-3-autograd">1-3. Autograd</h2>
+<p>직역하면 ‘자동 기울기’로, 수식의 기울기를 자동으로 계산한다는 뜻이 됨. 이건 왜 필요할까?<br />
+데이터에 대한 정답과 머신러닝 모델이 예측한 결과의 차이를 산출적으로 표현한 것을 거리라고 함. 그리고 학습 데이터로 계산한 거리들의 평균을 오차라고 부름.
+오차가 작은 머신러닝 모델일수록 더 정확한 답을 낸다고 할 수 있음.<br />
+오차를 최소화 하는데 <code class="language-plaintext highlighter-rouge">경사하강법</code> 이라는 알고리즘을 주로 사용하며, 이는 오차를 수학함수로 표현하여 이를 미분해 함수의 기울기를 구하면, 이를 이용해 오차의 최소값이 있는 방향을 찾아내는 알고리즘임.<br />
+Autograd는 미분 계산을 자동화하여 경사하강법을 구현하는 수고를 덜어줌!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># requires_grad를 True로 하면 파이토치의 autograd가 자동으로 계산할 때, w에 대한 미분값을 w.grad에 저장함
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="c1"># 9*(w^2) 과 동일
+</span><span class="n">l</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'l을 w로 미분한 값은 {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">w</span><span class="p">.</span><span class="n">grad</span><span class="p">))</span> <span class="c1">#l에 backward() 함수 호출하여 w.grad가 w가 속한 수식을 w로 미분한 값 반환함.
+</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) l을 w로 미분한 값은 18.0
+</code></pre></div></div>
+:ET

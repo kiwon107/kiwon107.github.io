@@ -20,7 +20,7 @@ title                    : "Wonny's DevLog"
 title_separator          : "-"
 subtitle                 : "Version 1.0" # site tagline that appears below site title in masthead
 name                     : "Kiwon Yang"
-description              : "AI Researcher & Developer, KSOE"
+description              : "AI Researcher & Developer"
 url                      : "https://kiwon107.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "kiwon107/kiwon107.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -104,7 +104,7 @@ analytics:
 author:
   name             : "K.W. Yang"
   avatar           : "/assets/images/profile.jpg"
-  bio              : "AI Researcher & Developer, KSOE"
+  bio              : "AI Researcher & Developer"
   location         : "South Korea"
   email            : "p2881p@naver.com"
   links:
