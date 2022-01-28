@@ -1,0 +1,81 @@
+I"
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/machinelearning/machinelearning2/">[Machine learning] 2. 훈련 세트와 테스트 세트</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.28
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#machinelearning" class="page__taxonomy-item-category" rel="tag">machinelearning</a>
+                    
+                    
+                    <a href="/tags/#machine-learning" class="page__taxonomy-item-tag" rel="tag">machine learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#supervised-learning" class="page__taxonomy-item-tag" rel="tag">supervised learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#test-set" class="page__taxonomy-item-tag" rel="tag">test set</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#train-set" class="page__taxonomy-item-tag" rel="tag">train set</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#unsupervised-learning" class="page__taxonomy-item-tag" rel="tag">unsupervised learning</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/machinelearning/machinelearning1/">[Machine learning] 1. 마켓과 머신러닝</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.28
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#machinelearning" class="page__taxonomy-item-category" rel="tag">machinelearning</a>
+                    
+                    
+                    <a href="/tags/#accuracy" class="page__taxonomy-item-tag" rel="tag">accuracy</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deeplearning" class="page__taxonomy-item-tag" rel="tag">deeplearning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#feature" class="page__taxonomy-item-tag" rel="tag">feature</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#k-nearest-neighbors" class="page__taxonomy-item-tag" rel="tag">K-Nearest Neighbors</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#training" class="page__taxonomy-item-tag" rel="tag">training</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

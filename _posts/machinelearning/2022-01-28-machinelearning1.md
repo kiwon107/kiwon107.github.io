@@ -5,7 +5,7 @@ folder: "machinelearning"
 categories:
     - machinelearning
 tag:
-    - [deeplearning, feature, training, K-Nearest Neighbors, accuracy]
+    - [machine learning, feature, training, K-Nearest Neighbors, accuracy]
 
 author_profile: true    #작성자 프로필 출력 여부
 

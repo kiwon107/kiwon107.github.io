@@ -157,7 +157,7 @@ var store = [{
       },{
         "title": "[Deeplearning(pytorch)] 1. 텐서와 Autograd",
         "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 텐서의 차원 자유자재로 다루기 파이토치 임포트 import torch 텐서: 파이토치에서 다양한 수식 계산하는데 사용하는 가장 기본적인 자료구조로써 숫자들을 특정한 모양으로 배열한 것 텐서는 ‘차원’ 또는 ‘랭크’ 라는 개념 가짐 랭크0 텐서: 스칼라,...","categories": ["deeplearningpyt"],
-        "tags": ["deeplearning","pytorch","ANN"],
+        "tags": ["deep learning","pytorch","ANN"],
         "url": "/deeplearningpyt/deeplearningpyt1/",
         "teaser": null
       },{
@@ -181,7 +181,13 @@ var store = [{
       },{
         "title": "[Machine learning] 1. 마켓과 머신러닝",
         "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 생선 분류 문제 생선을 분류하는 문제이다. 도미를 분류하고 싶은데, 전문가는 생선 길이가 30cm 이상이면 도미라고 알려줬다. if fish_length &gt;= 30: print(\"도미\") 위 코드로 도미를 제대로 분류할 수 있을까? 다른 생선도 분명 30cm 이상의...","categories": ["machinelearning"],
-        "tags": ["deeplearning","feature","training","K-Nearest Neighbors","accuracy"],
+        "tags": ["machine learning","feature","training","K-Nearest Neighbors","accuracy"],
         "url": "/machinelearning/machinelearning1/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 2. 훈련 세트와 테스트 세트",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 2-1. 지도학습과 비지도학습 지도학습 알고리즘은 훈련하기 위한 데이터와 정답이 필요하다. 1장에서 훈련시킨 kn 모델이 지도학습 모델의 일종이다. 지도학습에서 데이터와 정답을 각각 입력과 타깃 이라 한다. 그리고 이 둘을 합쳐 훈련데이터 라고 한다. 1장에서 입력으로...","categories": ["machinelearning"],
+        "tags": ["machine learning","supervised learning","unsupervised learning","train set","test set"],
+        "url": "/machinelearning/machinelearning2/",
         "teaser": null
       }]
