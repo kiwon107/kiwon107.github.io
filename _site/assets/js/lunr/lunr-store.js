@@ -178,4 +178,10 @@ var store = [{
         "tags": ["python","__name__"],
         "url": "/pythonmd/pythonmd26/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 1. 마켓과 머신러닝",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 생선 분류 문제 생선을 분류하는 문제이다. 도미를 분류하고 싶은데, 전문가는 생선 길이가 30cm 이상이면 도미라고 알려줬다. if fish_length &gt;= 30: print(\"도미\") 위 코드로 도미를 제대로 분류할 수 있을까? 다른 생선도 분명 30cm 이상의...","categories": ["machinelearning"],
+        "tags": ["deeplearning","feature","training","K-Nearest Neighbors","accuracy"],
+        "url": "/machinelearning/machinelearning1/",
+        "teaser": null
       }]

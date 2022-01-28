@@ -1,0 +1,65 @@
+I"*+<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-생선-분류-문제">1-1. 생선 분류 문제</h2>
+
+<p>생선을 분류하는 문제이다. 도미를 분류하고 싶은데, 전문가는 생선 길이가 30cm 이상이면 도미라고 알려줬다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">fish_length</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"도미"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>위 코드로 도미를 제대로 분류할 수 있을까? 다른 생선도 분명 30cm 이상의 길이를 가진 녀석이 있을 것이다.</p>
+
+<p>우리는 잘 모르니, 머신러닝의 도움을 받아보자.</p>
+
+<h2 id="1-2-도미-데이터-준비">1-2. 도미 데이터 준비</h2>
+<p>누군가가 창고에서 생선의 길이와 무게를 재어 다음과 같이 기록하였다. 창고에는 도미와 빙어만 있다고 한다.
+누군가가 고생하여 만든 소중한 데이터를 이용하여 도미와 빙어를 분류해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bream_length</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.4</span><span class="p">,</span> <span class="mf">26.3</span><span class="p">,</span> <span class="mf">26.5</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">29.7</span><span class="p">,</span> <span class="mf">29.7</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.7</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> 
+                <span class="mf">31.5</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">33.5</span><span class="p">,</span> <span class="mf">33.5</span><span class="p">,</span> <span class="mf">34.0</span><span class="p">,</span> <span class="mf">34.0</span><span class="p">,</span> <span class="mf">34.5</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> 
+                <span class="mf">35.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">,</span> <span class="mf">37.0</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">,</span> <span class="mf">39.5</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">]</span>
+<span class="n">bream_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mf">242.0</span><span class="p">,</span> <span class="mf">290.0</span><span class="p">,</span> <span class="mf">340.0</span><span class="p">,</span> <span class="mf">363.0</span><span class="p">,</span> <span class="mf">430.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> <span class="mf">390.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> <span class="mf">475.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> 
+                <span class="mf">500.0</span><span class="p">,</span> <span class="mf">340.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">610.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">,</span> <span class="mf">575.0</span><span class="p">,</span> <span class="mf">685.0</span><span class="p">,</span> <span class="mf">620.0</span><span class="p">,</span> <span class="mf">680.0</span><span class="p">,</span> 
+                <span class="mf">700.0</span><span class="p">,</span> <span class="mf">725.0</span><span class="p">,</span> <span class="mf">720.0</span><span class="p">,</span> <span class="mf">714.0</span><span class="p">,</span> <span class="mf">850.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">920.0</span><span class="p">,</span> <span class="mf">955.0</span><span class="p">,</span> <span class="mf">925.0</span><span class="p">,</span> <span class="mf">975.0</span><span class="p">,</span> <span class="mf">950.0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>위 데이터는 도미 관련 데이터이다.<br /></p>
+
+<p>머신러닝에서 여러 개의 종류 중 하나를 구별해 내는 문제를 <strong>분류</strong>라고 한다. 우리가 풀려는 문제와 같이, 2개의 클래스 중 하나를 고르는 문제는 <strong>이진 분류</strong>라고 한다.<br />
+위 데이터 처럼 도미의 길이와 무게는 도미의 특징이라고도 할 수 있다. 이러한 특징을 <strong>‘특성’</strong>이라고 부른다.</p>
+
+<p>위 데이터를 숫자 그대로 보자니 좀 번잡해 보인다. 한눈에 직관적으로 볼 수 있는 방법이 없을까? 다음과 같이 시각화를 해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bream_length</span><span class="p">,</span> <span class="n">bream_weight</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/1-1.JPG" alt="그림 1-1. 코드 결과" /></p>
+<p>그림 1-1. 코드 결과</p>
+
+<p>그림 1-1 과 같은 그래프를 산점도(Scatter plot)라고 한다. x축은 길이, y축은 무게를 나타낸다. 대체로 산점도 그래프가 일직선에 가까운 형태로 나타나있다. 이러한 경우를 <strong>선형적</strong> 이라고 말한다.</p>
+
+<h2 id="1-3-빙어-데이터-준비">1-3. 빙어 데이터 준비</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">smelt_length</span> <span class="o">=</span> <span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mf">10.6</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">,</span> <span class="mf">11.2</span><span class="p">,</span> <span class="mf">11.3</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">12.4</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">14.3</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">]</span>
+<span class="n">smelt_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.7</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.7</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> <span class="mf">8.7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">9.9</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">13.4</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">19.7</span><span class="p">,</span> <span class="mf">19.9</span><span class="p">]</span>
+</code></pre></div></div>
+<p>위 데이터는 빙어 관련 데이터이다.<br /></p>
+
+<p>빙어 데이터를 도미 데이터와 합쳐서 산점도로 나타내보자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">bream_length</span><span class="p">,</span> <span class="n">bream_weight</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">smelt_length</span><span class="p">,</span> <span class="n">smelt_weight</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/1-2.JPG" alt="그림 1-2. 코드 결과" /></p>
+<p>그림 1-2. 코드 결과</p>
+
+<p>빙어의 길이와 무게간 상관관계는 도미와 약간 다르다. 길이와 무게가 생각만큼 비례관계가 아닌것을 보인다. 또한 빙어와 도미의 산점도가 완전히 구분되어 보이는 것으로 봐서, 두 생선의 길이, 무게는 완전히 다르다는 것을 알 수 있다.</p>
+:ET

@@ -319,7 +319,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <ul>
           
           
-            <li><a href="/machinelearning/">머신러닝(사이킷런) ()</a></li>
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (1)</a></li>
           
           
             <li><a href="/deeplearningpyt/">딥러닝(파이토치) (1)</a></li>
@@ -577,9 +577,9 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 
 <h2 id="1-3-autograd">1-3. Autograd</h2>
 <p>직역하면 ‘자동 기울기’로, 수식의 기울기를 자동으로 계산한다는 뜻이 됨. 이건 왜 필요할까?<br />
-데이터에 대한 정답과 머신러닝 모델이 예측한 결과의 차이를 산출적으로 표현한 것을 거리라고 함. 그리고 학습 데이터로 계산한 거리들의 평균을 오차라고 부름.
+데이터에 대한 정답과 머신러닝 모델이 예측한 결과의 차이를 산출적으로 표현한 것을 <strong>거리</strong>라고 함. 그리고 학습 데이터로 계산한 거리들의 평균을 <strong>오차</strong>라고 부름.
 오차가 작은 머신러닝 모델일수록 더 정확한 답을 낸다고 할 수 있음.<br />
-오차를 최소화 하는데 <code class="language-plaintext highlighter-rouge">경사하강법</code> 이라는 알고리즘을 주로 사용하며, 이는 오차를 수학함수로 표현하여 이를 미분해 함수의 기울기를 구하면, 이를 이용해 오차의 최소값이 있는 방향을 찾아내는 알고리즘임.<br />
+오차를 최소화 하는데 <strong>경사하강법</strong> 이라는 알고리즘을 주로 사용하며, 이는 오차를 수학함수로 표현하여 이를 미분해 함수의 기울기를 구하면, 이를 이용해 오차의 최소값이 있는 방향을 찾아내는 알고리즘임.<br />
 Autograd는 미분 계산을 자동화하여 경사하강법을 구현하는 수고를 덜어줌!</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># requires_grad를 True로 하면 파이토치의 autograd가 자동으로 계산할 때, w에 대한 미분값을 w.grad에 저장함
@@ -663,6 +663,54 @@ Autograd는 미분 계산을 자동화하여 경사하강법을 구현하는 수
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/machinelearning/machinelearning1/" rel="permalink">[Machine learning] 1. 마켓과 머신러닝
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-28T00:00:00+09:00">January 28, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
         
           
 
@@ -795,54 +843,6 @@ Autograd는 미분 계산을 자동화하여 경사하강법을 구현하는 수
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “윤성우의 열혈 파이썬 중급편” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/pythonmd/pythonmd23/" rel="permalink">[Python] 23. 네스티드 함수와 클로저
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-24T00:00:00+09:00">January 24, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
         
       </span>
     
