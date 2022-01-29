@@ -5,7 +5,7 @@ folder: "deeplearningpyt"
 categories:
     - deeplearningpyt
 tag:
-    - [deep learning, pytorch, ANN]
+    - [deep learning, pytorch, tensor, autograd]
 
 author_profile: true    #작성자 프로필 출력 여부
 

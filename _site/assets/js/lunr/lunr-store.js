@@ -157,7 +157,7 @@ var store = [{
       },{
         "title": "[Deeplearning(pytorch)] 1. 텐서와 Autograd",
         "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 텐서의 차원 자유자재로 다루기 파이토치 임포트 import torch 텐서: 파이토치에서 다양한 수식 계산하는데 사용하는 가장 기본적인 자료구조로써 숫자들을 특정한 모양으로 배열한 것 텐서는 ‘차원’ 또는 ‘랭크’ 라는 개념 가짐 랭크0 텐서: 스칼라,...","categories": ["deeplearningpyt"],
-        "tags": ["deep learning","pytorch","ANN"],
+        "tags": ["deep learning","pytorch","tensor","autograd"],
         "url": "/deeplearningpyt/deeplearningpyt1/",
         "teaser": null
       },{
@@ -189,5 +189,17 @@ var store = [{
         "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 2-1. 지도학습과 비지도학습 지도학습 알고리즘은 훈련하기 위한 데이터와 정답이 필요하다. 1장에서 훈련시킨 kn 모델이 지도학습 모델의 일종이다. 지도학습에서 데이터와 정답을 각각 입력과 타깃 이라 한다. 그리고 이 둘을 합쳐 훈련데이터 라고 한다. 1장에서 입력으로...","categories": ["machinelearning"],
         "tags": ["machine learning","supervised learning","unsupervised learning","train set","test set"],
         "url": "/machinelearning/machinelearning2/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 2. 경사하강법으로 이미지 복원하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 2-1. 오염된 이미지 문제와 복원 방법 오염된 이미지와 이미지 처리 함수 weird_function()을 이용하여 원본 이미지를 복원하는 문제이다. 다음과 같은 사고 과정을 거쳐보자! 오염된 이미지와 같은 크기의 랜덤 텐서 생성 랜덤 텐서를 weird_function() 함수에...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","gradient descent","example","practice"],
+        "url": "/deeplearningpyt/deeplearningpyt2/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 3. 신경망 모델 구현하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 3-1. 인공 신겸망(ANN) 인공 신경망(Artificial Neural Network)는 인간의 뇌 혹은 신경계의 작동 방식에서 영감을 받았다. 입력층: 인공 신경망에서 자극을 입력받는 감각기관에 해당하는 부분 은닉층: 입력층을 거친 자극을 처리해 다음 은닉층(인접한 신경세포)로 전달하는 부분....","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","ANN"],
+        "url": "/deeplearningpyt/deeplearningpyt3/",
         "teaser": null
       }]
