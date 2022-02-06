@@ -1,0 +1,205 @@
+I"�
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt6/">[Deeplearning(pytorch)] 6. 과대적합과 드롭아웃</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.06
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#dnn" class="page__taxonomy-item-tag" rel="tag">DNN</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt5/">[Deeplearning(pytorch)] 5. 인공 신경망으로 패션 아이템 분류하기</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.06
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#dnn" class="page__taxonomy-item-tag" rel="tag">DNN</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt4/">[Deeplearning(pytorch)] 4. Fashion MNIST 데이터셋 알아보기</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.05
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#dnn" class="page__taxonomy-item-tag" rel="tag">DNN</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt3/">[Deeplearning(pytorch)] 3. 신경망 모델 구현하기</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.29
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#ann" class="page__taxonomy-item-tag" rel="tag">ANN</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt2/">[Deeplearning(pytorch)] 2. 경사하강법으로 이미지 복원하기</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.29
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#example" class="page__taxonomy-item-tag" rel="tag">example</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#gradient-descent" class="page__taxonomy-item-tag" rel="tag">gradient descent</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#practice" class="page__taxonomy-item-tag" rel="tag">practice</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningpyt/deeplearningpyt1/">[Deeplearning(pytorch)] 1. 텐서와 Autograd</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.01.25
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningpyt" class="page__taxonomy-item-category" rel="tag">deeplearningpyt</a>
+                    
+                    
+                    <a href="/tags/#autograd" class="page__taxonomy-item-tag" rel="tag">autograd</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pytorch" class="page__taxonomy-item-tag" rel="tag">pytorch</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#tensor" class="page__taxonomy-item-tag" rel="tag">tensor</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

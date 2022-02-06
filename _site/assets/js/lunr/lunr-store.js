@@ -238,4 +238,10 @@ var store = [{
         "tags": ["deep learning","pytorch","DNN"],
         "url": "/deeplearningpyt/deeplearningpyt5/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 6. 과대적합과 드롭아웃",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 6-1. 과대적합, 과소적합, 조기종료 머신러닝 모델을 만들면 학습 성능은 잘 나오지만, 테스트셋이나 실제 상황에서는 성능이 나오지 않을 때가 있다. 이것을 과대적합(Overfitting) 이라고 한다. 즉, 너무 학습 데이터에만 치중되어 새로운 데이터에 대해서는 성능이 잘...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","DNN"],
+        "url": "/deeplearningpyt/deeplearningpyt6/",
+        "teaser": null
       }]

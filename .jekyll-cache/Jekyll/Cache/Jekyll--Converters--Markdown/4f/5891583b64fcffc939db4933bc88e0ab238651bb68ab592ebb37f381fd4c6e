@@ -1,0 +1,71 @@
+I"�#<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="6-1-과대적합-과소적합-조기종료">6-1. 과대적합, 과소적합, 조기종료</h2>
+<p>머신러닝 모델을 만들면 학습 성능은 잘 나오지만, 테스트셋이나 실제 상황에서는 성능이 나오지 않을 때가 있다. 이것을 <strong>과대적합(Overfitting)</strong> 이라고 한다. 즉, 너무 학습 데이터에만 치중되어 새로운 데이터에 대해서는 성능이 잘 나오지 않는 상황을 말한다. 반대로, 학습을 제대로 진행하지 않은 상황을 <strong>과소적합(Underfitting)</strong> 이라고 한다. 이 경우는 학습 데이터도 제대로 학습하지 않는 경우이다.<br />
+가장 베스트인 상태는, 과소적합과 과대적합의 중간이다. 학습 데이터와 학습하지 않은 실제 데이터에서 동시에 높은 성능을 내는 상태가 바로 <strong>일반화(Generalization)</strong> 라고 한다.<br /></p>
+
+<p>5장에서, 머신러닝에서는 보통 데이터셋을 학습, 검증, 테스트셋으로 나눈다고 하였다. 이는 과대적합, 과소적합을 탐지하려는 노력의 일환이다. 학습 데이터셋으로 계속 학습하면 오차는 무한정 내려가게 된다. 그러다 보면, 학습 성능은 계속 좋아지지만, 검증/테스트 성능은 오히려 떨이지는 것을 확인할 수 있다. 따라서! 학습 중간중간 검증용 데이터셋으로 모델이 학습 데이터에만 과대적합되지 않았는지 확인이 필요하다!<br />
+검증 데이터셋에 대한 성능이 나빠지기 시작하면, 직전이 가장 적합한 모델이라고 할 수 있다. 이 타이밍에 모델을 저장해서 이용하는 것을 조기 종료(Early stopping) 이라고 한다. 즉, 검증 오차가 올라가는 순간을 포착해서 학습을 종료하는 것이다.</p>
+
+<p>과대적합을 막는 방법은 <strong>학습 데이터를 늘리는 방법</strong>과 <strong>드롭아웃을 적용하는 방법</strong>이 있다.</p>
+
+<h2 id="6-2-데이터-늘리기">6-2. 데이터 늘리기</h2>
+<p>궁극적으로, 세상의 모든 데이터를 모으는 것이 가장 효과가 좋다(모으기가 힘들뿐…). 새로운 데이터를 얻기가 어렵다면, 이미 가진 데이터를 최대한 늘리는 방법(Data Augmentaion)을 찾아야 한다. 이미지 데이터라면 이미지 일부를 자르거나, 돌리거나, 노이즈를 더하거나, 색상을 변경하는 등 여러가지 방법을 사용할 수 있다. 예제에서는 가로 대칭이동(왼쪽, 오른쪽 뒤집기) 전략을 써먹어 보자. 토치비전의 <code class="language-plaintext highlighter-rouge">transform</code> 패키지를 사용하면 간단하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+
+<span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">datasets</span><span class="p">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s">'./.data'</span><span class="p">,</span>
+                  <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(),</span> <span class="c1"># 이미지를 무작위로 수평 뒤집기 수행! 학습 데이터셋에만 적용!
+</span>                    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,))</span>
+                  <span class="p">])),</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">datasets</span><span class="p">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s">'./.data'</span><span class="p">,</span>
+                  <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                  <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,))</span>
+                  <span class="p">])),</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+<p>이미지를 뒤집는 것만으로도 학습 데이터 수가 2배 늘었다!</p>
+
+<h2 id="6-3-드롭아웃">6-3. 드롭아웃</h2>
+<p>드롭아웃은 학습 진행 과정에서 신경망의 일부를 사용하지 않는 방법이다. 만약 50% 드롭아웃을 한다면, 학습 단계마다 절반의 뉴런만 사용하도록 한다. 그리고 검증과 테스트 단계에서는 모든 뉴런을 사용한다. 학습에서 배재된 뉴런 외에 다른 뉴런들에 가중치를 분산시키고, 개별 뉴런이 특징에 고정되는 현상을 방지하는 기능을 한다.
+```python
+class Net(nn.Module):
+  def <strong>init</strong>(self, dropout_p=0.2):
+    super(Net, self).<strong>init</strong>()
+    self.fc1 = nn.Linear(784, 256)
+    self.fc2 = nn.Linear(256, 128)
+    self.fc3 = nn.Linear(128, 10)
+    self.dropout_p = dropout_p  # 드롭아웃 확률 기본값 0.2로 설정!</p>
+
+<p>def forward(self, x):
+    x = x.view(-1, 784)
+    x = F.relu(self.fc1(x))
+    x = F.dropout(x, training=self.training, p=self.dropout_p) # 가중치가 없으므로, torch.nn.functional 패키지에서 가져와서 사용! nn.Dropout 클래스 사용도 가능!
+    x = F.relu(self.fc2(x))
+    x = F.dropout(x, training, p=self.dropout_p)
+    x = self.fc3(x)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return x
+</code></pre></div></div>
+:ET
