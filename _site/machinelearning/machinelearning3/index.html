@@ -1,0 +1,1013 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Machine learning] 3. 데이터 전처리 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Machine learning] 3. 데이터 전처리">
+<meta property="og:url" content="http://localhost:4000/machinelearning/machinelearning3/">
+
+
+  <meta property="og:description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-30T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/machinelearning/machinelearning3/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (6)</a></li>
+          
+          
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (5)</a></li>
+          
+          
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (26)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Machine learning] 3. 데이터 전처리">
+    <meta itemprop="description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-01-30T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/machinelearning/machinelearning3/" class="u-url" itemprop="url">[Machine learning] 3. 데이터 전처리
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-30T00:00:00+09:00">January 30, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#3-1-넘파이로-데이터-준비하기">3-1. 넘파이로 데이터 준비하기</a></li><li><a href="#3-2-사이킷런으로-훈련-세트와-테스트-세트-나누기">3-2. 사이킷런으로 훈련 세트와 테스트 세트 나누기</a></li><li><a href="#3-3-수상한-도미-한-마리">3-3. 수상한 도미 한 마리</a></li><li><a href="#3-4-기준을-맞춰라">3-4. 기준을 맞춰라</a></li><li><a href="#3-5-전처리-데이터로-모델-훈련하기">3-5. 전처리 데이터로 모델 훈련하기</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="3-1-넘파이로-데이터-준비하기">3-1. 넘파이로 데이터 준비하기</h2>
+<p>2장에서 썼던 도미와 빙어 데이터를 그대로 활용해보자. 넘파이까지 임포트 할 거다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fish_length</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.4</span><span class="p">,</span> <span class="mf">26.3</span><span class="p">,</span> <span class="mf">26.5</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">29.0</span><span class="p">,</span> <span class="mf">29.7</span><span class="p">,</span> <span class="mf">29.7</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">30.7</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> <span class="mf">31.0</span><span class="p">,</span> 
+                <span class="mf">31.5</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">,</span> <span class="mf">33.5</span><span class="p">,</span> <span class="mf">33.5</span><span class="p">,</span> <span class="mf">34.0</span><span class="p">,</span> <span class="mf">34.0</span><span class="p">,</span> <span class="mf">34.5</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> 
+                <span class="mf">35.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">,</span> <span class="mf">36.0</span><span class="p">,</span> <span class="mf">37.0</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">,</span> <span class="mf">38.5</span><span class="p">,</span> <span class="mf">39.5</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">,</span> <span class="mf">41.0</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> 
+                <span class="mf">10.5</span><span class="p">,</span> <span class="mf">10.6</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">,</span> <span class="mf">11.2</span><span class="p">,</span> <span class="mf">11.3</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">11.8</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">12.4</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">14.3</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">]</span>
+<span class="n">fish_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mf">242.0</span><span class="p">,</span> <span class="mf">290.0</span><span class="p">,</span> <span class="mf">340.0</span><span class="p">,</span> <span class="mf">363.0</span><span class="p">,</span> <span class="mf">430.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> <span class="mf">390.0</span><span class="p">,</span> <span class="mf">450.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> <span class="mf">475.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">,</span> 
+                <span class="mf">500.0</span><span class="p">,</span> <span class="mf">340.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">600.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">610.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">,</span> <span class="mf">575.0</span><span class="p">,</span> <span class="mf">685.0</span><span class="p">,</span> <span class="mf">620.0</span><span class="p">,</span> <span class="mf">680.0</span><span class="p">,</span> 
+                <span class="mf">700.0</span><span class="p">,</span> <span class="mf">725.0</span><span class="p">,</span> <span class="mf">720.0</span><span class="p">,</span> <span class="mf">714.0</span><span class="p">,</span> <span class="mf">850.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">920.0</span><span class="p">,</span> <span class="mf">955.0</span><span class="p">,</span> <span class="mf">925.0</span><span class="p">,</span> <span class="mf">975.0</span><span class="p">,</span> <span class="mf">950.0</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">,</span> 
+                <span class="mf">7.5</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">9.7</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> <span class="mf">8.7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">9.9</span><span class="p">,</span> <span class="mf">9.8</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">13.4</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">19.7</span><span class="p">,</span> <span class="mf">19.9</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</code></pre></div></div>
+
+<p>넘파이의 <code class="language-plaintext highlighter-rouge">column_stack()</code> 함수는 전달받은 리스트를 일렬로 세우고 이들을 나란히 연결한다. 다음 예를 보자</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">(([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) array([[1, 4],
+              [2, 5],
+              [3, 6]])
+</code></pre></div></div>
+
+<p>두 리스트를 일렬로 세우고 튜플로 전달한다. 이제 <code class="language-plaintext highlighter-rouge">fish_length</code>와 <code class="language-plaintext highlighter-rouge">fish_weight</code>를 합쳐보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fish_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">fish_length</span><span class="p">,</span> <span class="n">fish_weight</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fish_data</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[ 25.4 242. ]
+        [ 26.3 290. ]
+        [ 26.5 340. ]
+        [ 29.  363. ]
+        [ 29.  430. ]]
+</code></pre></div></div>
+
+<p>이제 타깃 데이터를 만들어보자. 2장에서는 원소가 하나인 리스트 <code class="language-plaintext highlighter-rouge">[1]</code>과 <code class="language-plaintext highlighter-rouge">[0]</code> 을 여러 번 곱해서 타깃 데이터를 만들었다. 이번에는 <code class="language-plaintext highlighter-rouge">np.ones()</code>와 <code class="language-plaintext highlighter-rouge">np.zeros()</code> 함수를 쓸 것이다. <code class="language-plaintext highlighter-rouge">np.concatenate()</code> 함수를 사용하여 타깃 데이터를 만들어보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fish_target</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">35</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">14</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fish_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+</code></pre></div></div>
+
+<p>2장에서 작성한 코드와 차이점은 이전에는 파이썬 리스트를 사용해 수동으로 만들었지만 이번에는 넘파이를 사용했다는 것이다. 넘파이 배열은 핵심 부분이 C, C++ 같은 저수준 언어로 개발되어 빠르고, 데이터 과학 분야에 알맞게 최적화되어 있다고 한다.</p>
+
+<h2 id="3-2-사이킷런으로-훈련-세트와-테스트-세트-나누기">3-2. 사이킷런으로 훈련 세트와 테스트 세트 나누기</h2>
+<p>이번에는 사이킷런을 사용할 것이다. 사이킷런은 머신러닝 모델을 위한 알고리즘뿐만 아니라 다양한 유틸리티 도구도 제공한다. <code class="language-plaintext highlighter-rouge">train_test_split()</code> 함수는 사이킷런의 <code class="language-plaintext highlighter-rouge">model_selection</code> 모듈 아래 있다. 해당 함수를 임포트 하자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+</code></pre></div></div>
+
+<p>이전에는 데이터를 무작위로 섞기 전 np.random.seed() 함수를 사용하였다. <code class="language-plaintext highlighter-rouge">train_test_split()</code> 함수는 자체적으로 랜덤 시드를 지정할 수 있는 <code class="language-plaintext highlighter-rouge">random_state</code> 매개변수가 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_input</span><span class="p">,</span> <span class="n">test_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">fish_data</span><span class="p">,</span> <span class="n">fish_target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>위와 같이 코딩하면 전달한 2개의 배열 <code class="language-plaintext highlighter-rouge">fish_data</code>, <code class="language-plaintext highlighter-rouge">fish_target</code>이 나뉘어 4개의 배열로 반환된다. 처음 2개는 입력 데이터 <code class="language-plaintext highlighter-rouge">train_input</code>, <code class="language-plaintext highlighter-rouge">test_input</code> 나머지 2개는 <code class="language-plaintext highlighter-rouge">train_target</code>, <code class="language-plaintext highlighter-rouge">test_target</code>이다. 이 함수는 기본적으로 25%를 테스트 세트로 떼어낸다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">train_input</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_input</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_target</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (36, 2) (13, 2)
+       (36,) (13,)
+</code></pre></div></div>
+
+<p>넘파이 배열의 shape 속성으로 입력 데이터 크기를 출력해보니 맞게 나뉘었다. 도미와 빙어가 잘 섞였는지 테스트 데이터를 출력해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">test_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [1. 0. 0. 0. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+</code></pre></div></div>
+
+<p>아쉽게도 도미가 10개, 빙어가 3개 들어있다. 빙어의 비율이 조금 모자르다. 전체 데이터에서는 도미와 빙어 비율이 약 2.5:1 였는데, 테스트 데이터에는 비율이 3.3:1 이다.<br />
+무작위로 데이터를 나누면 샘플이 이처럼 골고루 섞이지 않을 수 있다. 특히 일부 클래스 개수가 적으면 더욱 그렇다. <code class="language-plaintext highlighter-rouge">train_test_split()</code> 함수는 이런 문제를 해결할 수 있다. <code class="language-plaintext highlighter-rouge">stratify</code> 매개변수에 타깃데이터를 전달하면 클래스 비율에 맞게 데이터를 나눈다. 훈련 데이터가 작거나 특정 클래스의 샘플 개수가 적을 때 특히 유용하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_input</span><span class="p">,</span> <span class="n">test_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">fish_data</span><span class="p">,</span> <span class="n">fish_target</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">fish_target</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [0. 0. 1. 0. 1. 0. 1. 1. 1. 1. 1. 1. 1.]
+</code></pre></div></div>
+
+<p>빙어가 하나 더 늘어나 2.25:1이 되었다.</p>
+
+<h2 id="3-3-수상한-도미-한-마리">3-3. 수상한 도미 한 마리</h2>
+<p>준비한 데이터로 K-최근접 이웃을 훈련해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="n">kn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">kn</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+<span class="n">kn</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1.0
+</code></pre></div></div>
+
+<p>이 모델에 새로운 도미 데이터를 넣어보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">kn</span><span class="p">.</span><span class="n">predict</span><span class="p">([[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">]]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [0.]
+</code></pre></div></div>
+
+<p>도미로 분류해야하는데 빙어로 분류했다. 결과가 잘못 산출되었다. 산점도를 그려보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_input</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_input</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'^'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/3-1.png" alt="그림 3-1. 코드 결과" /></p>
+<p>그림 3-1. 코드 결과</p>
+
+<p>K-최근접 이웃은 주변의 샘플 중 다수인 클래스를 예측으로 사용한다 하였다. <code class="language-plaintext highlighter-rouge">KNeighborsClassifier</code> 클래스의 이웃 개수인 <code class="language-plaintext highlighter-rouge">n_neighbors</code>의 기본값은 5이다. 즉 5개의 이웃이 반환된다. 한번 확인해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">distances</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="n">kn</span><span class="p">.</span><span class="n">kneighbors</span><span class="p">([[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">]])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_input</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_input</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s">'^'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_input</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">train_input</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">'D'</span><span class="p">)</span>  <span class="c1"># 마름모 꼴로 산점도 표시
+</span><span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/3-2.png" alt="그림 3-2. 코드 결과" /></p>
+<p>그림 3-2. 코드 결과</p>
+
+<p>확인해보면 가장 가까운 이웃 5개를 살폈을 때  4개가 빙어 데이터로 분류되어 있다. 참고로 위에서 뽑은 <code class="language-plaintext highlighter-rouge">distances</code> 배열에는 이웃 샘플까지의 거리가 담겨있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[ 92.00086956 130.48375378 130.73859415 138.32150953 138.39320793]]
+</code></pre></div></div>
+
+<h2 id="3-4-기준을-맞춰라">3-4. 기준을 맞춰라</h2>
+<p>산점도랑 실제 거리를 비교해보면 뭔가 이상하다. 산점도에서 130대 거리는 92 거리보다 몇배는 더 길어보이는데 130 밖에 안된다니?<br />
+이상해보이는 이유는 산점도의 x축은 범위가 10~40인 반면, y축 범위는 0~1000 이기 때문이다. 즉, y축으로 거리가 조금만 멀어져도 아주 큰 값으로 <code class="language-plaintext highlighter-rouge">distances</code> 배열 값이 계산된다는 것이다. x축 범위를 0~1000으로 확장하여 확인해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_input</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_input</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'^'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_input</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">train_input</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">'D'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/3-3.png" alt="그림 3-3. 코드 결과" /></p>
+<p>그림 3-3. 코드 결과</p>
+
+<p>이렇게 확인해보니 좀 더 와닿지 않는가?<br />
+이렇듯, 두 특성의 값이 놓인 범위가 매우 다르다. 이를 두 특성의 스케일이 다르다고 말한다. 특성 간 스케일은 당연히 다를 수 있다. 그러나 데이터를 표현하는 기준이 다르면 알고리즘은 이를 올바르게 예측할 수 없다. 특히 거리 기반으로 무언가를 판단하는 알고리즘일수록 더욱 그렇다. 이런 알고리즘들은 샘플 간의 거리에 영향을 많이 받으므로 제대로 사용하기 위해서는 특성값을 일정한 기준으로 맞춰주어야 한다. 이런 작업을 <strong>데이터 전처리</strong> 라 한다.<br />
+가정 널리 사용하는 전처리 방법 중 하나는 <strong>표준점수</strong>이다. 표준점수는 각 특성값이 0에서 표준편차의 몇 배 만큼 떨어져 있는지를 나타낸다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [ 27.29722222 454.09722222] [  9.98244253 323.29893931]
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">np.mean()</code> 함수는 평균을 계산하고, <code class="language-plaintext highlighter-rouge">np.std()</code> 함수는 표준편차를 계산한다.<code class="language-plaintext highlighter-rouge">axis=0</code>을 지정하여, 행을 따라 각 열의 통계값이 계산되도록 하였다.<br />
+이제 표준점수로 변환해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_input</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+</code></pre></div></div>
+
+<p>넘파이는 <code class="language-plaintext highlighter-rouge">train_input</code>의 모든 행에서 <code class="language-plaintext highlighter-rouge">mean</code>에 있는 두 평균값을 빼준다. 그리고 <code class="language-plaintext highlighter-rouge">std</code>에 있는 두 표준편차를 다시 모든 행에 적용한다. 이러한 기능을 <strong>브로드캐스팅</strong> 이라고 한다.</p>
+
+<h2 id="3-5-전처리-데이터로-모델-훈련하기">3-5. 전처리 데이터로 모델 훈련하기</h2>
+<p>새로운 데이터 <code class="language-plaintext highlighter-rouge">[25, 150]</code> 도 표준점수를 구하여야 한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">new</span> <span class="o">=</span> <span class="p">([</span><span class="mi">25</span><span class="p">,</span> <span class="mi">150</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+</code></pre></div></div>
+
+<p>위에서 구한 표준점수를 산점도로 표현해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_scaled</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/3-4.png" alt="그림 3-4. 코드 결과" /></p>
+<p>그림 3-4. 코드 결과</p>
+
+<p>이제 이 데이터로 다시 K-최근접 이웃 모델을 훈련시켜보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kn</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이제 테스트 세트로 평가를 할 것이다. 주의할 점은, 테스트 세트도 표준점수를 구해줘야 한다는 것인데 이때 훈련 세트로 구한 평균과 표준편차를 이용하여 표준점수를 구해야한다는 것이다. 그렇지 않으면 데이터의 스케일이 같아지지 않으므로 훈련한 모델이 쓸모없게 된다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_input</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+<span class="k">print</span><span class="p">(</span><span class="n">kn</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_scaled</span><span class="p">,</span> <span class="n">test_target</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">kn</span><span class="p">.</span><span class="n">predict</span><span class="p">([</span><span class="n">new</span><span class="p">]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 1.0
+       [1.]
+</code></pre></div></div>
+
+<p>이번에는 새로운 데이터에 대해 분류가 잘 되었다. 한번 최근접 이웃 샘플 5개에 대한 데이터를 산출하여 산점도로 나타내보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">distances</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">=</span> <span class="n">kn</span><span class="p">.</span><span class="n">kneighbors</span><span class="p">([</span><span class="n">new</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">train_scaled</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">'^'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">train_scaled</span><span class="p">[</span><span class="n">indexes</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'weight'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/3-5.png" alt="그림 3-5. 코드 결과" /></p>
+<p>그림 3-5. 코드 결과</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#broadcasting" class="page__taxonomy-item p-category" rel="tag">broadcasting</a><span class="sep">, </span>
+    
+      <a href="/tags/#data-preprocessing" class="page__taxonomy-item p-category" rel="tag">data preprocessing</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#standard-score" class="page__taxonomy-item p-category" rel="tag">standard score</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#machinelearning" class="page__taxonomy-item p-category" rel="tag">machinelearning</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-30T00:00:00+09:00">January 30, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/deeplearningpyt/deeplearningpyt3/" class="pagination--pager" title="[Deeplearning(pytorch)] 3. 신경망 모델 구현하기
+">Previous</a>
+    
+    
+      <a href="/machinelearning/machinelearning4/" class="pagination--pager" title="[Machine learning] 4. k-최근접 이웃 회귀
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt5/" rel="permalink">[Deeplearning(pytorch)] 5. 인공 신경망으로 패션 아이템 분류하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-06T00:00:00+09:00">February 6, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt4/" rel="permalink">[Deeplearning(pytorch)] 4. Fashion MNIST 데이터셋 알아보기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-05T00:00:00+09:00">February 5, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/machinelearning/machinelearning6/" rel="permalink">[Machine learning] 6. 특성 공학과 규제
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-31T00:00:00+09:00">January 31, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/machinelearning/machinelearning5/" rel="permalink">[Machine learning] 5. 선형회귀
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-31T00:00:00+09:00">January 31, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

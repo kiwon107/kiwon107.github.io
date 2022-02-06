@@ -1,0 +1,111 @@
+I"MR<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="5-1-환경-설정하기">5-1. 환경 설정하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span> <span class="c1"># 파이토치, 인공 신경망 모델의 재료들 담고 있는 모듈
+</span><span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span> <span class="c1"># 최적화
+</span><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">torch.cuda.is_available()</code> 함수는 현재 컴퓨터에서 CUDA를 이용할 수 있는지 알아보는 함수이다. CUDA 용 Pytorch를 설치하고 CUDA도 제대로 설치했다면 True, CUDA를 설치하지 않았거나 오류가 있다면 False를 반환한다. 이 값을 기준으로 CUDA를 지원하면 ‘cuda’를, 아니면 ‘cpu’를 torch.device에 설정하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">DEVICE</code> 변수는 나중에 텐서와 가중치에 대한 연산 수행시 CPU와 GPU 중 어디서 실행할지 결정할 때 쓰인다.</p>
+
+<p>미니배치의 크기를 64개로 설정하고, 에폭은 30으로 설정하자. 그리고 미니 배치만큼 데이터를 쪼개자. 에폭이란 학습 데이터 전체를 총 몇번이나 볼 것인가에 대한 설정이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">trainset</span><span class="p">,</span>
+  <span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+  <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">testset</span><span class="p">,</span>
+  <span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+  <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="p">)</span>
+</code></pre></div></div>
+
+<p>참고로, 배치 크기와 모델 가중치가 2의 거듭제곱으로 설정된 경우가 많다. 그 이유는, CPU와 GPU 메모리 크기가 보통 2의 배수이기 때문에, 배치 크기가 2의 n승이면 메모리에서 데이터를 주고 받는 효율을 높일 수 있다고 한다.</p>
+
+<h2 id="5-2-이미지-분류를-위한-인공-신경망-구현">5-2. 이미지 분류를 위한 인공 신경망 구현</h2>
+<p>레이어가 3개인 3층 인공 신경망을 구현하자.
+먼저 생성자에 우리 모델의 가중치 변수들이 들어가는 연산을 선언하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span> <span class="c1"># 픽셀값 784개 입력받아 가중치를 행렬곱 하고 편향 더해 값 256개 출력
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># 마지막에 값 10개를 출력한다. 출력값 10개 각각은 클래스를 나타내며, 가장 큰 값을 갖는 클래스가 이 모델의 예측값이 된다.
+</span>
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span>  <span class="c1"># 미니배치 x 784 형태로 데이터 변환
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">nn.Linear</code> 클래스는 선형결합을 수행하는 객체를 생성한다.<br />
+더 자세한 데이터 흐름은 <code class="language-plaintext highlighter-rouge">forward()</code> 함수에 정의된다. 이전에는 <code class="language-plaintext highlighter-rouge">ReLU()</code> 활성화 함수 사용시, <code class="language-plaintext highlighter-rouge">torch.nn.ReLU()</code> 함수를 이용했다. 가중치가 없는 연산은 <code class="language-plaintext highlighter-rouge">torch.nn.Functional</code>에 있는 함수를 직접 사용하여 <code class="language-plaintext highlighter-rouge">ReLU()</code> 함수를 사용하기도 한다. 취향에 따라 <code class="language-plaintext highlighter-rouge">torch.nn.ReLU()</code> 또는 <code class="language-plaintext highlighter-rouge">torch.nn.fucntional.relu()</code>를 사용하자. 단, <code class="language-plaintext highlighter-rouge">torch.nn.ReLU()</code> 함수는 가중치가 있는 연산이므로, 생상자에 선언해주는 것이 좋다.</p>
+
+<p>모델의 설계가 끝났으니, 이제 모델을 선언하자.<br />
+선언과 동시에 <code class="language-plaintext highlighter-rouge">to()</code> 함수로 연산을 CPU 또는 GPU에서 수행할지 정할 수 있다. CPU를 사용하려면 해당 함수를 지정할 필요 없으며, GPU를 사용하려면 <code class="language-plaintext highlighter-rouge">to("CUDA")</code>로 지정하여 모델의 파라미터들을 GPU 메모리로 보내야 한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">Net</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>최적화 알고리즘은 <code class="language-plaintext highlighter-rouge">optim.SGD</code>를 사용하자. SGD는 모델 최적화를 위한 확률적 경사하강법이다. 학습률은 0.01로 설정하고, 모델 내부의 정보를 넘겨주는 <code class="language-plaintext highlighter-rouge">model.parameters()</code> 함수를 입력하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이제 학습에 들어가는 연산 함수 <code class="language-plaintext highlighter-rouge">train()</code>를 만들자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+  <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># 학습 모드! 학습/평가 모드에 따라 동작이 다른 파이토치 모듈(드롭아웃 등)이 있다
+</span>  <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">target</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>  <span class="c1"># 가중치를 GPU로 보냈다면, 학습 데이터도 같은 장치로 보내야 연산 수행이 가능하다!
+</span>    <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>   <span class="c1"># 반복 때 마다 기울기 계산 새로 해야함
+</span>    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  <span class="c1"># output과 레이블 오차 구함
+</span>    <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># 오차에 대한 기울기 계산!
+</span>    <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># 기울기값 활용하여 가중치 수정!
+</span></code></pre></div></div>
+
+<p>각 코드에 대한 설명은 주석으로 달아놨다. 참고로 <code class="language-plaintext highlighter-rouge">nn.CrossEntropyLoss</code>를 써도 되지만, 가중치를 보관할 필요가 없으므로, <code class="language-plaintext highlighter-rouge">torch.nn.functional.corss_entropy()</code> 함수를 사용하였다. <code class="language-plaintext highlighter-rouge">loss</code>는 미니배치 64개의 오차 평균이다!</p>
+
+<h2 id="5-3-성능-측정하기">5-3. 성능 측정하기</h2>
+<p>우리는 학습 데이터 뿐만 아니라, 전체 데이터에서 높은 성능을 보이는 모델을 원한다. 모든 데이터에 최적화 하는 것을 일반화(Generalization)라고 한다. 그리고 학습 데이터를 기반으로 만든 모델이 학습하지 않은 데이터에 얼마나 적응하는지 수치로 나타낸 것을 일반화 오류(Generalization Error) 라고 한다. 일반화 오류는 학습과 실제 성능의 괴리를 의미하기 때문에, 값이 작을수록 좋다.<br /></p>
+
+<p>세상 모든 데이터를 다 가질순 없기 때문에, 보통 학습 데이터의 일부를 떼어내어 평가용 데이터셋으로 활용한다. 평가용 데이터셋을 테스트셋 이라고 한다. Fashion MNIST는 비교적 규모가 작은 데이터셋 이기 때문에, 학습과 테스트 두가지로 나뉜다. 그러나 일반적으로 머신러닝 데이터셋은 <strong>학습</strong>, <strong>검증</strong>, <strong>테스트</strong> 3단계로 나뉜다. 학습용 데이터셋은 가중치 조절, 검증용 데이터셋은 배치 크기와 모델 설계 같은 하이퍼파라미터를 조절하는데 사용한다. 테스트셋은 성능 보고에 사용한다.<br /></p>
+
+<p>모델을 평가하기 위한 함수 <code class="language-plaintext highlighter-rouge">evaluate()</code>를 만들자. 이 함수는 에폭이 끝날 때마다 테스트셋으로 모델의 성능을 측정하는 역할ㅇ르 한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">):</span>
+  <span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>  <span class="c1"># 평가 모드!
+</span>  <span class="n">test_loss</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># 테스트 오차
+</span>  <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c1"># 예측이 맞은 수
+</span>  <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>  <span class="c1"># 기울기 계산 안함!
+</span>    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+      <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">target</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>  <span class="c1"># 데이터를 DEVICE로 보냄!
+</span>      <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  
+      <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">F</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s">'sum'</span><span class="p">).</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># 교차 엔트로피 거칠 때 미니배치의 평균 대신 합을 받아오도록 함!
+</span>      <span class="n">pred</span> <span class="o">=</span> <span class="n">output</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># output.max는 첫번째 인자 방향(차원)으로 가장 큰 값과 그 값이 있는 인덱스 값 출력함. [1]로 인덱스 값을 가져오자!
+</span>      <span class="n">correct</span> <span class="o">+=</span> <span class="n">pred</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">view_as</span><span class="p">(</span><span class="n">pred</span><span class="p">)).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>  <span class="c1"># eq() 함수는 일치하면 1 아니면 0 출력. view_as() 함수는 target 텐서를 pred 모양대로 정렬해줌.
+</span>    
+    <span class="n">test_loss</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>   <span class="c1"># 평균 오차 계산
+</span>    <span class="n">test_accuracy</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>  <span class="c1"># 정확도 산출
+</span>    <span class="k">return</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span>
+</code></pre></div></div>
+
+<p>이제 코드를 돌리자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">EPOCHS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+  <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+  <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+
+  <span class="k">print</span><span class="p">(</span><span class="s">'[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span><span class="p">))</span>
+</code></pre></div></div>
+:ET

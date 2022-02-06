@@ -1,0 +1,110 @@
+I"�F<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="6-1-다중-회귀">6-1. 다중 회귀</h2>
+<p>5장에서 하나의 특성(생선 길이)을 사용하여 선형 회귀 모델을 훈련시켰다. 여러 개의 특성을 사용한 선형 회귀를 <strong>다중 회귀</strong>라고 한다.
+1개의 특성을 사용하면 직선을 학습한다. 2개의 특성을 사용하면 선형 회귀는 평면을 학습한다. 그 이상의 개수에 대한 특성을 사용하면 시각적으로 표현이 불가능하다. 그러나 특성이 많은 고차원에서는 선형 회귀가 매우 복잡한 모델을 표현할 수 있다.<br />
+이번 예제에서는 ‘농어 길이’, ‘농어 높이’, ‘농어 두께’도 함께 사용해보자. 그리고 ‘농어 길이 x 농어 높이’, ‘농어 길이 x 농어 두께’, ‘농어 높이 x 농어 두께’ 특성도 추가할 것이다. 이렇게 기존의 특성을 사용하여 새로운 특성을 뽑아내는 작업을 <strong>특성 공학</strong>이라고 부른다.</p>
+
+<h2 id="6-2-데이터-준비">6-2. 데이터 준비</h2>
+<p>농어의 특성이 3개로 늘어났다. 일일이 데이터를 복붙하는것도 이제 번거로워졌다. 엑셀파일에 저장된 녀석을 긁어오는 방법이 있다면 얼마나 좋을까? <strong>판다스</strong>는 유명한 데이터 분석 라이브러리로, 데이터프레임이라는 핵심 데이터 구조를 제공한다. 넘파이 배열과 비슷하게 다차원 배열을 다룰 수 있고 넘파이보다 더 많은 기능을 제공한다. 데이터프레임은 넘파이 배열로 쉽게 바꿀 수도 있다. 판다스의 <code class="language-plaintext highlighter-rouge">read_csv()</code> 함수에 주소를 넣어보자. 이 함수로 데이터프레임을 만들고 <code class="language-plaintext highlighter-rouge">to_numpy()</code> 메소드를 이용하여 데이터프레임을 넘파이 배열로 바꿔보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://bit.ly/perch_csv_data'</span><span class="p">)</span>
+<span class="n">perch_full</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">perch_full</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[ 8.4   2.11  1.41]
+       [13.7   3.53  2.  ]
+       ...
+       [44.   12.49  7.6 ]]
+</code></pre></div></div>
+
+<p>타깃값은 하드코딩으로 입력하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">perch_weight</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.9</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">51.5</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mf">78.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">85.0</span><span class="p">,</span> <span class="mf">85.0</span><span class="p">,</span> <span class="mf">110.0</span><span class="p">,</span>
+       <span class="mf">115.0</span><span class="p">,</span> <span class="mf">125.0</span><span class="p">,</span> <span class="mf">130.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mf">130.0</span><span class="p">,</span> <span class="mf">135.0</span><span class="p">,</span> <span class="mf">110.0</span><span class="p">,</span> <span class="mf">130.0</span><span class="p">,</span>
+       <span class="mf">150.0</span><span class="p">,</span> <span class="mf">145.0</span><span class="p">,</span> <span class="mf">150.0</span><span class="p">,</span> <span class="mf">170.0</span><span class="p">,</span> <span class="mf">225.0</span><span class="p">,</span> <span class="mf">145.0</span><span class="p">,</span> <span class="mf">188.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="mf">197.0</span><span class="p">,</span>
+       <span class="mf">218.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">260.0</span><span class="p">,</span> <span class="mf">265.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">,</span> <span class="mf">300.0</span><span class="p">,</span> <span class="mf">320.0</span><span class="p">,</span> <span class="mf">514.0</span><span class="p">,</span>
+       <span class="mf">556.0</span><span class="p">,</span> <span class="mf">840.0</span><span class="p">,</span> <span class="mf">685.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">700.0</span><span class="p">,</span> <span class="mf">690.0</span><span class="p">,</span> <span class="mf">900.0</span><span class="p">,</span> <span class="mf">650.0</span><span class="p">,</span> <span class="mf">820.0</span><span class="p">,</span>
+       <span class="mf">850.0</span><span class="p">,</span> <span class="mf">900.0</span><span class="p">,</span> <span class="mf">1015.0</span><span class="p">,</span> <span class="mf">820.0</span><span class="p">,</span> <span class="mf">1100.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1100.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span>
+       <span class="mf">1000.0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>그리고 훈련 세트와 테스트 세트로 전체 데이터를 나누자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">train_input</span><span class="p">,</span> <span class="n">test_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">perch_full</span><span class="p">,</span> <span class="n">perch_weight</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-3-사이킷런의-변환기">6-3. 사이킷런의 변환기</h2>
+<p>사이킷런은 특성을 만들거나 전처리하기 위한 다양한 클래스를 제공한다. 이런 클래스를 <strong>변환기</strong> 라고 부르는데, 사이킷런의 모델 클래스와 비슷하게 변환기 클래스도 모두 <code class="language-plaintext highlighter-rouge">fit()</code>, <code class="language-plaintext highlighter-rouge">transform()</code> 메소드를 제공한다. 한번 <code class="language-plaintext highlighter-rouge">PolynomialFeatures</code> 클래스를 활용해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">()</span>
+<span class="n">poly</span><span class="p">.</span><span class="n">fit</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">poly</span><span class="p">.</span><span class="n">transform</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[1. 2. 3. 4. 6. 9.]]
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">PolynomialFeatures</code>의 경우 <code class="language-plaintext highlighter-rouge">fit</code>해야 <code class="language-plaintext highlighter-rouge">transform</code>이 가능하다. 이를 하나로 붙인 <code class="language-plaintext highlighter-rouge">fit_transform</code> 메소드도 제공하니 참고하자! 어째됐건 <code class="language-plaintext highlighter-rouge">[[2, 3]]</code> 2개 특성에 대해 변환시켰더니 6개의 특성이 생겼다. 4, 6, 9는 대충 이해가 가는데, 1은 무엇일까? 이건 절편에 해당하는 녀석이라 할 수 있다. 하지만 사이킷런의 선형 모델은 자동으로 절편을 추가한다. 굳이 이렇게 만들필요가 없다. <code class="language-plaintext highlighter-rouge">include_bias=False</code>로 설정하여 다시 변환하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">include_bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">poly</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[2. 3. 4. 6. 9.]]
+</code></pre></div></div>
+
+<p>이제 실제 데이터로 변환을 해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">include_bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">poly</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_input</span><span class="p">)</span>  <span class="c1"># 특성의 조합을 준비하기만 하고 별도 통계 값을 구하지는 않음. 따라서 테스트 세트 따로 변환해도 됨.
+</span><span class="n">train_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_input</span><span class="p">)</span>
+<span class="n">test_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span> <span class="c1"># 훈련 세트를 기준으로 테스트 세트 변환!
+</span><span class="k">print</span><span class="p">(</span><span class="n">train_poly</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">poly</span><span class="p">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (42, 9)
+       ['x0', 'x1', 'x2', 'x0^2', 'x0 x1', 'x0 x2', 'x1^2', 'x1 x2', 'x2^2']
+</code></pre></div></div>
+
+<h2 id="6-4-다중-회귀-모델-훈련하기">6-4. 다중 회귀 모델 훈련하기</h2>
+<p>이제 다중 회귀 모델을 훈련시켜보자. <code class="language-plaintext highlighter-rouge">LinearRegression</code> 클래스를 임포트하여 훈련시키자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_poly</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lr</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">train_poly</span><span class="p">,</span> <span class="n">train_target</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lr</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_poly</span><span class="p">,</span> <span class="n">test_target</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0.9903183436982124
+       0.9714559911594199
+</code></pre></div></div>
+
+<p>상당히 높은 점수가 나왔고, 과소적합 경향은 전혀 안보인다. 특징을 제곱말고, 3제곱, 4제곱항까지 넣으면 어떻게 될까? 5제곱까지 특성을 만들어서 출력하고 훈련까지 시켜 성능을 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">poly</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_input</span><span class="p">)</span>
+<span class="n">train_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train_input</span><span class="p">)</span>
+<span class="n">test_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_poly</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">lr</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_poly</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lr</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">train_poly</span><span class="p">,</span> <span class="n">train_target</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lr</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_poly</span><span class="p">,</span> <span class="n">test_target</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (42, 55)
+       0.9999999999997522
+       -144.40564434202673
+</code></pre></div></div>
+
+<p>특성 개수가 55개로 엄청 늘어났다. 훈련 세트에 대한 스코어는 거의 1에 육박할 정도로 엄청 높게 나왔다. 하지만 테스트 세트에 대한 스코어는 마이너스이다. 왜 그럴까?<br />
+특성의 개수를 크게 늘리면 선형 모델은 매우 강력해진다. 훈련 세트에 대해 완벽하게 학습이 가능하다. 하지만 이는 훈련 세트에 대한 과대적합으로 이어져, 테스트 세트에 대해서는 형편없는 점수를 만들게 된다. 과대적합을 줄이려면 어떻게 해야할까?</p>
+
+<h2 id="6-5-규제">6-5. 규제</h2>
+<p>규제는 머신러닝 모델이 훈련 세트를 너무 과도하게 학습하지 못하다록 훼방하는 것을 말한다. 선형 회귀 모델에서는 특성에 곱해지는 계수의 크기를 작게 만든다.<br />
+규제에 대한 예를 보여주기 전에, 정규화를 먼저 수행하여, 계수 값의 크기가 서로 많이 다르지 않도록 만들자! 정규화되지 않으면, 곱해지는 계수들 사이의 값 차이도 상당히 나게 될 것이다. 이번에는 사이킷런에서 제공하는 StandardScaler 클래스를 사용할 것이다.
+```python
+from sklearn.preprocessing import StandardScaler</p>
+
+<p>ss = StandardScaler()
+ss.fit(train_poly)
+train_scaled = ss.transform(train_poly)
+test_scaled = ss.transform(test_poly)</p>
+<h2 id="6-6-릿지-회귀">6-6. 릿지 회귀</h2>
+<h2 id="6-6-라쏘-회귀">6-6. 라쏘 회귀</h2>
+:ET

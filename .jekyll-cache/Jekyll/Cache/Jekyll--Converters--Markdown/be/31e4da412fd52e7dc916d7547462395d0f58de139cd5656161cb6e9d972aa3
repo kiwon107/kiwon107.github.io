@@ -1,0 +1,12 @@
+I"�<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="4-1-fashion-mnist">4-1. Fashion MNIST</h2>
+<p>딥러닝에서는 모델보다 좋은 데이터 셋이 더 중요하다. 데이터셋은 우리가 풀고자 하는 문제를 정의하는 역할을 한다고 봐야한다. 문제 정의가 잘못되면 풀이를 아무리 열심히해도 말짱 도루묵이다.<br />
+Fashion MNIST는 28 x 28 픽셀을 가진 70,000 개의 흑백 이미지로 구성된다. 신발, 드레스, 가방 등 총 10가지 카테고리가 있다. 실제 서비스를 만들 때, 딥러닝 엔지니어는 대부분 데이터를 가공하고 파이프라인을 만드는데 쓴다. 이처럼 데이터를 얻고 가공하는데 많은 시간이 소모되지만, 토치비전은 다행히 Fashion MNIST 데이터셋을 자동으로 내려받을 수 있고 심지어 학습 데이터를 나누는 일까지 해준다.<br /></p>
+
+<p>일단 이미지 데이터를 다루기 위한 파이토치와 토치비전 관련 몇가지 모듈을 확인해보자.<br /></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">torch.utils.data</code>: 데이터셋 표준 정의, 데이터셋 불러오기, 자르기, 섞기 관련 도구들 제공. <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code>이 데이터셋의 표준 정의함. <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code> 클래스는 <code class="language-plaintext highlighter-rouge">Dataset</code> 모듈을 상속하는데, 인스턴스 입력으로 학습에 필요한 데이터를 로딩해줌.</li>
+</ul>
+:ET

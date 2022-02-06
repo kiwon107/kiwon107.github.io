@@ -202,4 +202,40 @@ var store = [{
         "tags": ["deep learning","pytorch","ANN"],
         "url": "/deeplearningpyt/deeplearningpyt3/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 3. 데이터 전처리",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 3-1. 넘파이로 데이터 준비하기 2장에서 썼던 도미와 빙어 데이터를 그대로 활용해보자. 넘파이까지 임포트 할 거다. fish_length = [25.4, 26.3, 26.5, 29.0, 29.0, 29.7, 29.7, 30.0, 30.0, 30.7, 31.0, 31.0, 31.5, 32.0, 32.0, 32.0, 33.0,...","categories": ["machinelearning"],
+        "tags": ["machine learning","data preprocessing","standard score","broadcasting"],
+        "url": "/machinelearning/machinelearning3/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 4. k-최근접 이웃 회귀",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 4-1. k-최근접 이웃 회귀 지도 학습 알고리즘은 크게 분류와 회귀로 나뉜다. 회귀는 임의의 어떤 숫자를 예측하는 문제이다. 예를 들면 배달이 도착할 시간 예측 같은 문제이다. 생선의 무게를 예측하는 것도 회귀 문제이다. k-최근접 이웃 알고리즘은...","categories": ["machinelearning"],
+        "tags": ["machine learning","regression","k-neighbor regressor","coefficient of determination","overfitting","underfitting"],
+        "url": "/machinelearning/machinelearning4/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 5. 선형회귀",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 5-1. K-최근접 이웃의 한계 이전 문제에서 길이가 훨씬 더 긴 농어에 대한 무게를 구해보자. import numpy as np perch_length = np.array([8.4, 13.7, 15.0, 16.2, 17.4, 18.0, 18.7, 19.0, 19.6, 20.0, 21.0, 21.0, 21.0, 21.3,...","categories": ["machinelearning"],
+        "tags": ["machine learning","linear regression","coefficient","weight","model parameter","polynomial regression"],
+        "url": "/machinelearning/machinelearning5/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 6. 특성 공학과 규제",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 6-1. 다중 회귀 5장에서 하나의 특성(생선 길이)을 사용하여 선형 회귀 모델을 훈련시켰다. 여러 개의 특성을 사용한 선형 회귀를 다중 회귀라고 한다. 1개의 특성을 사용하면 직선을 학습한다. 2개의 특성을 사용하면 선형 회귀는 평면을 학습한다. 그...","categories": ["machinelearning"],
+        "tags": ["machine learning","multiple regression","feature engineering"],
+        "url": "/machinelearning/machinelearning6/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 4. Fashion MNIST 데이터셋 알아보기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 4-1. Fashion MNIST 딥러닝에서는 모델보다 좋은 데이터 셋이 더 중요하다. 데이터셋은 우리가 풀고자 하는 문제를 정의하는 역할을 한다고 봐야한다. 문제 정의가 잘못되면 풀이를 아무리 열심히해도 말짱 도루묵이다. Fashion MNIST는 28 x 28 픽셀을...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","DNN"],
+        "url": "/deeplearningpyt/deeplearningpyt4/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 5. 인공 신경망으로 패션 아이템 분류하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 5-1. 환경 설정하기 import torch import torch.nn as nn # 파이토치, 인공 신경망 모델의 재료들 담고 있는 모듈 import torch.optim as optim # 최적화 import torch.nn.functional as F from torchvision import transforms, datasets...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","DNN"],
+        "url": "/deeplearningpyt/deeplearningpyt5/",
+        "teaser": null
       }]
