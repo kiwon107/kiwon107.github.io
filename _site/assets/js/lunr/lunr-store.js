@@ -1,4 +1,16 @@
 var store = [{
+        "title": "[확통] 1. 확률",
+        "excerpt":"본 포스팅은 “프로그래머를 위한 확률과 통계” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.        ","categories": ["prob"],
+        "tags": ["probaility"],
+        "url": "/prob/prob1/",
+        "teaser": null
+      },{
+        "title": "[확통] 2. 여러 확률변수의 조합 I",
+        "excerpt":"본 포스팅은 “프로그래머를 위한 확률과 통계” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.        ","categories": ["prob"],
+        "tags": ["probaility"],
+        "url": "/prob/prob2/",
+        "teaser": null
+      },{
         "title": "Test",
         "excerpt":"01-1. Test      hi   오 이게 되네   print('hi')  'hi'   01-2. Test2      와우   ","categories": ["test"],
         "tags": ["Test","test"],
@@ -243,5 +255,29 @@ var store = [{
         "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 6-1. 과대적합, 과소적합, 조기종료 머신러닝 모델을 만들면 학습 성능은 잘 나오지만, 테스트셋이나 실제 상황에서는 성능이 나오지 않을 때가 있다. 이것을 과대적합(Overfitting) 이라고 한다. 즉, 너무 학습 데이터에만 치중되어 새로운 데이터에 대해서는 성능이 잘...","categories": ["deeplearningpyt"],
         "tags": ["deep learning","pytorch","DNN"],
         "url": "/deeplearningpyt/deeplearningpyt6/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 7. CNN 기초와 모델 구현",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 7-1. 컴퓨터가 보는 이미지 컴퓨터에서 모든 이미지는 픽셀값들을 가로, 세로로 늘어놓은 행렬로 표현된다. 보통 인공 신경망은 다양한 형태의 입력에 대한 확정성이 떨어진다. 같은 신발 이미지라고 해도, 신발이 옆으로 조금만 치우쳐지면 예측률이 급격히 떨어진다....","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","CNN"],
+        "url": "/deeplearningpyt/deeplearningpyt7/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 8. ResNet으로 컬러 데이터셋에 적용하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 8-1. ResNet 소개 ResNet(Residual Network) 모델은 CNN을 응용한 모델이다. 이미지 천만 장을 학습하여 15만 장으로 인식률을 겨루는 이미지넷 대회에서 2015년도 우승한 모델. 신경망을 깊게 쌓으면 오히려 성능이 나빠지는 문제를 해결하는 방법으로 제시했다. 컨벌루션층의...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","CNN","ResNet"],
+        "url": "/deeplearningpyt/deeplearningpyt8/",
+        "teaser": null
+      },{
+        "title": "[자료구조와 알고리즘] 1. 알고리즘이란?",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 세 정수의 최대값 구하기 print('세 정수의 최대값을 구하라.') a = int(input('정수 a 값 입력: ')) # input() 함수는 키보드로 문자열 입력받아 반환 b = int(input('정수 b 값 입력: ')) # int() 함수는...","categories": ["algopy"],
+        "tags": ["Data structure","Algorithm"],
+        "url": "/algopy/algopy1/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 7. 로지스틱 회귀",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 7-1. 럭키백의 확률 럭키백에 들어간 생선의 크기, 무게 등이 주어졌을 때, 7개 생선에 대한 확률을 출력해야 한다고 하자. 길이, 높이, 두께, 대각선 길이, 무게를 특성으로 사용할 수 있다고 한다. 사이킷런의 K-최근접 이웃 분류기로 클래스...","categories": ["machinelearning"],
+        "tags": ["machine learning","logistic regression","multi-class classification","sigmoid function","softmax function"],
+        "url": "/machinelearning/machinelearning7/",
         "teaser": null
       }]

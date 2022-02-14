@@ -1,0 +1,49 @@
+I"o
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/prob/prob2/">[확통] 2. 여러 확률변수의 조합 I</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.02.10
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#prob" class="page__taxonomy-item-category" rel="tag">prob</a>
+                    
+                    
+                    <a href="/tags/#probaility" class="page__taxonomy-item-tag" rel="tag">probaility</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/prob/prob1/">[Python] 1. 확률</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2021.02.10
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#prob" class="page__taxonomy-item-category" rel="tag">prob</a>
+                    
+                    
+                    <a href="/tags/#probaility" class="page__taxonomy-item-tag" rel="tag">probaility</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

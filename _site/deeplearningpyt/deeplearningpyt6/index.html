@@ -319,10 +319,10 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <ul>
           
           
-            <li><a href="/machinelearning/">머신러닝(사이킷런) (6)</a></li>
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (7)</a></li>
           
           
-            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (6)</a></li>
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (8)</a></li>
           
           
             <li><a href="/deeplearningtens/">딥러닝(텐서플로우) ()</a></li>
@@ -356,6 +356,24 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
           
           
             <li><a href="/os/">운영체제 ()</a></li>
+          
+          
+            <li><a href="/algopy/">자료구조와 알고리즘(파이썬) (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Mathematics</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/prob/">확률과 통계 (2)</a></li>
           
         </ul>
         
@@ -412,7 +430,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          4 minute read
         
       </span>
     
@@ -547,7 +565,56 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
   <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
   <span class="k">print</span><span class="p">(</span><span class="s">'[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span><span class="p">))</span>
 </code></pre></div></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [1] Test Loss: 0.5419, Accuracy: 83.04%
+       [2] Test Loss: 0.4139, Accuracy: 87.15%
+       [3] Test Loss: 0.3397, Accuracy: 89.55%
+       [4] Test Loss: 0.2877, Accuracy: 91.15%
+       [5] Test Loss: 0.2485, Accuracy: 92.31%
+       [6] Test Loss: 0.2207, Accuracy: 93.18%
+       [7] Test Loss: 0.2026, Accuracy: 93.71%
+       [8] Test Loss: 0.1851, Accuracy: 94.25%
+       [9] Test Loss: 0.1743, Accuracy: 94.55%
+       [10] Test Loss: 0.1636, Accuracy: 94.83%
+       [11] Test Loss: 0.1539, Accuracy: 95.21%
+       [12] Test Loss: 0.1481, Accuracy: 95.39%
+       [13] Test Loss: 0.1409, Accuracy: 95.57%
+       [14] Test Loss: 0.1377, Accuracy: 95.70%
+       [15] Test Loss: 0.1325, Accuracy: 95.87%
+       [16] Test Loss: 0.1317, Accuracy: 95.87%
+       [17] Test Loss: 0.1267, Accuracy: 96.01%
+       [18] Test Loss: 0.1245, Accuracy: 95.95%
+       [19] Test Loss: 0.1207, Accuracy: 96.07%
+       [20] Test Loss: 0.1190, Accuracy: 96.16%
+       [21] Test Loss: 0.1147, Accuracy: 96.37%
+       [22] Test Loss: 0.1126, Accuracy: 96.32%
+       [23] Test Loss: 0.1101, Accuracy: 96.44%
+       [24] Test Loss: 0.1097, Accuracy: 96.44%
+       [25] Test Loss: 0.1070, Accuracy: 96.41%
+       [26] Test Loss: 0.1037, Accuracy: 96.63%
+       [27] Test Loss: 0.1002, Accuracy: 96.73%
+       [28] Test Loss: 0.1031, Accuracy: 96.72%
+       [29] Test Loss: 0.1020, Accuracy: 96.69%
+       [30] Test Loss: 0.0989, Accuracy: 96.85%
+       [31] Test Loss: 0.0996, Accuracy: 96.81%
+       [32] Test Loss: 0.0976, Accuracy: 96.88%
+       [33] Test Loss: 0.0953, Accuracy: 96.92%
+       [34] Test Loss: 0.0960, Accuracy: 96.96%
+       [35] Test Loss: 0.0931, Accuracy: 97.04%
+       [36] Test Loss: 0.0923, Accuracy: 97.08%
+       [37] Test Loss: 0.0952, Accuracy: 97.08%
+       [38] Test Loss: 0.0937, Accuracy: 97.14%
+       [39] Test Loss: 0.0914, Accuracy: 97.20%
+       [40] Test Loss: 0.0903, Accuracy: 97.15%
+       [41] Test Loss: 0.0904, Accuracy: 97.22%
+       [42] Test Loss: 0.0882, Accuracy: 97.15%
+       [43] Test Loss: 0.0902, Accuracy: 97.01%
+       [44] Test Loss: 0.0870, Accuracy: 97.16%
+       [45] Test Loss: 0.0879, Accuracy: 97.16%
+       [46] Test Loss: 0.0864, Accuracy: 97.26%
+       [47] Test Loss: 0.0856, Accuracy: 97.36%
+       [48] Test Loss: 0.0856, Accuracy: 97.26%
+       [49] Test Loss: 0.0866, Accuracy: 97.23%
+       [50] Test Loss: 0.0858, Accuracy: 97.29%    
 </code></pre></div></div>
 
 
@@ -608,7 +675,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/deeplearningpyt/deeplearningpyt7/" class="pagination--pager" title="[Deeplearning(pytorch)] 7. CNN 기초와 모델 구현
+">Next</a>
     
   </nav>
 
@@ -632,7 +700,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/deeplearningpyt/deeplearningpyt5/" rel="permalink">[Deeplearning(pytorch)] 5. 인공 신경망으로 패션 아이템 분류하기
+        <a href="/machinelearning/machinelearning7/" rel="permalink">[Machine learning] 7. 로지스틱 회귀
 </a>
       
     </h2>
@@ -644,103 +712,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-02-06T00:00:00+09:00">February 6, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          5 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/deeplearningpyt/deeplearningpyt4/" rel="permalink">[Deeplearning(pytorch)] 4. Fashion MNIST 데이터셋 알아보기
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-02-05T00:00:00+09:00">February 5, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/machinelearning/machinelearning6/" rel="permalink">[Machine learning] 6. 특성 공학과 규제
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-31T00:00:00+09:00">January 31, 2022</time>
+        <time datetime="2022-02-13T00:00:00+09:00">February 13, 2022</time>
       </span>
     
 
@@ -776,7 +748,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/machinelearning/machinelearning5/" rel="permalink">[Machine learning] 5. 선형회귀
+        <a href="/algopy/algopy1/" rel="permalink">[자료구조와 알고리즘] 1. 알고리즘이란?
 </a>
       
     </h2>
@@ -788,7 +760,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-31T00:00:00+09:00">January 31, 2022</time>
+        <time datetime="2022-02-10T00:00:00+09:00">February 10, 2022</time>
       </span>
     
 
@@ -801,14 +773,110 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
       <span class="page__meta-readtime">
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          1 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt8/" rel="permalink">[Deeplearning(pytorch)] 8. ResNet으로 컬러 데이터셋에 적용하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-08T00:00:00+09:00">February 8, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt7/" rel="permalink">[Deeplearning(pytorch)] 7. CNN 기초와 모델 구현
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-07T00:00:00+09:00">February 7, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
 </p>
   </article>

@@ -134,8 +134,56 @@ for epoch in range(1, EPOCHS + 1):
   test_loss, test_accuracy = evaluate(model, test_loader)
   print('[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'.format(epoch, test_loss, test_accuracy))
 ```
-    (결과)
-    
+    (결과) [1] Test Loss: 0.5419, Accuracy: 83.04%
+           [2] Test Loss: 0.4139, Accuracy: 87.15%
+           [3] Test Loss: 0.3397, Accuracy: 89.55%
+           [4] Test Loss: 0.2877, Accuracy: 91.15%
+           [5] Test Loss: 0.2485, Accuracy: 92.31%
+           [6] Test Loss: 0.2207, Accuracy: 93.18%
+           [7] Test Loss: 0.2026, Accuracy: 93.71%
+           [8] Test Loss: 0.1851, Accuracy: 94.25%
+           [9] Test Loss: 0.1743, Accuracy: 94.55%
+           [10] Test Loss: 0.1636, Accuracy: 94.83%
+           [11] Test Loss: 0.1539, Accuracy: 95.21%
+           [12] Test Loss: 0.1481, Accuracy: 95.39%
+           [13] Test Loss: 0.1409, Accuracy: 95.57%
+           [14] Test Loss: 0.1377, Accuracy: 95.70%
+           [15] Test Loss: 0.1325, Accuracy: 95.87%
+           [16] Test Loss: 0.1317, Accuracy: 95.87%
+           [17] Test Loss: 0.1267, Accuracy: 96.01%
+           [18] Test Loss: 0.1245, Accuracy: 95.95%
+           [19] Test Loss: 0.1207, Accuracy: 96.07%
+           [20] Test Loss: 0.1190, Accuracy: 96.16%
+           [21] Test Loss: 0.1147, Accuracy: 96.37%
+           [22] Test Loss: 0.1126, Accuracy: 96.32%
+           [23] Test Loss: 0.1101, Accuracy: 96.44%
+           [24] Test Loss: 0.1097, Accuracy: 96.44%
+           [25] Test Loss: 0.1070, Accuracy: 96.41%
+           [26] Test Loss: 0.1037, Accuracy: 96.63%
+           [27] Test Loss: 0.1002, Accuracy: 96.73%
+           [28] Test Loss: 0.1031, Accuracy: 96.72%
+           [29] Test Loss: 0.1020, Accuracy: 96.69%
+           [30] Test Loss: 0.0989, Accuracy: 96.85%
+           [31] Test Loss: 0.0996, Accuracy: 96.81%
+           [32] Test Loss: 0.0976, Accuracy: 96.88%
+           [33] Test Loss: 0.0953, Accuracy: 96.92%
+           [34] Test Loss: 0.0960, Accuracy: 96.96%
+           [35] Test Loss: 0.0931, Accuracy: 97.04%
+           [36] Test Loss: 0.0923, Accuracy: 97.08%
+           [37] Test Loss: 0.0952, Accuracy: 97.08%
+           [38] Test Loss: 0.0937, Accuracy: 97.14%
+           [39] Test Loss: 0.0914, Accuracy: 97.20%
+           [40] Test Loss: 0.0903, Accuracy: 97.15%
+           [41] Test Loss: 0.0904, Accuracy: 97.22%
+           [42] Test Loss: 0.0882, Accuracy: 97.15%
+           [43] Test Loss: 0.0902, Accuracy: 97.01%
+           [44] Test Loss: 0.0870, Accuracy: 97.16%
+           [45] Test Loss: 0.0879, Accuracy: 97.16%
+           [46] Test Loss: 0.0864, Accuracy: 97.26%
+           [47] Test Loss: 0.0856, Accuracy: 97.36%
+           [48] Test Loss: 0.0856, Accuracy: 97.26%
+           [49] Test Loss: 0.0866, Accuracy: 97.23%
+           [50] Test Loss: 0.0858, Accuracy: 97.29%    
 
 
 

@@ -1,0 +1,23 @@
+I"V	<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-세-정수의-최대값-구하기">1-1. 세 정수의 최대값 구하기</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'세 정수의 최대값을 구하라.'</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 a 값 입력: '</span><span class="p">))</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 b 값 입력: '</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 c 값 입력: '</span><span class="p">))</span>  <span class="c1"># input() 함수는 키보드로 문자열 입력받아 반환
+</span>
+<span class="n">maximum</span> <span class="o">=</span> <span class="n">a</span>
+<span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">maximum</span><span class="p">:</span> <span class="n">maximum</span><span class="o">=</span><span class="n">b</span>
+<span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">maximum</span><span class="p">:</span> <span class="n">maximum</span><span class="o">=</span><span class="n">c</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'최대값은 </span><span class="si">{</span><span class="n">maximum</span><span class="si">}</span><span class="s">입니다.'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 세 정수의 최대값을 구하라.
+       정수 a 값 입력: 1
+       정수 b 값 입력: 3
+       정수 c 값 입력: 2
+       최대값은 3입니다.
+</code></pre></div></div>
+:ET

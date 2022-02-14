@@ -1,0 +1,353 @@
+I"�<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="7-1-컴퓨터가-보는-이미지">7-1. 컴퓨터가 보는 이미지</h2>
+<p>컴퓨터에서 모든 이미지는 픽셀값들을 가로, 세로로 늘어놓은 행렬로 표현된다. 보통 인공 신경망은 다양한 형태의 입력에 대한 확정성이 떨어진다. 같은 신발 이미지라고 해도, 신발이 옆으로 조금만 치우쳐지면 예측률이 급격히 떨어진다. 특징을 추출하는 가중치가 가운데만 집중하도록 학습되었기 때문이다. 토치비전의 <code class="language-plaintext highlighter-rouge">transforms</code> 도구를 쓴다해도, 고화질 이미지의 크기를 고려하면 각 배치당 처리해야하는 데이터 수는 엄청 늘어난다. 신발의 가운데, 왼쪽 등 다양하게 배치된 이미지를 따로 학습하는 것도 이상적이지 않다. 인공지능이 하나를 배우면서 다른 하나도 자연스럽게 유추하도록 만들순 없을까?</p>
+
+<h2 id="7-2-컨볼루션">7-2. 컨볼루션</h2>
+<p>컨볼루션의 목적은 계측정으로 인식할 수 있도록 단계마다 이미지의 특징을 추출하는 것이다. 각 단계에서는 이미지에 대한 다양한 필터를 적용하여 윤곽선, 질감, 털 등 각종 특징을 추출한다. 윤곽선을 검출하는 필터를 사용하면, 밑그림을 그린것 같은 이미지가 출력된다. 이러한 필터를 적용할 때, 이미지 왼쪽 위에서 오른쪽 밑까지 밀어가며 곱하고 더하는데, 이 작업을 <strong>컨볼루션(Convolution)</strong>이라고 한다. CNN은 이미지를 추출하는 필터를 학습한다. 필터가 하나의 작은 신경망인 것이다.</p>
+
+<h2 id="7-3-cnn-모델">7-3. CNN 모델</h2>
+<p>CNN 모델은 컨볼루션 계층, 풀링 계층, 일반적인 인공 신경망 계층으로 구성된다.</p>
+<ul>
+  <li>컨볼루션 계층: 이미지의 특징을 추출하는 역할.</li>
+  <li>풀링 계층: 필터를 거친 여러 특징 중 가장 중요한 특징 하나를 골라냄. 덜 중요한 특징을 버려 이미지의 차원 감소함.</li>
+</ul>
+
+<p>컨벌루션 연산은 이미지를 겹치는 매우 작은 조각으로 쪼개어 필터 기능을 하는 작은 신경망에 적용한다. 이 신경망은 모든 조각에 동일하게 적용되며, 특징을 추출하기 때문에 <strong>컨볼루션 필터</strong> 또는 <strong>커널</strong>이라고 부른다. 보통 3 x 3 또는 5 x 5 크기의 커널이 쓰이는데, 컨볼루션 계층 하나에 여러 개 존재할 수 있다. 학습이 시작되면, 필터 행렬의 값은 특징을 잘 뽑을 수 있도록 최적화 된다. 컨볼루션은 오른쪽 아래로 움직이며 다음 이미지를 만드는데, 한 칸 또는 여러 칸을 건너뛸 수 있다. 이 움직임을 조절하는 값을 <strong>스트라이드</strong>라고 한다. 스트라이드를 크게 주어 여러 칸을 건너뛰면 텐서의 크기는 작아지게 된다. 컨볼루션을 거쳐 만들어진 새로운 이미지는 <strong>특징 맵</strong> 이라고 부른다. 컨볼루션 계층 마다 여러 특징 맵이 만들어지고, 다음 단계인 풀링 계층으로 넘어가게 된다. 특징 맵 크기가 크면 과적합의 위험이 증가하므로, 풀링 계층에서 특징 맵의 크기를 줄여주기 위해 특징을 값 하나로 추려내어 특징을 강조하도록 한다. 보통 필터가 지나갈 때마다 픽셀을 묶어서 평균이나 최대값을 가져오는 간단한 연산이 이루어 진다. 특징 맵을 관찰하면, CNN 모델이 이미지를 계층적으로 인식한다는 걳을 확인할 수 있다. 특징은 선 같은 저수준에서 눈, 코, 입 거쳐 얼굴 같은 고수준 특징이 추출되게 된다. 결과적으로, CNN은 사물이 조금만 치우쳐져도 인식하지 못하던 인공 신경망의 문제를 이미지 전체에 필터를 적용하여 특징을 추출하는 방식으로 해결해준다.</p>
+
+<h2 id="7-4-cnn-모델-구현하기">7-4. CNN 모델 구현하기</h2>
+<p>이제 코드로 구현해보자. 데이터셋을 만드는거 까지 쭉 가보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+
+<span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">)</span>
+
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="s">'./data'</span><span class="p">,</span>
+                  <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                  <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,))</span>
+                  <span class="p">])),</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="s">'./.data'</span><span class="p">,</span>
+                  <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                  <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,))</span>
+                  <span class="p">])),</span>
+  <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이제 CNN 모델을 설계할 차례다. <code class="language-plaintext highlighter-rouge">nn.Conv2d</code> 함수를 활용할 것이다. 이 함수의 첫 두 파라미터는 입력 채널 수 <code class="language-plaintext highlighter-rouge">in_channels</code>와 출력 채널 수 <code class="language-plaintext highlighter-rouge">out_channels</code> 이다. Fashion MNIST 데이터셋은 흑백이미지라, 색상 채널이 1개이다. 첫 컨볼루션 계층에서는 10개 특징 맵을 생성하고, 두 번째 컨볼루션 계층은 10개의 특징 맵을 받아 20개의 특징 맵을 만들도록 해보자. 커널 사이즈는 5x5로 만들 것이다. 커날 사이즈에 숫나 하나만 지정하면 정사각형으로 간주한다. (3, 5)로 입력하면 3 x 5 크기의 직사각형 커널을 만들수 도 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">CNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">conv2d</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">drop</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout2d</span><span class="p">()</span> <span class="c1"># 이번에는 functional 대신 nn.Dropout2D 모듈 활용해봄!
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># 계층의 출력 크기는 특별한 이유 없이 계층이 진행될수록 작아지도록 임의로 정함.
+</span>  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># F.max_pool2d() 함수의 두 번째 입력은 커널 크기! 학습 파라미터 따로 없음.
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># F.max_pool2d() 외, nn.MaxPool2d 같은 일반 모듈도 사용 가능.
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">320</span><span class="p">)</span>   <span class="c1"># 320은 x가 가진 원소 개수 의미
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span><span class="p">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이제 나머지 코드를 작성하자!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">CNN</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+  <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># batch_idx는 데이터를 64개 씩 몇 번째 가져오고 있는지를 의미 
+</span>      <span class="k">print</span><span class="p">(</span><span class="s">'Train Epoch: {} [{}/{} ({:.0f}%)]</span><span class="se">\t</span><span class="s">Loss:[:.6f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">batch_idx</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">.</span><span class="n">dataset</span><span class="p">),</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">batch_idx</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()))</span>
+
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">):</span>
+  <span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+  <span class="n">test_loss</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+      <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">target</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+      <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+      <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">F</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s">'sum'</span><span class="p">).</span><span class="n">item</span><span class="p">()</span>
+      <span class="n">pred</span> <span class="o">=</span> <span class="n">output</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+      <span class="n">correct</span> <span class="o">+=</span> <span class="n">pred</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">view_as</span><span class="p">(</span><span class="n">pred</span><span class="p">)).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+
+  <span class="n">test_loss</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+  <span class="n">test_accuracy</span> <span class="o">=</span> <span class="mf">100.</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">EPOCHS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+  <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+  <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+
+  <span class="k">print</span><span class="p">(</span><span class="s">'[{}] Test Loss: {:.4f}, Accuracy: {:.2f}%'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_accuracy</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Train Epoch: 1 [0/60000 (0%)]	Loss:2.300701
+       Train Epoch: 1 [12800/60000 (21%)]	Loss:1.112408
+       Train Epoch: 1 [25600/60000 (43%)]	Loss:0.926304
+       Train Epoch: 1 [38400/60000 (64%)]	Loss:0.991300
+       Train Epoch: 1 [51200/60000 (85%)]	Loss:0.779528
+       [1] Test Loss: 0.6457, Accuracy: 75.35%
+       Train Epoch: 2 [0/60000 (0%)]	Loss:0.681881
+       Train Epoch: 2 [12800/60000 (21%)]	Loss:1.025114
+       Train Epoch: 2 [25600/60000 (43%)]	Loss:0.503789
+       Train Epoch: 2 [38400/60000 (64%)]	Loss:0.849935
+       Train Epoch: 2 [51200/60000 (85%)]	Loss:0.603705
+       [2] Test Loss: 0.5394, Accuracy: 79.39%
+       Train Epoch: 3 [0/60000 (0%)]	Loss:0.586898
+       Train Epoch: 3 [12800/60000 (21%)]	Loss:0.700720
+       Train Epoch: 3 [25600/60000 (43%)]	Loss:0.524979
+       Train Epoch: 3 [38400/60000 (64%)]	Loss:0.359380
+       Train Epoch: 3 [51200/60000 (85%)]	Loss:0.585687
+       [3] Test Loss: 0.4953, Accuracy: 82.11%
+       Train Epoch: 4 [0/60000 (0%)]	Loss:0.602041
+       Train Epoch: 4 [12800/60000 (21%)]	Loss:0.539423
+       Train Epoch: 4 [25600/60000 (43%)]	Loss:0.510981
+       Train Epoch: 4 [38400/60000 (64%)]	Loss:0.637181
+       Train Epoch: 4 [51200/60000 (85%)]	Loss:0.361220
+       [4] Test Loss: 0.4463, Accuracy: 84.13%
+       Train Epoch: 5 [0/60000 (0%)]	Loss:0.422438
+       Train Epoch: 5 [12800/60000 (21%)]	Loss:0.506737
+       Train Epoch: 5 [25600/60000 (43%)]	Loss:0.485518
+       Train Epoch: 5 [38400/60000 (64%)]	Loss:0.550422
+       Train Epoch: 5 [51200/60000 (85%)]	Loss:0.439864
+       [5] Test Loss: 0.4365, Accuracy: 84.02%
+       Train Epoch: 6 [0/60000 (0%)]	Loss:0.393532
+       Train Epoch: 6 [12800/60000 (21%)]	Loss:0.376332
+       Train Epoch: 6 [25600/60000 (43%)]	Loss:0.503539
+       Train Epoch: 6 [38400/60000 (64%)]	Loss:0.585389
+       Train Epoch: 6 [51200/60000 (85%)]	Loss:0.457623
+       [6] Test Loss: 0.4253, Accuracy: 84.39%
+       Train Epoch: 7 [0/60000 (0%)]	Loss:0.435238
+       Train Epoch: 7 [12800/60000 (21%)]	Loss:0.433837
+       Train Epoch: 7 [25600/60000 (43%)]	Loss:0.486959
+       Train Epoch: 7 [38400/60000 (64%)]	Loss:0.519784
+       Train Epoch: 7 [51200/60000 (85%)]	Loss:0.569560
+       [7] Test Loss: 0.3837, Accuracy: 86.07%
+       Train Epoch: 8 [0/60000 (0%)]	Loss:0.455356
+       Train Epoch: 8 [12800/60000 (21%)]	Loss:0.455740
+       Train Epoch: 8 [25600/60000 (43%)]	Loss:0.469353
+       Train Epoch: 8 [38400/60000 (64%)]	Loss:0.404051
+       Train Epoch: 8 [51200/60000 (85%)]	Loss:0.565929
+       [8] Test Loss: 0.3713, Accuracy: 86.37%
+       Train Epoch: 9 [0/60000 (0%)]	Loss:0.503008
+       Train Epoch: 9 [12800/60000 (21%)]	Loss:0.410055
+       Train Epoch: 9 [25600/60000 (43%)]	Loss:0.370442
+       Train Epoch: 9 [38400/60000 (64%)]	Loss:0.350443
+       Train Epoch: 9 [51200/60000 (85%)]	Loss:0.417547
+       [9] Test Loss: 0.3639, Accuracy: 86.78%
+       Train Epoch: 10 [0/60000 (0%)]	Loss:0.524522
+       Train Epoch: 10 [12800/60000 (21%)]	Loss:0.404944
+       Train Epoch: 10 [25600/60000 (43%)]	Loss:0.401919
+       Train Epoch: 10 [38400/60000 (64%)]	Loss:0.335519
+       Train Epoch: 10 [51200/60000 (85%)]	Loss:0.444212
+       [10] Test Loss: 0.3506, Accuracy: 87.15%
+       Train Epoch: 11 [0/60000 (0%)]	Loss:0.380572
+       Train Epoch: 11 [12800/60000 (21%)]	Loss:0.369728
+       Train Epoch: 11 [25600/60000 (43%)]	Loss:0.360946
+       Train Epoch: 11 [38400/60000 (64%)]	Loss:0.324107
+       Train Epoch: 11 [51200/60000 (85%)]	Loss:0.303930
+       [11] Test Loss: 0.3568, Accuracy: 87.11%
+       Train Epoch: 12 [0/60000 (0%)]	Loss:0.354425
+       Train Epoch: 12 [12800/60000 (21%)]	Loss:0.275802
+       Train Epoch: 12 [25600/60000 (43%)]	Loss:0.262319
+       Train Epoch: 12 [38400/60000 (64%)]	Loss:0.401320
+       Train Epoch: 12 [51200/60000 (85%)]	Loss:0.400510
+       [12] Test Loss: 0.3445, Accuracy: 87.65%
+       Train Epoch: 13 [0/60000 (0%)]	Loss:0.301611
+       Train Epoch: 13 [12800/60000 (21%)]	Loss:0.367334
+       Train Epoch: 13 [25600/60000 (43%)]	Loss:0.386293
+       Train Epoch: 13 [38400/60000 (64%)]	Loss:0.497484
+       Train Epoch: 13 [51200/60000 (85%)]	Loss:0.377190
+       [13] Test Loss: 0.3377, Accuracy: 87.51%
+       Train Epoch: 14 [0/60000 (0%)]	Loss:0.550325
+       Train Epoch: 14 [12800/60000 (21%)]	Loss:0.772415
+       Train Epoch: 14 [25600/60000 (43%)]	Loss:0.183556
+       Train Epoch: 14 [38400/60000 (64%)]	Loss:0.431902
+       Train Epoch: 14 [51200/60000 (85%)]	Loss:0.437415
+       [14] Test Loss: 0.3332, Accuracy: 87.43%
+       Train Epoch: 15 [0/60000 (0%)]	Loss:0.409025
+       Train Epoch: 15 [12800/60000 (21%)]	Loss:0.276985
+       Train Epoch: 15 [25600/60000 (43%)]	Loss:0.340309
+       Train Epoch: 15 [38400/60000 (64%)]	Loss:0.256900
+       Train Epoch: 15 [51200/60000 (85%)]	Loss:0.520286
+       [15] Test Loss: 0.3280, Accuracy: 88.42%
+       Train Epoch: 16 [0/60000 (0%)]	Loss:0.272302
+       Train Epoch: 16 [12800/60000 (21%)]	Loss:0.352614
+       Train Epoch: 16 [25600/60000 (43%)]	Loss:0.258878
+       Train Epoch: 16 [38400/60000 (64%)]	Loss:0.311896
+       Train Epoch: 16 [51200/60000 (85%)]	Loss:0.217881
+       [16] Test Loss: 0.3239, Accuracy: 88.32%
+       Train Epoch: 17 [0/60000 (0%)]	Loss:0.213851
+       Train Epoch: 17 [12800/60000 (21%)]	Loss:0.331738
+       Train Epoch: 17 [25600/60000 (43%)]	Loss:0.336340
+       Train Epoch: 17 [38400/60000 (64%)]	Loss:0.360911
+       Train Epoch: 17 [51200/60000 (85%)]	Loss:0.397059
+       [17] Test Loss: 0.3235, Accuracy: 88.61%
+       Train Epoch: 18 [0/60000 (0%)]	Loss:0.320855
+       Train Epoch: 18 [12800/60000 (21%)]	Loss:0.526109
+       Train Epoch: 18 [25600/60000 (43%)]	Loss:0.367768
+       Train Epoch: 18 [38400/60000 (64%)]	Loss:0.395585
+       Train Epoch: 18 [51200/60000 (85%)]	Loss:0.387897
+       [18] Test Loss: 0.3190, Accuracy: 88.46%
+       Train Epoch: 19 [0/60000 (0%)]	Loss:0.360296
+       Train Epoch: 19 [12800/60000 (21%)]	Loss:0.220974
+       Train Epoch: 19 [25600/60000 (43%)]	Loss:0.460590
+       Train Epoch: 19 [38400/60000 (64%)]	Loss:0.380125
+       Train Epoch: 19 [51200/60000 (85%)]	Loss:0.571719
+       [19] Test Loss: 0.3211, Accuracy: 88.53%
+       Train Epoch: 20 [0/60000 (0%)]	Loss:0.357328
+       Train Epoch: 20 [12800/60000 (21%)]	Loss:0.322553
+       Train Epoch: 20 [25600/60000 (43%)]	Loss:0.274892
+       Train Epoch: 20 [38400/60000 (64%)]	Loss:0.351856
+       Train Epoch: 20 [51200/60000 (85%)]	Loss:0.244439
+       [20] Test Loss: 0.3187, Accuracy: 88.36%
+       Train Epoch: 21 [0/60000 (0%)]	Loss:0.346970
+       Train Epoch: 21 [12800/60000 (21%)]	Loss:0.232282
+       Train Epoch: 21 [25600/60000 (43%)]	Loss:0.357492
+       Train Epoch: 21 [38400/60000 (64%)]	Loss:0.303289
+       Train Epoch: 21 [51200/60000 (85%)]	Loss:0.310551
+       [21] Test Loss: 0.3088, Accuracy: 88.88%
+       Train Epoch: 22 [0/60000 (0%)]	Loss:0.329502
+       Train Epoch: 22 [12800/60000 (21%)]	Loss:0.387265
+       Train Epoch: 22 [25600/60000 (43%)]	Loss:0.338717
+       Train Epoch: 22 [38400/60000 (64%)]	Loss:0.266329
+       Train Epoch: 22 [51200/60000 (85%)]	Loss:0.335189
+       [22] Test Loss: 0.3150, Accuracy: 89.05%
+       Train Epoch: 23 [0/60000 (0%)]	Loss:0.159057
+       Train Epoch: 23 [12800/60000 (21%)]	Loss:0.271390
+       Train Epoch: 23 [25600/60000 (43%)]	Loss:0.552502
+       Train Epoch: 23 [38400/60000 (64%)]	Loss:0.198685
+       Train Epoch: 23 [51200/60000 (85%)]	Loss:0.404185
+       [23] Test Loss: 0.3021, Accuracy: 89.17%
+       Train Epoch: 24 [0/60000 (0%)]	Loss:0.413641
+       Train Epoch: 24 [12800/60000 (21%)]	Loss:0.276917
+       Train Epoch: 24 [25600/60000 (43%)]	Loss:0.258801
+       Train Epoch: 24 [38400/60000 (64%)]	Loss:0.326398
+       Train Epoch: 24 [51200/60000 (85%)]	Loss:0.304481
+       [24] Test Loss: 0.3031, Accuracy: 89.44%
+       Train Epoch: 25 [0/60000 (0%)]	Loss:0.235821
+       Train Epoch: 25 [12800/60000 (21%)]	Loss:0.262151
+       Train Epoch: 25 [25600/60000 (43%)]	Loss:0.510176
+       Train Epoch: 25 [38400/60000 (64%)]	Loss:0.340141
+       Train Epoch: 25 [51200/60000 (85%)]	Loss:0.411650
+       [25] Test Loss: 0.3058, Accuracy: 89.06%
+       Train Epoch: 26 [0/60000 (0%)]	Loss:0.334781
+       Train Epoch: 26 [12800/60000 (21%)]	Loss:0.193650
+       Train Epoch: 26 [25600/60000 (43%)]	Loss:0.358560
+       Train Epoch: 26 [38400/60000 (64%)]	Loss:0.371106
+       Train Epoch: 26 [51200/60000 (85%)]	Loss:0.309762
+       [26] Test Loss: 0.3021, Accuracy: 89.41%
+       Train Epoch: 27 [0/60000 (0%)]	Loss:0.204864
+       Train Epoch: 27 [12800/60000 (21%)]	Loss:0.322649
+       Train Epoch: 27 [25600/60000 (43%)]	Loss:0.445778
+       Train Epoch: 27 [38400/60000 (64%)]	Loss:0.298792
+       Train Epoch: 27 [51200/60000 (85%)]	Loss:0.291063
+       [27] Test Loss: 0.2998, Accuracy: 89.46%
+       Train Epoch: 28 [0/60000 (0%)]	Loss:0.383044
+       Train Epoch: 28 [12800/60000 (21%)]	Loss:0.274902
+       Train Epoch: 28 [25600/60000 (43%)]	Loss:0.391820
+       Train Epoch: 28 [38400/60000 (64%)]	Loss:0.200719
+       Train Epoch: 28 [51200/60000 (85%)]	Loss:0.276480
+       [28] Test Loss: 0.2967, Accuracy: 89.52%
+       Train Epoch: 29 [0/60000 (0%)]	Loss:0.202882
+       Train Epoch: 29 [12800/60000 (21%)]	Loss:0.411317
+       Train Epoch: 29 [25600/60000 (43%)]	Loss:0.227023
+       Train Epoch: 29 [38400/60000 (64%)]	Loss:0.210601
+       Train Epoch: 29 [51200/60000 (85%)]	Loss:0.456766
+       [29] Test Loss: 0.2920, Accuracy: 89.73%
+       Train Epoch: 30 [0/60000 (0%)]	Loss:0.332740
+       Train Epoch: 30 [12800/60000 (21%)]	Loss:0.332109
+       Train Epoch: 30 [25600/60000 (43%)]	Loss:0.271895
+       Train Epoch: 30 [38400/60000 (64%)]	Loss:0.314486
+       Train Epoch: 30 [51200/60000 (85%)]	Loss:0.311733
+       [30] Test Loss: 0.2969, Accuracy: 89.70%
+       Train Epoch: 31 [0/60000 (0%)]	Loss:0.235440
+       Train Epoch: 31 [12800/60000 (21%)]	Loss:0.640069
+       Train Epoch: 31 [25600/60000 (43%)]	Loss:0.236893
+       Train Epoch: 31 [38400/60000 (64%)]	Loss:0.327169
+       Train Epoch: 31 [51200/60000 (85%)]	Loss:0.312421
+       [31] Test Loss: 0.3071, Accuracy: 88.92%
+       Train Epoch: 32 [0/60000 (0%)]	Loss:0.390608
+       Train Epoch: 32 [12800/60000 (21%)]	Loss:0.236806
+       Train Epoch: 32 [25600/60000 (43%)]	Loss:0.349514
+       Train Epoch: 32 [38400/60000 (64%)]	Loss:0.214653
+       Train Epoch: 32 [51200/60000 (85%)]	Loss:0.337280
+       [32] Test Loss: 0.2966, Accuracy: 89.66%
+       Train Epoch: 33 [0/60000 (0%)]	Loss:0.307142
+       Train Epoch: 33 [12800/60000 (21%)]	Loss:0.460213
+       Train Epoch: 33 [25600/60000 (43%)]	Loss:0.291281
+       Train Epoch: 33 [38400/60000 (64%)]	Loss:0.190798
+       Train Epoch: 33 [51200/60000 (85%)]	Loss:0.233088
+       [33] Test Loss: 0.2984, Accuracy: 89.41%
+       Train Epoch: 34 [0/60000 (0%)]	Loss:0.248791
+       Train Epoch: 34 [12800/60000 (21%)]	Loss:0.194296
+       Train Epoch: 34 [25600/60000 (43%)]	Loss:0.326523
+       Train Epoch: 34 [38400/60000 (64%)]	Loss:0.330689
+       Train Epoch: 34 [51200/60000 (85%)]	Loss:0.250794
+       [34] Test Loss: 0.2986, Accuracy: 89.85%
+       Train Epoch: 35 [0/60000 (0%)]	Loss:0.236275
+       Train Epoch: 35 [12800/60000 (21%)]	Loss:0.222249
+       Train Epoch: 35 [25600/60000 (43%)]	Loss:0.224169
+       Train Epoch: 35 [38400/60000 (64%)]	Loss:0.373505
+       Train Epoch: 35 [51200/60000 (85%)]	Loss:0.217376
+       [35] Test Loss: 0.2929, Accuracy: 89.62%
+       Train Epoch: 36 [0/60000 (0%)]	Loss:0.364806
+       Train Epoch: 36 [12800/60000 (21%)]	Loss:0.143291
+       Train Epoch: 36 [25600/60000 (43%)]	Loss:0.279793
+       Train Epoch: 36 [38400/60000 (64%)]	Loss:0.308664
+       Train Epoch: 36 [51200/60000 (85%)]	Loss:0.414453
+       [36] Test Loss: 0.2994, Accuracy: 89.41%
+       Train Epoch: 37 [0/60000 (0%)]	Loss:0.414704
+       Train Epoch: 37 [12800/60000 (21%)]	Loss:0.214920
+       Train Epoch: 37 [25600/60000 (43%)]	Loss:0.283646
+       Train Epoch: 37 [38400/60000 (64%)]	Loss:0.281922
+       Train Epoch: 37 [51200/60000 (85%)]	Loss:0.456622
+       [37] Test Loss: 0.2933, Accuracy: 89.71%
+       Train Epoch: 38 [0/60000 (0%)]	Loss:0.307230
+       Train Epoch: 38 [12800/60000 (21%)]	Loss:0.317103
+       Train Epoch: 38 [25600/60000 (43%)]	Loss:0.231398
+       Train Epoch: 38 [38400/60000 (64%)]	Loss:0.152353
+       Train Epoch: 38 [51200/60000 (85%)]	Loss:0.440910
+       [38] Test Loss: 0.3055, Accuracy: 89.42%
+       Train Epoch: 39 [0/60000 (0%)]	Loss:0.309281
+       Train Epoch: 39 [12800/60000 (21%)]	Loss:0.238020
+       Train Epoch: 39 [25600/60000 (43%)]	Loss:0.270904
+       Train Epoch: 39 [38400/60000 (64%)]	Loss:0.623173
+       Train Epoch: 39 [51200/60000 (85%)]	Loss:0.150122
+       [39] Test Loss: 0.3086, Accuracy: 89.04%
+       Train Epoch: 40 [0/60000 (0%)]	Loss:0.231346
+       Train Epoch: 40 [12800/60000 (21%)]	Loss:0.226066
+       Train Epoch: 40 [25600/60000 (43%)]	Loss:0.247825
+       Train Epoch: 40 [38400/60000 (64%)]	Loss:0.190665
+       Train Epoch: 40 [51200/60000 (85%)]	Loss:0.155920
+       [40] Test Loss: 0.2999, Accuracy: 89.65%
+</code></pre></div></div>
+:ET

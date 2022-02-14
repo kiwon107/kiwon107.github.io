@@ -36,6 +36,14 @@ docs:
       - title: "운영체제"
         url: /os/
         category: "os"
+      - title: "자료구조와 알고리즘(파이썬)"
+        url: /algopy/
+        category: "algopy"
+  - title: Mathematics
+    children:
+      - title: "확률과 통계"
+        url: /prob/
+        category: "prob"
   - title: 논문
     url: /paper/
     category: "paper"
