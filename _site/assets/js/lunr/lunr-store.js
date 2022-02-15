@@ -280,4 +280,10 @@ var store = [{
         "tags": ["machine learning","logistic regression","multi-class classification","sigmoid function","softmax function"],
         "url": "/machinelearning/machinelearning7/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 8. 확률적 경사 하강법",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 8-1. 점진적인 학습 훈련데이터가 항상 한 번에 준비되면 너무 좋을 것이다. 그러나 현실은 녹록치 않다. 만약 데이터가 조금씩 꾸준히 전달되는 경우라면 어떻게 해야할까? 새로운 데이터를 추가할 때 마다 이전 데이터를 버려서 훈련 데이터 크기를...","categories": ["machinelearning"],
+        "tags": ["machine learning","stochastic gradient descent","loss function","epoch"],
+        "url": "/machinelearning/machinelearning8/",
+        "teaser": null
       }]
