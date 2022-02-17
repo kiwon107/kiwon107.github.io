@@ -292,4 +292,10 @@ var store = [{
         "tags": ["machine learning","decision tree","impurity","information gain","feature importance"],
         "url": "/machinelearning/machinelearning9/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 10. 교차 검증과 그리드 서치",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 10-1. 검증 세트 테스트 세트를 사용하지 않으면 모델이 과대적합인지 과소적합인지 판단하기가 어렵다. 테스트 세트를 사용하지 않고 이를 측정하려면 어떻게 해야 할까? 바로 훈련 세트를 나누는 것이다! 훈련 세트로부터 분리된 데이터를 검증 세트(Validation set) 라고...","categories": ["machinelearning"],
+        "tags": ["machine learning","validation set","cross validation","grid search","random search"],
+        "url": "/machinelearning/machinelearning10/",
+        "teaser": null
       }]
