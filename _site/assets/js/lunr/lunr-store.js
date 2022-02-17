@@ -286,4 +286,10 @@ var store = [{
         "tags": ["machine learning","stochastic gradient descent","loss function","epoch"],
         "url": "/machinelearning/machinelearning8/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 9. 결정 트리",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 9-1. 로지스틱 회귀로 와인 분류하기 와인 데이터를 한번 봐보자. import pandas as pd wine = pd.read_csv('https://bit.ly/wine_csv_data') wine.head() (결과) alcohol sugar pH class 0 9.4 1.9 3.51 0.0 1 9.8 2.6 3.20 0.0 2 9.8...","categories": ["machinelearning"],
+        "tags": ["machine learning","decision tree","impurity","information gain","feature importance"],
+        "url": "/machinelearning/machinelearning9/",
+        "teaser": null
       }]
