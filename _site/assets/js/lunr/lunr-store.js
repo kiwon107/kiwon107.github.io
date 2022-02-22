@@ -298,4 +298,16 @@ var store = [{
         "tags": ["machine learning","validation set","cross validation","grid search","random search"],
         "url": "/machinelearning/machinelearning10/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 11. 트리의 앙상블",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 11-1. 정형 데이터와 비정형 데이터 csv, DB, 혹은 엑셀 같이 특성별로 정리된 형태의 데이터를 정형 데이터(Structured data) 라고 한다. 정형 데이터와 반대되는 데이터를 비정형 데이터(Unstructured data) 라고 한다. 책의 글과 같은 텍스트 데이터나 사진,...","categories": ["machinelearning"],
+        "tags": ["machine learning","ensemble learning","random forest extra tree","gradient boosting"],
+        "url": "/machinelearning/machinelearning11/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 12. 군집 알고리즘",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 12-1. 타깃을 모르는 비지도 학습 비지도 학습(Unsupervised learning)은 타깃이 없을 때 사용하는 머신러닝 알고리즘이다. 사람이 가르쳐 주지 않아도 데이터에 있는 무언가를 학습한다. 12-2. 과일 사진 데이터 준비하기 !wget https://bit.ly/fruits_300_data -O fruits_300.npy 를 코랩에 쳐서...","categories": ["machinelearning"],
+        "tags": ["machine learning","unsupervised learning","histogram","cluster"],
+        "url": "/machinelearning/machinelearning12/",
+        "teaser": null
       }]

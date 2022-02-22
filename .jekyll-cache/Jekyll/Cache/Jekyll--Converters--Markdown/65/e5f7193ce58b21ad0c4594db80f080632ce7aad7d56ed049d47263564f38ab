@@ -1,0 +1,48 @@
+I"�<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="12-1-타깃을-모르는-비지도-학습">12-1. 타깃을 모르는 비지도 학습</h2>
+<p><strong>비지도 학습(Unsupervised learning)</strong>은 타깃이 없을 때 사용하는 머신러닝 알고리즘이다. 사람이 가르쳐 주지 않아도 데이터에 있는 무언가를 학습한다.</p>
+
+<h2 id="12-2-과일-사진-데이터-준비하기">12-2. 과일 사진 데이터 준비하기</h2>
+<p><code class="language-plaintext highlighter-rouge">!wget https://bit.ly/fruits_300_data -O fruits_300.npy</code> 를 코랩에 쳐서 npy 파일을 다운로드 한다. npy 파일은 넘파일 배열의 기본 저장 포맷이다. <code class="language-plaintext highlighter-rouge">!</code>문자로 시작하면 코랩은 이후 명령을 리눅스 셸 명령으로 이해한다. <code class="language-plaintext highlighter-rouge">wget</code> 명령은 원격 주소에서 데이터를 다운로드하여 저장한다. <code class="language-plaintext highlighter-rouge">-O</code> 옵션은 저장할 파일 이름을 지정한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">fruits</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'fruits_300.npy'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (300, 100, 100)  # 샘플 개수, 이미지 높이, 이미지 너비
+       [ 1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   2   1
+         2   2   2   2   2   2   1   1   1   1   1   1   1   1   2   3   2   1
+         2   1   1   1   1   2   1   3   2   1   3   1   4   1   2   5   5   5
+         19 148 192 117  28   1   1   2   1   4   1   1   3   1   1   1   1   1
+         2   2   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+         1   1   1   1   1   1   1   1   1   1]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>  <span class="c1"># 흑백 이미지이므로 cmap 매개변수를 'gray'로 지정
+</span><span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/12-1.png" alt="그림 12-1. 코드 결과" /></p>
+<p>그림 12-1. 코드 결과</p>
+
+<p>보통 흑백 샘플 이미지는 바탕이 밝고 물체가 짙다. 그런데 그림 12-1은 그 반대다. 왜 그럴까?<br />
+이 흑백 이미지는 사진으로 찍은 이미지를 넘파이 배열로 변환할 때 반전 시킨 것이다. 우리의 관심 대상은 사과이지만 컴퓨터는 처음 이미지가 생성될 때 255에 가까운 값을 가진 바탕에 집중한다. 따라서 바탕을 검게 만들고, 사과를 밝게 만든 것이다.<br />
+cmap 매개변수를 <code class="language-plaintext highlighter-rouge">gray_r</code>로 지정하여 다시 반전 시켜보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>  <span class="c1"># 흑백 이미지를 반전시킴
+</span><span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/12-2.png" alt="그림 12-2. 코드 결과" /></p>
+<p>그림 12-2. 코드 결과</p>
+
+<p>이 데이터는 사과, 바나나, 파인애플이 각각 100개씩 들어있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">200</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/machinelearning/12-3.png" alt="그림 12-3. 코드 결과" /></p>
+<p>그림 12-3. 코드 결과</p>
+:ET

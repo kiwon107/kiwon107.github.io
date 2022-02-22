@@ -1,0 +1,47 @@
+I"!+<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="11-1-정형-데이터와-비정형-데이터">11-1. 정형 데이터와 비정형 데이터</h2>
+<p>csv, DB, 혹은 엑셀 같이 특성별로 정리된 형태의 데이터를 <strong>정형 데이터(Structured data)</strong> 라고 한다. 정형 데이터와 반대되는 데이터를 <strong>비정형 데이터(Unstructured data)</strong> 라고 한다. 책의 글과 같은 텍스트 데이터나 사진, 디지털 음악 등이 여기에 해당한다. 참고로 텍스트나 사진 같은 비정형 데이터도 DB에 저장할 수는 있다. NoSQL DB가 그 예이다.<br />
+두가지 유형의 데이터 중, 정형 데이터를 다루는데 뛰어난 성과를 내는 알고리즘이 바로 <strong>앙상블 학습(Ensemble learning)</strong>이다. 이 알고리즘은 대부분 결정 트리를 기반으로 만들어져 있다. 비정형 데이터는 규칙성을 찾기 어려워 신경망 알고리즘을 활용해야 한다.</p>
+
+<h2 id="11-2-랜덤-포레스트">11-2. 랜덤 포레스트</h2>
+<p><strong>랜덤 포레스트(Random forest)</strong>는 결정 트리를 랜덤하게 만들어 결정 트리의 숲을 만든다. 그리고 각 결정 트리의 예측을 사용해 최종 예측을 만든다. 먼저 랜덤 포레스트는 각 트리를 훈련하기 위한 데이터를 랜덤하게 만든다. 이 데이터를 만들 때는, 입력한 훈련 데이터에서 랜덤하게 샘플을 추출하여 훈련 데이터를 만든다. 이 때 한 샘플이 중복되어 추출될 수도 있다! 이렇게 중복으로 랜덤하게 일정 개수를 뽑은 샘플을 <strong>부트스트랩 샘플(Bootstrap sample)</strong>라고 한다. 기본적으로 부트스트랩 샘플은 훈련 세트의 크기와 같게 만든다. 다만 중복하여 샘플을 뽑으므로 모든 샘플이 활용되지는 않는다. 참고로 부트스트랩 방식은 데이터 세트에서 중복을 허용하여 데이터를 샘플링하는 방식을 의미한다.<br />
+노드 분할은 어떻게 이루어질까? 노드를 분할할 때, 전체 특성 중 일부 특성을 무작위로 고르고 이 중 최선의 분할을 찾는다. <code class="language-plaintext highlighter-rouge">RandomForestClassifier</code>는 기본적으로 전체 특성 개수의 제곱근만큼의 특성을 선택한다. 즉, 4개의 특성이 있다면 노드마다 2개를 랜덤하게 선택하여 사용하는 것이다. 다만 <code class="language-plaintext highlighter-rouge">RandomForestRegressor</code>는 전체 특성을 사용한다. 사이킷런의 랜덤 포레스트는 기본적으로 100개의 결정 트리를 이런 방식으로 훈련한다. 그 다음, 분류일 경우 각 트리의 클래스별 확률을 평균하여 가장 높은 확률을 가진 클래스를 예측으로 삼는다. 회귀일 경우 각 트리의 예측을 평균한다.<br />
+랜덤 포레스트는 랜덤하게 선택한 샘플과 특성을 사용하므로 훈련 세트에 과적합되는 것을 막아주고 검증 세트와 테스트 세트에서 안정적인 성능을 얻을 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">wine</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'http://bit.ly/wine_csv_data'</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[[</span><span class="s">'alcohol'</span><span class="p">,</span> <span class="s">'sugar'</span><span class="p">,</span> <span class="s">'pH'</span><span class="p">]].</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s">'class'</span><span class="p">].</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">train_input</span><span class="p">,</span> <span class="n">test_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># 기본으로 100개 트리 사용. n_jobs=-1 지정하여 모든 CPU 코어 사용!
+</span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">rf</span><span class="p">,</span> <span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s">'train_score'</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s">'test_score'</span><span class="p">]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0.9973541965122431 0.8905151032797809
+</code></pre></div></div>
+
+<p>출력된 결과를 보면 다소 과대적합된 것으로 보인다.<br />
+랜덤 포레스트는 결정 트리의 앙상블이므로 <code class="language-plaintext highlighter-rouge">DecisionTreeClassifier</code>가 제공하는 중요한 매개변수를 모두 제공한다. <code class="language-plaintext highlighter-rouge">criterion</code>, <code class="language-plaintext highlighter-rouge">max_depth</code>, <code class="language-plaintext highlighter-rouge">max_features</code>, <code class="language-plaintext highlighter-rouge">min_samples</code>, <code class="language-plaintext highlighter-rouge">min_samples_split</code>, <code class="language-plaintext highlighter-rouge">min_impurity_decrease</code>, <code class="language-plaintext highlighter-rouge">min_samples_leaf</code> 등이 바로 그것이다. 또한 특성 중요도를 계산하여 제공한다. 랜덤 포레스트의 특성 중요도는 각 결정 트리의 특성 중요도를 취합한 것이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rf</span><span class="p">.</span><span class="n">feature_importances_</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [0.23167441 0.50039841 0.26792718]
+</code></pre></div></div>
+
+<p>참고로 9장 결정 트리에서 산출한 특성 중요도는 [0.12345626 0.86862934 0.0079144 ] 였다. 특성 중요도가 달라진 이유는 랜덤 포레스트가 특성의 일부를 랜덤하게 선택하여 결정 트리를 훈련하였기 때문이다. 그 결과 하나의 특성에 과도하게 집중하지 않고 좀 더 많은 특성이 훈련에 기여할 기회를 얻었다. 이는 과대 적합을 줄이고 일반화 성능을 높이는데 도움이 된다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">RandomForestClassifier</code>에는 재미있는 기능이 있다. 부트스트랩 샘플에 포함되지 않고 남은 샘플을 활용하여, 부트스트랩 샘플로 훈련한 결정 트리를 평가할 수 있다. 부트스트랩 샘플에 포함되지 않고 남는 샘플을 <strong>OOB(Out of bag)</strong> 라고 하는데, 마치 검증 세트의 역할을 하게 된다. 이 점수를 얻으려면 <code class="language-plaintext highlighter-rouge">oob_score</code> 매개변수를 True로 지정해야 한다. 이렇게 하면 랜덤 포레스트가 각 결정 트리의 OOB 점수를 평균하여 출력한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">oob_score</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rf</span><span class="p">.</span><span class="n">oob_score_</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0.8934000384837406
+</code></pre></div></div>
+
+:ET
