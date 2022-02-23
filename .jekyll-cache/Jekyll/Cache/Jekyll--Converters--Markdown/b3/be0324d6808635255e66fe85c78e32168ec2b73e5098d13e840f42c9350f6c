@@ -1,0 +1,33 @@
+I"	<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="13-1-k-평균-알고리즘-소개">13-1. K-평균 알고리즘 소개</h2>
+<p>k-평균 알고리즘 작동 방식은 다음과 같다.<br />
+ 1). 무작위로 k개의 클러스터 중심을 정한다.<br />
+ 2). 각 샘플에서 가장 가까운 클러스터 중심을 찾아 해당 클러스터의 샘플로 지정한다.<br />
+ 3). 클러스터에 속한 샘플의 평균값으로 클러스터 중심을 변경한다.<br />
+ 4). 클러스터 중심에 변화가 없을 때까지 2번으로 돌아가 반복한다.<br /></p>
+
+<p>평균값이 클러스터의 중심에 위치하므로 <strong>클러스터 중심(Cluster center)</strong> 또는 <strong>센트로이드(Centroid)</strong> 라고 한다.</p>
+
+<h2 id="13-2-kmeans-클래스">13-2. KMeans 클래스</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">fruits</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'fruits_300.npy'</span><span class="p">)</span>
+<span class="n">fruits_2d</span> <span class="o">=</span> <span class="n">fruits</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">km</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">fruits_2d</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">km</span><span class="p">.</span><span class="n">labels_</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+       2 2 2 2 2 0 2 0 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 0 2
+       2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0
+       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+       1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+       1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+       1 1 1 1]
+</code></pre></div></div>
+:ET

@@ -310,4 +310,10 @@ var store = [{
         "tags": ["machine learning","unsupervised learning","histogram","cluster"],
         "url": "/machinelearning/machinelearning12/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 13. K-평균",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 13-1. K-평균 알고리즘 소개 k-평균 알고리즘 작동 방식은 다음과 같다. 1). 무작위로 k개의 클러스터 중심을 정한다. 2). 각 샘플에서 가장 가까운 클러스터 중심을 찾아 해당 클러스터의 샘플로 지정한다. 3). 클러스터에 속한 샘플의 평균값으로 클러스터...","categories": ["machinelearning"],
+        "tags": ["machine learning","k-means","cluster center","elbow method"],
+        "url": "/machinelearning/machinelearning13/",
+        "teaser": null
       }]
