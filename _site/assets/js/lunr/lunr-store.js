@@ -316,4 +316,10 @@ var store = [{
         "tags": ["machine learning","k-means","cluster center","elbow method"],
         "url": "/machinelearning/machinelearning13/",
         "teaser": null
+      },{
+        "title": "[Machine learning] 14. 주성분 분석",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 14-1. 차원과 차원 축소 13장에서 과일 사진은 10.000개의 픽셀이 있었다. 이는 10,000개의 특성이 있는것과 같다. 이런 특성을 머신러닝 에서는 차원(Dimension)이라고 한다. 이 차원을 줄일 수 있다면 저장 공간을 크게 절약할 수 있다. 참고로 다차원...","categories": ["machinelearning"],
+        "tags": ["machine learning","dimensionality reduction","principal components analysis","explained variance"],
+        "url": "/machinelearning/machinelearning14/",
+        "teaser": null
       }]
