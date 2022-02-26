@@ -1,0 +1,43 @@
+I"3<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-패션-mnist">1-1. 패션 MNIST</h2>
+<p>머신러닝에서 붓꽃 데이터셋이 유명하다면, 딥러닝에서는 MNIST 데이터셋이 유명하다. 이 데이터는 손으로 쓴 0~9까지의 숫자로 이루어져 있다. 텐서플로를 사용하여 이 데이터를 불러올 수 있다. 텐서플로의 케라스 패키지를 임포트하고 패션 MNIST 데이터를 다운로드하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_input</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">train_target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_input</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (60000, 28, 28) (60000,)
+       (10000, 28, 28) (10000,)
+</code></pre></div></div>
+
+<p>어떤 이미지인지 시각화하여 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">train_input</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/1-1.JPG" alt="그림 1-1. 코드 결과" /></p>
+<p>그림 1-1. 코드 결과</p>
+
+<p>각 그림의 타겟이 무엇인지도 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">([</span><span class="n">train_target</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [9, 0, 0, 3, 0, 2, 7, 2, 5, 5]
+</code></pre></div></div>
+
+<p>패션 MNIST의 타깃은 0~9까지의 숫자 레이블로 구성된다. 10개 레이블의 의미는 다음과 같다.
+0: 티셔츠
+1: 바지
+2: 스웨터
+3: 드레스
+4: 코트
+5: 샌달
+6: 셔츠
+7: 스니커즈
+8: 가방
+9: 앵클 부츠</p>
+:ET

@@ -322,4 +322,16 @@ var store = [{
         "tags": ["machine learning","dimensionality reduction","principal components analysis","explained variance"],
         "url": "/machinelearning/machinelearning14/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 1. 인공 신경망",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 1-1. 패션 MNIST 머신러닝에서 붓꽃 데이터셋이 유명하다면, 딥러닝에서는 MNIST 데이터셋이 유명하다. 이 데이터는 손으로 쓴 0~9까지의 숫자로 이루어져 있다. 텐서플로를 사용하여 이 데이터를 불러올 수 있다. 텐서플로의 케라스 패키지를 임포트하고 패션 MNIST 데이터를 다운로드하자....","categories": ["deeplearningtens"],
+        "tags": ["deep learning","artificial neural network","tensorflow","dense layer","one-hot encoding"],
+        "url": "/deeplearningtens/deeplearningtens1/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 2. 심층 신경망",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 2-1. 2개의 층 from tensorflow import keras (train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data() from sklearn.model_selection import train_test_split train_scaled = train_input / 255.0 train_scaled = train_scaled.reshape(-1, 28*28) train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_target, test_size=0.2,...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","deep neural network","relu function","optimizer"],
+        "url": "/deeplearningtens/deeplearningtens2/",
+        "teaser": null
       }]

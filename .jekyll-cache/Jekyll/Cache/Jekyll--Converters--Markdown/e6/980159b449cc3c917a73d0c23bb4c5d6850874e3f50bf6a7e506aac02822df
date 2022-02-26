@@ -1,0 +1,20 @@
+I"I<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="2-1-2개의-층">2-1. 2개의 층</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_input</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">train_scaeld</span> <span class="o">=</span> <span class="n">train_scaled</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">train_scaled</span><span class="p">,</span> <span class="n">val_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">val_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>1장과 약간 다르게 입력층과 출력층 사이에 밀집층을 추가해볼 것이다. 입력층과 출력층 사이에 있는 모든 층을 <strong>은닉충(Hidden layer)</strong> 라고 한다. 은닉층에도 활성화 함수가 존재한다. 활성화 함수는 신경망 층의 선형 방정식의 계산 값에 적용하는 함수이다. 출력층에서는 이진 분류일 경우 시그모이드 함수, 다중 분류일 경우 소프트맥스 함수로 활성화 함수가 제한되었다. 그러나 은닉층의 활성화 함수는 비교적 자유롭다. 참고로 회귀의 출력은 임의의 어떤 숫자이므로 활성화 함수를 적용하지 않아도 된다.<br />
+우리는 왜 은칙층에 활성화 함수를 적용해야 할까? 만약 활성화 함수 없이 선형적인 산술 계산만 은닉층에서 수행한다면, 사실 은닉층이 수행하는 역할은 없는거나 마찬가지다. 선형 계산을 적당하게 비선형으로 비틀어 주어야 나름의 은닉층 역할을 수행할 수 있게 된다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">desne1</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'sigmoid'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="p">))</span>
+<span class="n">dense2</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">)</span>
+</code></pre></div></div>
+
+:ET

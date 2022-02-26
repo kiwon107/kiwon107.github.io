@@ -1,0 +1,78 @@
+I"�&<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-패션-mnist">1-1. 패션 MNIST</h2>
+<p>머신러닝에서 붓꽃 데이터셋이 유명하다면, 딥러닝에서는 MNIST 데이터셋이 유명하다. 이 데이터는 손으로 쓴 0~9까지의 숫자로 이루어져 있다. 텐서플로를 사용하여 이 데이터를 불러올 수 있다. 텐서플로의 케라스 패키지를 임포트하고 패션 MNIST 데이터를 다운로드하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_input</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">train_target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_input</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (60000, 28, 28) (60000,)
+       (10000, 28, 28) (10000,)
+</code></pre></div></div>
+
+<p>어떤 이미지인지 시각화하여 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">train_input</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/1-1.JPG" alt="그림 1-1. 코드 결과" /></p>
+<p>그림 1-1. 코드 결과</p>
+
+<p>각 그림의 타겟이 무엇인지도 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">([</span><span class="n">train_target</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [9, 0, 0, 3, 0, 2, 7, 2, 5, 5]
+</code></pre></div></div>
+
+<p>패션 MNIST의 타깃은 0~9까지의 숫자 레이블로 구성된다. 10개 레이블의 의미는 다음과 같다.<br /></p>
+<ul>
+  <li>0: 티셔츠<br /></li>
+  <li>1: 바지<br /></li>
+  <li>2: 스웨터<br /></li>
+  <li>3: 드레스<br /></li>
+  <li>4: 코트<br /></li>
+  <li>5: 샌달<br /></li>
+  <li>6: 셔츠<br /></li>
+  <li>7: 스니커즈<br /></li>
+  <li>8: 가방<br /></li>
+  <li>9: 앵클 부츠<br /></li>
+</ul>
+
+<p>각 레이블 당 샘플 개수는 다음과 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">unique</span><span class="p">(</span><span class="n">train_target</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8), array([6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000], dtype=int64))
+</code></pre></div></div>
+
+<h2 id="1-2-로지스틱-회귀로-패션-아이템-분류하기">1-2. 로지스틱 회귀로 패션 아이템 분류하기</h2>
+<p>훈련 샘플이 60,000개나 되므로, 전체 데이터를 한꺼번에 사용하기보다, 샘플을 하나씩 꺼내서 모델을 훈련시키는게 더 효율적이다. <code class="language-plaintext highlighter-rouge">SGDClassifier</code> 클래스의 loss 매개변수를 ‘log’로 지정하여 로지스틱 손실 함수를 최소화하는 확률적 경사 하강법 모델을 만들자. 특성마다 값의 범위를 동일하게 하여 올바르게 손실 함수의 경사를 내려올 수 있도록 0~1 사이의 값으로 정규화를 하자. 그 다음, 2차원 형태를 1차원으로 변환하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_input</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_scaled</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) (60000, 784)
+</code></pre></div></div>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">SGDClassifier</code> 클래스와 <code class="language-plaintext highlighter-rouge">cross_validate</code> 함수로 이 데이터에서 교차 검증 성능을 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+
+<span class="n">sc</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s">'log'</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="s">'test_score'</span><span class="p">]))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0.8192833333333333
+</code></pre></div></div>
+
+<p>뭔가 결과가 기대치에 못미치는듯 하다.</p>
+
+<p>로지스틱 회귀 공식에 따라 패션 MNIST 데이터에 맞게 변형한다면 다음과 같을 것이다.
+$z_티셔츠 = w1 \times (픽셀1) + w2 \times (픽셀2) + … + w784 \times (픽셀784) + b$<br />
+두번째 레이블은 다음과 같을 것이다</p>
+:ET

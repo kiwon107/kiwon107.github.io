@@ -1,0 +1,13 @@
+I"�<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="2-1-2개의-층">2-1. 2개의 층</h2>
+<p>```python
+from tensorflow import keras
+(train_input, train_target), (test_input, test_target) = keras.datasets.fashion_mnist.load_data()</p>
+
+<p>from sklearn.model_selection import train_test_split
+train_scaled = train_input / 255.0
+train_scaeld = train_scaled.reshape(-1, 28*28)
+train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_target, teset_size=0.2, random_state=42)</p>
+:ET
