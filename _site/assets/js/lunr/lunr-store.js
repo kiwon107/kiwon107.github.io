@@ -334,4 +334,10 @@ var store = [{
         "tags": ["deep learning","deep neural network","relu function","optimizer"],
         "url": "/deeplearningtens/deeplearningtens2/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 3. 신경망 모델 훈련",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 3-1. 손실 곡선 fit() 메소드로 모델을 훈련할 때 훈련 과정이 상세하게 출력되었다. 에포크, 횟수, 손실, 정확도 등이 있었다. 출력의 마지막에 다음과 같은 메세지도 있었다. &lt;tensorflow.python.keras.callbacks.History at 0x18340a10e10&gt; fit() 메소드는 History 클래스 객체를 반환한다. History...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","dropout","callback","early stopping"],
+        "url": "/deeplearningtens/deeplearningtens3/",
+        "teaser": null
       }]
