@@ -1,0 +1,1192 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Machine learning] 2. 지도 학습 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Machine learning] 2. 지도 학습">
+<meta property="og:url" content="http://localhost:4000/tensortextbook/machinelearning16/">
+
+
+  <meta property="og:description" content="본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-28T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/tensortextbook/machinelearning16/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (14)</a></li>
+          
+          
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (8)</a></li>
+          
+          
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) (6)</a></li>
+          
+          
+            <li><a href="/tensortextbook/">딥러닝 텐서플로 교과서 (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (26)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+          
+            <li><a href="/algopy/">자료구조와 알고리즘(파이썬) (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Mathematics</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/prob/">확률과 통계 (2)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Machine learning] 2. 지도 학습">
+    <meta itemprop="description" content="본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-02-28T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/tensortextbook/machinelearning16/" class="u-url" itemprop="url">[Machine learning] 2. 지도 학습
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-28T00:00:00+09:00">February 28, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#2-1-지도학습">2-1. 지도학습</a></li><li><a href="#2-2-k-최근접-이웃">2-2. K-최근접 이웃</a></li><li><a href="#2-3-서포트-벡터-머신">2-3. 서포트 벡터 머신</a></li><li><a href="#2-4-결정-트리">2-4. 결정 트리</a></li><li><a href="#2-5-로지스틱-회귀">2-5. 로지스틱 회귀</a></li><li><a href="#2-6-선형-회귀">2-6. 선형 회귀</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="2-1-지도학습">2-1. 지도학습</h2>
+<p>지도 학습은 정답(=레이블)을 컴퓨터에 미리 알려주고 데이터를 학습시키는 방법이다. 지도 학습에는 크게 분류와 회귀가 있다. 분류는 주어진 데이터를 정해진 범주에 따라 분류하고, 회귀는 데이터들의 특성을 기준으로 연속된 값을 그래프로 표현하여 패턴이나 트렌드를 예측할 때 사용한다.</p>
+
+<ul>
+  <li>분류<br />
+    <ul>
+      <li>데이터 유형: 이산형 데이터<br /></li>
+      <li>결과: 훈련 데이터의 레이블 중 하나를 예측<br /></li>
+    </ul>
+  </li>
+  <li>회귀<br />
+    <ul>
+      <li>데이터 유형: 연속형 데이터<br /></li>
+      <li>결과: 연속된 값을 예측<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-2-k-최근접-이웃">2-2. K-최근접 이웃</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류<br /></li>
+  <li>언제 사용? → 직관적이고 사용하기 쉬워 초보자가 쓰기 좋고, 훈련 데이터를 충분히 확보할 수 있는 환경에서 사용하면 좋음<br /></li>
+</ul>
+
+<p>K-최근접 이웃은 새로운 입력을 받았을 때 기존 클러스터에서 모든 데이터와 인스턴스(새로운 데이터 들어올 때 데이터와 데이터 사이의 거리를 측정한 관측치 의미) 기반 거리를 측정 후, 가장 많은 속성을 가진 클러스터에 할당하는 분류 알고리즘이다. K값을 어떻게 설정하느냐에 따라 새로운 데이터에 대한 분류 결과가 달라질 수 있다. iris 데이터를 활용한 코드 예제는 다음과 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출 및 데이터 준비
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">'sepal-length'</span><span class="p">,</span> <span class="s">'sepal-width'</span><span class="p">,</span> <span class="s">'petal-length'</span><span class="p">,</span> <span class="s">'petal-width'</span><span class="p">,</span> <span class="s">'Class'</span><span class="p">]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'iris.data'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+
+<span class="c1"># 훈련과 검증 데이터셋 분리
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">].</span><span class="n">values</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># 모델 생성 및 훈련
+</span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">knn</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 모델 정확도
+</span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"정확도: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+
+<span class="c1"># 최적의 K 찾기
+</span><span class="n">k</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">acc_array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">classifier</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">acc_array</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span>
+
+<span class="n">max_acc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">amax</span><span class="p">(</span><span class="n">acc_array</span><span class="p">)</span>
+<span class="n">acc_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">acc_array</span><span class="p">)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">acc_list</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_acc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"정확도"</span><span class="p">,</span> <span class="n">max_acc</span><span class="p">,</span> <span class="s">"으로 최적의 k는"</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s">"입니다."</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 정확도: 0.8
+       정확도 1.0 으로 최적의 k는 1 입니다.
+</code></pre></div></div>
+
+<p>K 값이 50일 때 정확도는 80%였는데, K 값이 1일 때 정확도는 100%로 높아졌다. 이처럼 K-최근접 이웃 알고리즘은 K 값에 따라 성능이 달라질 수 있으므로 초기 설정이 매우 중요하다.</p>
+
+<h2 id="2-3-서포트-벡터-머신">2-3. 서포트 벡터 머신</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류</li>
+  <li>언제 사용? → 커널만 적절히 선택하면 정확도가 상당히 좋으므로 정확도를 요구하는 분류 문제를 다룰 때 사용하면 좋음. 또한 텍스트를 분류할 때도 많이 사용함.</li>
+</ul>
+
+<p class="align-center">서포트 벡터 머신(SVM)은 분류를 위한 기준선을 정의하는 모델이다. 분류되지 않은 새로운 데이터가 나타나면 결정 경계(기준선)를 기준으로 경계의 어느 쪽에 속하는지 분류하는 모델이다. 따라서 서포트 벡터 머신에서는 결정 경계를 이해하는 것이 중요하다.<br />
+결정 경계는 데이터를 분류하기 위한 기준선이다. 결정 경계는 데이터가 분류된 클래스에서 최대한 멀리 떨어져 있을 때 성능이 가장 좋다. 여기서 마진이라는 개념이 등장한다. 마진은 결정 경계와 서포트 벡터 사이의 거리를 의미한다. 서포트 벡터는 결정 경계와 가까이 있는 데이터들을 의미한다. 즉, 이 서포트 벡터들이 경계를 정의하는 결정적인 역할을 하게 된다. 최적의 결정 경계는 마진을 최대로 해야 한다.<br />
+서포트 벡터 머신은 데이터들을 올바르게 분리하면서 마진 크기를 최대화 해야한다. 여기서 이상치를 다루는 것이 가장 중요하다. 이상치를 허용하지 않는 것을 하드 마진이라 하며, 어느 정도의 이상치들이 마진 안에 포함되는 것을 허용하면 소프트 마진이라 한다.
+<img src="/assets/images/tensortextbook/2-1.png" alt="그림 2-1. 하드 마진과 소프트 마진" /></p>
+<p>그림 2-1. 하드 마진과 소프트 마진</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출
+</span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">model_selection</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'TF_CPP_MIN_LOG_LEVEL'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'3'</span>
+
+<span class="c1"># iris 데이터를 준비하고 훈련과 검증 데이터 셋으로 분리
+</span><span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">model_selection</span><span class="p">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="p">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">svm</span><span class="p">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s">'linear'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># ★
+</span><span class="n">svm</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">svm</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">score</span><span class="o">=</span> <span class="n">metrics</span><span class="p">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'정확도: {0:f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">score</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 정확도: 0.988889
+</code></pre></div></div>
+
+<p>주석으로 별표 처리 된 코드를 보자. SVM은 선형 분류와 비선형 분류를 지원한다. 비선형에 대한 커널은 선형으로 분류될 수 없는 데이터들 때문에 발생했다. 비선형 문제를 해결하는 가장 기본적인 방법은 저차원 데이터를 고차원으로 보내는 것이다. 하지만 이러한 작업은 많은 수학적 계산을 필요로 하여 선응에 문제를 줄 수 있다. 이러한 문제를 해결하고자 도입한 것이 ‘커널 트릭’이다. 선형 모델을 위한 커널에는 선형 커널이 있다. 비선형을 위한 커널에는 가우시안 RBF 커널과 다항식 커널이 있다.<br />
+가우시안 RBF 커널과 다항식 커널은 수학적 기교를 이용한 것으로, 벡터 내적을 계산한 후 고차원으로 보내는 방법으로 연산량을 줄였다.<br /></p>
+
+<ul>
+  <li>선형 커널: 선형으로 분류 가능한 데이터에 적용<br />
+$K(a,b)=a^{T}\cdot b$<br />
+(a,b: 입력 벡터)<br /></li>
+  <li>다항식 커널: 실제로는 특성을 추가하지 않았지만, 다항식 특성을 많이 추가한 것과 같은 결과를 얻을 수 있는 방법<br />
+$K(a,b)=(\gamma a^{T}\cdot b)^{d}$<br />
+(a,b: 입력 데이터, $\gamma$: 감마(gamma), d: 차원)</li>
+  <li>가우시안 RBF 커널: 다항식 커널의 확장. 입력 벡터를 차원이 무한한 고차원으로 매핑한 것으로 모든 차수의 모든 다항식 고려함<br />
+$K(a,b)=exp(-\gamma \left | a-b \right |^{2})$<br />
+($\gamma$ 는 하이퍼파라미터)<br /></li>
+</ul>
+
+<p>C 값은 오류를 어느 정도 허용할지 지정하는 파라미터이다. C 값이 클수록 하드 마진, 작을 수록 소프트 마진이다.<br />
+감마는 결정 경계를 얼마나 유연하게 가져갈지 지정한다. 감마 값이 높으면 훈련 데이터에 많이 의존하여 결정 경계가 곡선 형태를 띠고 과적합을 초래할 수 있다.</p>
+
+<h2 id="2-4-결정-트리">2-4. 결정 트리</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류</li>
+  <li>언제 사용? → 이상치가 많은 값으로 구성된 데이터셋을 다룰 때 사용하면 좋음. 결정 과정이 시작적으로 표현되기 때문에 머신 러닝이 어떤 방식으로 의사 결정을 하는지 알고 싶을 때 유용.</li>
+</ul>
+
+<p>결정 트리는 데이터를 분류하거나 결과값을 예측하는 분석 방법이다. 결과 모델이 트리 구조이므로 결정 트리라고 한다. 결정 트리는 데이터를 1차로 분류한 후 각 영역의 순도는 증가하고 불순도와 불확실성은 감소하는 방향으로 학습을 진행한다. 이를 정보이론에서는 정보 획득이라 하며 순도를 계산하는 방법에 따라 다음 두가지가 많이 사용된다.</p>
+
+<p>1) 엔트로피<br />
+확률 변수의 불확실성을 수치로 나타낸 것으로 엔트로피가 높을수록 불확실성이 높다.<br /></p>
+<ul>
+  <li>엔트로피 = 0 = 불확실성 최소 = 순도 최대<br /></li>
+  <li>엔트로피 = 0.5 = 불확실성 최대 = 순도 최소<br />
+$Entropy(A) = -\sum_{k=1}^{m}p_{k}log_{2}(p_{k})$<br />
+$p_{k}$ : A 영역에 속하는 데이터 중 k 범주에 속하는 데이터 비율</li>
+</ul>
+
+<p>2) 지니계수<br />
+불순도를 측정하는 지표로 데이터의 통계적 분산 정도를 정량화해서 표현한 값이다. 원소 n개 중 임의로 2개 추출할 때, 추출된 2개가 서로 다른 그룹에 속해 있을 확률을 의미한다.<br />
+$G(S) = 1-\sum_{i=1}^{c}p_{i}^{2}$
+S: 이미 발생한 사건의 모음, c: 사건 개수</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출 및 데이터 준비
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'train.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">'PassengerId'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">)</span>
+
+<span class="c1"># 데이터 전처리
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'Pclass'</span><span class="p">,</span> <span class="s">'Sex'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">,</span> <span class="s">'SibSp'</span><span class="p">,</span> <span class="s">'Parch'</span><span class="p">,</span> <span class="s">'Fare'</span><span class="p">,</span> <span class="s">'Survived'</span><span class="p">]]</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'Sex'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'Sex'</span><span class="p">].</span><span class="nb">map</span><span class="p">({</span><span class="s">'male'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'female'</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="s">'Survived'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'Survived'</span><span class="p">]</span>
+
+<span class="c1"># 훈련과 검증 데이터셋으로 분리
+</span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결정 트리 모델 생성
+</span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+
+<span class="c1"># 모델 훈련
+</span><span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 모델 예측
+</span><span class="n">y_predict</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
+
+<span class="c1"># 혼동 행렬을 이용한 성능 측정
+</span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'Predicted Not Survival'</span><span class="p">,</span> <span class="s">'Predicted Survival'</span><span class="p">],</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s">'True Not Survival'</span><span class="p">,</span> <span class="s">'True Survival'</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) &lt;bound method NDFrame.head of              Survived  Pclass  \
+       PassengerId                     
+       1                   0       3   
+       2                   1       1   
+       3                   1       3   
+       4                   1       1   
+       5                   0       3   
+       ...               ...     ...   
+       887                 0       2   
+       888                 1       1   
+       889                 0       3   
+       890                 1       1   
+       891                 0       3   
+                                                               Name     Sex   Age  \
+       PassengerId                                                                    
+       1                                      Braund, Mr. Owen Harris    male  22.0   
+       2            Cumings, Mrs. John Bradley (Florence Briggs Th...  female  38.0   
+       3                                       Heikkinen, Miss. Laina  female  26.0   
+       4                 Futrelle, Mrs. Jacques Heath (Lily May Peel)  female  35.0   
+       5                                     Allen, Mr. William Henry    male  35.0   
+       ...                                                        ...     ...   ...   
+       887                                      Montvila, Rev. Juozas    male  27.0   
+       888                               Graham, Miss. Margaret Edith  female  19.0   
+       889                   Johnston, Miss. Catherine Helen "Carrie"  female   NaN   
+       890                                      Behr, Mr. Karl Howell    male  26.0   
+       891                                        Dooley, Mr. Patrick    male  32.0   
+                   SibSp  Parch            Ticket     Fare Cabin Embarked  
+       PassengerId                                                          
+       1                1      0         A/5 21171   7.2500   NaN        S  
+       2                1      0          PC 17599  71.2833   C85        C  
+       3                0      0  STON/O2. 3101282   7.9250   NaN        S  
+       4                1      0            113803  53.1000  C123        S  
+       5                0      0            373450   8.0500   NaN        S  
+       ...            ...    ...               ...      ...   ...      ...  
+       887              0      0            211536  13.0000   NaN        S  
+       888              0      0            112053  30.0000   B42        S  
+       889              1      2        W./C. 6607  23.4500   NaN        S  
+       890              0      0            111369  30.0000  C148        C  
+       891              0      0            370376   7.7500   NaN        Q  
+       [891 rows x 11 columns]&gt;
+</code></pre></div></div>
+
+<p class="align-center"><img src="/assets/images/tensortextbook/2-2.png" alt="그림 2-2. 코드 결과" /></p>
+<p>그림 2-2. 코드 결과</p>
+
+<h2 id="2-5-로지스틱-회귀">2-5. 로지스틱 회귀</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류</li>
+  <li>언제 사용? → 주어진 데이터에 대한 확신이 없거나 추가적으로 훈련 데이터셋을 수집하여 모델을 훈련시킬 수 있느 환경에서 사용하면 유용</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출 및 데이터 준비
+</span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Image Data Shape'</span><span class="p">,</span> <span class="n">digits</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Label Data Shape"</span><span class="p">,</span> <span class="n">digits</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext align-center highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Image Data Shape (1797, 64)
+       Label Data Shape (1797,) ```python # digits 데이터셋의 시각화 import numpy as np import matplotlib.pyplot as plt plt.figure(figsize=(20, 4)) for index, (image, label) in enumerate(zip(digits.data[0:5], digits.target[0:5])):
+plt.subplot(1, 5, index+1)
+plt.imshow(np.reshape(image, (8, 8)), cmap=plt.cm.gray)
+plt.title('Training: %i\n' % label, fontsize=20) ``` ![그림 2-3. 코드 결과](/assets/images/tensortextbook/2-3.png)
+</code></pre></div></div>
+<p>그림 2-3. 코드 결과</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 훈련과 검증 데이터셋 분리 및 로지스틱 회귀 모델 생성
+</span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">digits</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">digits</span><span class="p">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="n">logisticRegr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">logisticRegr</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 일부 데이터를 사용한 모델 예측
+</span><span class="n">logisticRegr</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">logisticRegr</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="c1"># 전체 데이터를 사용한 모델 예측
+</span><span class="n">predictions</span> <span class="o">=</span> <span class="n">logisticRegr</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">logisticRegr</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 0.9511111111111111
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 혼동 행렬 시각화
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">metrics</span><span class="p">.</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">".3f"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">square</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'Blues_r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Actual label'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Predicted label'</span><span class="p">)</span>
+<span class="n">all_sample_title</span> <span class="o">=</span> <span class="s">'Accuracy Score: {0}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="n">all_sample_title</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/tensortextbook/2-4.png" alt="그림 2-4. 코드 결과" /></p>
+<p>그림 2-4. 코드 결과</p>
+
+<h2 id="2-6-선형-회귀">2-6. 선형 회귀</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류</li>
+  <li>언제 사용? 주어진 데이터에서 독립변수와 종속 변수가 선형관계 가질 때 사용하면 유용. 복잡한 연산 과정이 없어 컴퓨팅 성능이 낮은 환경이나 메모리 성능이 좋지 않을 때 사용하면 좋음.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">seabornInstance</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="c1"># weather.csv 파일 불러오기
+</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'weather.csv'</span><span class="p">)</span>
+
+<span class="c1"># 데이터 간 관계를 시각화로 표현
+</span><span class="n">dataset</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s">'MinTemp'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'MaxTemp'</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">'o'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'MinTemp vs MaxTemp'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'MinTemp'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'MaxTemp'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/tensortextbook/2-5.png" alt="그림 2-5. 코드 결과" /></p>
+<p>그림 2-5. 코드 결과</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 데이터를 독립 변수와 종속 변수로 분리하고 선형 회귀 모델 생성
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s">'MinTemp'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s">'MaxTemp'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">regressor</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">regressor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 회귀 모델에 대한 예측
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">regressor</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'Actual'</span><span class="p">:</span> <span class="n">y_test</span><span class="p">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="s">'Predicted'</span><span class="p">:</span> <span class="n">y_pred</span><span class="p">.</span><span class="n">flatten</span><span class="p">()})</span>
+<span class="n">df</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Actual	Predicted
+       0	11.7	21.357510
+       1	16.5	16.779398
+       2	27.8	28.746743
+       3	33.8	24.489902
+       4	17.2	19.510201
+       ...	...	...
+       69	23.1	24.730855
+       70	13.6	13.245417
+       71	12.0	12.120968
+       72	27.5	24.329266
+       73	29.3	23.847360
+       74 rows × 2 columns
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 검증 데이터셋을 사용한 회귀선 표현
+</span><span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'red'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/tensortextbook/2-6.png" alt="그림 2-6. 코드 결과" /></p>
+<p>그림 2-6. 코드 결과</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 선형 회귀 모델 평가
+</span><span class="k">print</span><span class="p">(</span><span class="s">'평균제곱법:'</span><span class="p">,</span> <span class="n">metrics</span><span class="p">.</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'루트 평균제곱법:'</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">metrics</span><span class="p">.</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 평균제곱법: 21.93672902577098
+       루트 평균제곱법: 4.683666194955719
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#decision-tree" class="page__taxonomy-item p-category" rel="tag">decision tree</a><span class="sep">, </span>
+    
+      <a href="/tags/#knn" class="page__taxonomy-item p-category" rel="tag">knn</a><span class="sep">, </span>
+    
+      <a href="/tags/#logistic-regression" class="page__taxonomy-item p-category" rel="tag">logistic regression</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#supervised-learning" class="page__taxonomy-item p-category" rel="tag">supervised learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#svm" class="page__taxonomy-item p-category" rel="tag">svm</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#tensortextbook" class="page__taxonomy-item p-category" rel="tag">tensortextbook</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-02-28T00:00:00+09:00">February 28, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/deeplearningtens/deeplearningtens6/" class="pagination--pager" title="[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens6/" rel="permalink">[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-28T00:00:00+09:00">February 28, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens5/" rel="permalink">[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens4/" rel="permalink">[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens3/" rel="permalink">[Deeplearning(Tensorflow)] 3. 신경망 모델 훈련
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-26T00:00:00+09:00">February 26, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

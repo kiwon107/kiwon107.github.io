@@ -1,0 +1,67 @@
+I"�(<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="5-1-패션-mnist-데이터-불러오기">5-1. 패션 MNIST 데이터 불러오기</h2>
+<p>3장에서 완전 연결 신경망에 입력 이미지를 밀집층에 연결하기 위해 일렬로 펼쳤다. 합성곱 신경망은 2차원 이미지를 그대로 사용하므로 일렬로 펼칠 필요가 없다. 다만 입력 이미지는 항상 깊이 차원이 있어야 한다. <code class="language-plaintext highlighter-rouge">reshape()</code> 메소드로 전체 배열 차원을 그대로 유지하면서 마지막에 차원을 간단히 추가하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_input</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">train_scaled</span><span class="p">,</span> <span class="n">val_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">val_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>(48000, 28, 28) 크기가 (48000, 28 ,28, 1) 크기가 됐다.</p>
+
+<h2 id="5-2-합성곱-신경망-만들기">5-2. 합성곱 신경망 만들기</h2>
+<p>합성곱 신경망 구조는 합성곱 층으로 이미지에서 특징을 감지한 후 밀집층으로 클래스에 따른 분류 확률을 계산한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>합성곱 층에서 32개 필터를 사용하여 특성 맵의 깊이는 32가 된다. (2, 2) 최대 풀링을 적용하여 특성 맵의 크기는 절반으로 줄어든다. 두 번째 합성곱-풀링 층도 추가해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>64개의 필터를 사용하여 최종적으로 만들어지는 특성 맵의 크기는 (7, 7, 64)가 된다.</p>
+
+<p>이제 3차원 특성 맵을 일렬로 펼치고 완전 연결 신경망을 만들자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Flatten</span><span class="p">())</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.4</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>은닉층과 출력층 사이에 드롭아웃을 넣었다. 드롭아웃 층이 은닉층의 과대적합을 막아 성능을 조금 더 개선해 줄 것이다. 패션 MNIST 데이터셋은 클래스 10개를 분류하는 다중 분류 문제이다. 마지막 층의 활성화 함수는 소프트맥스를 사용한다. 이제 <code class="language-plaintext highlighter-rouge">summary()</code> 메소드로 모델 구조를 출력해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Model: "sequential_1"
+       _________________________________________________________________
+       Layer (type)                 Output Shape              Param #   
+       =================================================================
+       conv2d_4 (Conv2D)            (None, 28, 28, 32)        320       
+       _________________________________________________________________
+       max_pooling2d_1 (MaxPooling2 (None, 14, 14, 32)        0         
+       _________________________________________________________________
+       conv2d_5 (Conv2D)            (None, 14, 14, 64)        18496     
+       _________________________________________________________________
+       max_pooling2d_2 (MaxPooling2 (None, 7, 7, 64)          0         
+       _________________________________________________________________
+       flatten_1 (Flatten)          (None, 3136)              0         
+       _________________________________________________________________
+       dense_2 (Dense)              (None, 100)               313700    
+       _________________________________________________________________
+       dropout_1 (Dropout)          (None, 100)               0         
+       _________________________________________________________________
+       dense_3 (Dense)              (None, 10)                1010      
+       =================================================================
+       Total params: 333,526
+       Trainable params: 333,526
+       Non-trainable params: 0
+       _________________________________________________________________
+</code></pre></div></div>
+
+<p>첫번째 파라미터 개수는 3x3x32+32=320 식에 의해 산출된다. 두번째 파라미터 개수는 3x3x32x64+64=18496 식에 의해 나온다. 세번째 파라미터 개수는 3136x100+100=313700 식으로 나오며 마지막 파라미터 개수는 100x10+10 식에 의해 나온다. 필터마다 하나의 절편이 있다는 것을 꼭 기억하자!</p>
+:ET

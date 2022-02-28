@@ -1,0 +1,161 @@
+I"zc<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="5-1-패션-mnist-데이터-불러오기">5-1. 패션 MNIST 데이터 불러오기</h2>
+<p>3장에서 완전 연결 신경망에 입력 이미지를 밀집층에 연결하기 위해 일렬로 펼쳤다. 합성곱 신경망은 2차원 이미지를 그대로 사용하므로 일렬로 펼칠 필요가 없다. 다만 입력 이미지는 항상 깊이 차원이 있어야 한다. <code class="language-plaintext highlighter-rouge">reshape()</code> 메소드로 전체 배열 차원을 그대로 유지하면서 마지막에 차원을 간단히 추가하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_input</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">train_scaled</span><span class="p">,</span> <span class="n">val_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">val_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>(48000, 28, 28) 크기가 (48000, 28 ,28, 1) 크기가 됐다.</p>
+
+<h2 id="5-2-합성곱-신경망-만들기">5-2. 합성곱 신경망 만들기</h2>
+<p>합성곱 신경망 구조는 합성곱 층으로 이미지에서 특징을 감지한 후 밀집층으로 클래스에 따른 분류 확률을 계산한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>합성곱 층에서 32개 필터를 사용하여 특성 맵의 깊이는 32가 된다. (2, 2) 최대 풀링을 적용하여 특성 맵의 크기는 절반으로 줄어든다. 두 번째 합성곱-풀링 층도 추가해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>64개의 필터를 사용하여 최종적으로 만들어지는 특성 맵의 크기는 (7, 7, 64)가 된다.</p>
+
+<p>이제 3차원 특성 맵을 일렬로 펼치고 완전 연결 신경망을 만들자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Flatten</span><span class="p">())</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.4</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>은닉층과 출력층 사이에 드롭아웃을 넣었다. 드롭아웃 층이 은닉층의 과대적합을 막아 성능을 조금 더 개선해 줄 것이다. 패션 MNIST 데이터셋은 클래스 10개를 분류하는 다중 분류 문제이다. 마지막 층의 활성화 함수는 소프트맥스를 사용한다. 이제 <code class="language-plaintext highlighter-rouge">summary()</code> 메소드로 모델 구조를 출력해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Model: "sequential_1"
+       _________________________________________________________________
+       Layer (type)                 Output Shape              Param #   
+       =================================================================
+       conv2d_4 (Conv2D)            (None, 28, 28, 32)        320       
+       _________________________________________________________________
+       max_pooling2d_1 (MaxPooling2 (None, 14, 14, 32)        0         
+       _________________________________________________________________
+       conv2d_5 (Conv2D)            (None, 14, 14, 64)        18496     
+       _________________________________________________________________
+       max_pooling2d_2 (MaxPooling2 (None, 7, 7, 64)          0         
+       _________________________________________________________________
+       flatten_1 (Flatten)          (None, 3136)              0         
+       _________________________________________________________________
+       dense_2 (Dense)              (None, 100)               313700    
+       _________________________________________________________________
+       dropout_1 (Dropout)          (None, 100)               0         
+       _________________________________________________________________
+       dense_3 (Dense)              (None, 10)                1010      
+       =================================================================
+       Total params: 333,526
+       Trainable params: 333,526
+       Non-trainable params: 0
+       _________________________________________________________________
+</code></pre></div></div>
+
+<p>첫번째 파라미터 개수는 3x3x32+32=320 식에 의해 산출된다. 두번째 파라미터 개수는 3x3x32x64+64=18496 식에 의해 나온다. 세번째 파라미터 개수는 3136x100+100=313700 식으로 나오며 마지막 파라미터 개수는 100x10+10 식에 의해 나온다. 필터마다 하나의 절편이 있다는 것을 꼭 기억하자!<br />
+케라스는 <code class="language-plaintext highlighter-rouge">summary()</code> 메소드 외에도 층의 구성을 그림으로 표현해주는 <code class="language-plaintext highlighter-rouge">plot_model()</code> 함수를 제공한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">keras</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div></div>
+<p>그림 넣기</p>
+
+<p><code class="language-plaintext highlighter-rouge">plot_model()</code> 함수의 <code class="language-plaintext highlighter-rouge">show_shapes</code> 매개변수를 True로 설정하면 그림에 입력과 출력의 크기를 표시해준다. 또한 <code class="language-plaintext highlighter-rouge">to_file</code> 매개변수에 파일 이름을 지정하면 출력한 이미지를 파일로 저장한다. <code class="language-plaintext highlighter-rouge">dpi</code> 매개변수로 해상도도 지정할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">keras</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="s">'cnn-architecture.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</code></pre></div></div>
+<p>그림넣기</p>
+
+<h2 id="5-3-모델-컴파일과-훈련">5-3. 모델 컴파일과 훈련</h2>
+<p>케라스 API의 장점은 딥러닝 모델의 종류나 구성 방식에 상관없이 컴파일과 훈련 과정이 같다는 것이다. <code class="language-plaintext highlighter-rouge">Adam</code> 옵티마이저를 사용하고 <code class="language-plaintext highlighter-rouge">ModelCheckpoint</code> 콜백과 <code class="language-plaintext highlighter-rouge">EarlyStoppig</code> 콜백을 함께 사용해 조기 종료 기법을 구현하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">'adam'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s">'sparse_categorical_crossentropy'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="s">'accuracy'</span><span class="p">)</span>
+<span class="n">checkpoint_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="s">'beset-cnn-model.h5'</span><span class="p">)</span>
+<span class="n">early_stopping_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">patience</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">,</span> <span class="n">val_target</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpoint_cb</span><span class="p">,</span> <span class="n">early_stopping_cb</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Epoch 1/20
+       1500/1500 [==============================] - 37s 24ms/step - loss: 0.5345 - accuracy: 0.8059 - val_loss: 0.3720 - val_accuracy: 0.8556
+       Epoch 2/20
+       1500/1500 [==============================] - 37s 24ms/step - loss: 0.3575 - accuracy: 0.8724 - val_loss: 0.2879 - val_accuracy: 0.8920
+       Epoch 3/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.3047 - accuracy: 0.8894 - val_loss: 0.2647 - val_accuracy: 0.9031
+       Epoch 4/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.2702 - accuracy: 0.9015 - val_loss: 0.2447 - val_accuracy: 0.9086
+       Epoch 5/20
+       1500/1500 [==============================] - 39s 26ms/step - loss: 0.2453 - accuracy: 0.9101 - val_loss: 0.2362 - val_accuracy: 0.9103
+       Epoch 6/20
+       1500/1500 [==============================] - 38s 25ms/step - loss: 0.2275 - accuracy: 0.9165 - val_loss: 0.2226 - val_accuracy: 0.9137
+       Epoch 7/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.2059 - accuracy: 0.9249 - val_loss: 0.2210 - val_accuracy: 0.9186
+       Epoch 8/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.1943 - accuracy: 0.9295 - val_loss: 0.2262 - val_accuracy: 0.9180
+       Epoch 9/20
+       1500/1500 [==============================] - 39s 26ms/step - loss: 0.1780 - accuracy: 0.9340 - val_loss: 0.2355 - val_accuracy: 0.9144
+</code></pre></div></div>
+
+<p>조기 종료가 잘 이루어졌는지 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'val_loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'epoch'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-3.png" alt="그림 5-3. 코드 결과" /></p>
+<p>그림 5-3. 코드 결과</p>
+
+<p>검증 세트에 대한 손실이 점차 감소하다가 정체되기 시작하고 훈련 세트에 대한 손실은 점점 더 낮아지고 있다. <code class="language-plaintext highlighter-rouge">EarlyStopping</code> 클래스에서 <code class="language-plaintext highlighter-rouge">resotre_best_weights=True</code>로 저장했으므로 현재 model 객체가 최적의 모델 파라미터로 복원되어 있다. 즉 <code class="language-plaintext highlighter-rouge">ModelCheckpoint</code> 콜백이 저장한 <code class="language-plaintext highlighter-rouge">best-cnn-model.h5</code> 파일을 다시 읽을 필요가 없다. 이제 세트에 대한 성능을 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">,</span> <span class="n">val_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 375/375 [==============================] - 3s 8ms/step - loss: 0.2210 - accuracy: 0.9186
+       [0.2210034728050232, 0.918583333492279]
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">EarlyStopping</code> 콜백이 model 객체를 최상의 모델 파라미터로 잘 복원한 것으로 보인다. 3차원 배열을 2차원 형태로 바꾸어 이미지를 출력해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-4.png" alt="그림 5-4. 코드 결과" /></p>
+<p>그림 5-4. 코드 결과</p>
+
+<p>핸드백 이미지로 보인다. <code class="language-plaintext highlighter-rouge">predict()</code> 에서 10개의 클래스에 대한 예측 확률을 출력하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[1.2923547e-15 2.0240659e-23 2.0993377e-17 2.7453213e-17 1.8608113e-17   2.1668218e-16 5.5988666e-16 1.1345319e-16 1.0000000e+00 9.9846664e-18]]
+</code></pre></div></div>
+
+<p>참고로 슬라이싱 연산을 사용한 이유는 (28, 28, 1) 이 아닌 (1, 28, 28, 1) 크기를 만들기 위함이다. <code class="language-plaintext highlighter-rouge">evaluate()</code> 메소드는 모두 입력의 첫 번째 차원이 배치 차원일 것으로 기대한다. 막대 그래프로 각 확률이 몇인지 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-5.png" alt="그림 5-5. 코드 결과" /></p>
+<p>그림 5-5. 코드 결과</p>
+
+<p>각 레이블을 리스트로 저장하고 <code class="language-plaintext highlighter-rouge">preds</code> 배열에서 가장 큰 인덱스를 찾아 <code class="language-plaintext highlighter-rouge">classes</code> 리스트의 인덱스로 사용해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s">'티셔츠'</span><span class="p">,</span> <span class="s">'바지'</span><span class="p">,</span> <span class="s">'스웨터'</span><span class="p">,</span> <span class="s">'드레스'</span><span class="p">,</span> <span class="s">'코트'</span><span class="p">,</span> <span class="s">'샌달'</span><span class="p">,</span> <span class="s">'셔츠'</span><span class="p">,</span> <span class="s">'스니커즈'</span><span class="p">,</span> <span class="s">'가방'</span><span class="p">,</span> <span class="s">'앵클 부츠'</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="k">print</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">preds</span><span class="p">)])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 가방
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_scaled</span><span class="o">=</span><span class="n">test_input</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_scaled</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 313/313 [==============================] - 3s 8ms/step - loss: 0.2503 - accuracy: 0.9105
+       [0.2503235638141632, 0.9104999899864197]
+</code></pre></div></div>
+:ET

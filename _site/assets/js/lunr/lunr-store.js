@@ -340,4 +340,28 @@ var store = [{
         "tags": ["deep learning","dropout","callback","early stopping"],
         "url": "/deeplearningtens/deeplearningtens3/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 4-1. 합성곱 합성곱(Convolution)은 마치 입력 데이터에 마법의 도장을 찍어서 유용한 특성만 드러나게 하는 것이다. 인공 신경망은 처음에 가중치 $w_{1}$ ~ $w_{10}$ 과 절편 $b$를 랜덤하게 초기화한 다음 에포크를 반복하면서 경사 하강법 알고리즘을 사용하여 손실이...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","convolution","filter","feature map","padding","stride","pooling"],
+        "url": "/deeplearningtens/deeplearningtens4/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 5-1. 패션 MNIST 데이터 불러오기 3장에서 완전 연결 신경망에 입력 이미지를 밀집층에 연결하기 위해 일렬로 펼쳤다. 합성곱 신경망은 2차원 이미지를 그대로 사용하므로 일렬로 펼칠 필요가 없다. 다만 입력 이미지는 항상 깊이 차원이 있어야 한다....","categories": ["deeplearningtens"],
+        "tags": ["deep learning","Conv2D","MaxPooling2D","plot_model"],
+        "url": "/deeplearningtens/deeplearningtens5/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 6-1. 가중치 시각화 합성곱 층은 여러 개의 필터를 사용해 이미지에서 특징을 학습한다. 각 필터는 커널이라 부르는 가중치와 절편을 갖는다. 절편은 사실 시각적으로 의미가 있지는 않다. 가중치는 입력 이미지의 2차원 영역에 적용되어 어떤 특징을 크게...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","weights visualization","feature map visualization","functional API"],
+        "url": "/deeplearningtens/deeplearningtens6/",
+        "teaser": null
+      },{
+        "title": "[Machine learning] 2. 지도 학습",
+        "excerpt":"본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 2-1. 지도학습 지도 학습은 정답(=레이블)을 컴퓨터에 미리 알려주고 데이터를 학습시키는 방법이다. 지도 학습에는 크게 분류와 회귀가 있다. 분류는 주어진 데이터를 정해진 범주에 따라 분류하고, 회귀는 데이터들의 특성을 기준으로 연속된 값을 그래프로 표현하여 패턴이나 트렌드를...","categories": ["tensortextbook"],
+        "tags": ["machine learning","supervised learning","knn","svm","decision tree","logistic regression"],
+        "url": "/tensortextbook/machinelearning16/",
+        "teaser": null
       }]

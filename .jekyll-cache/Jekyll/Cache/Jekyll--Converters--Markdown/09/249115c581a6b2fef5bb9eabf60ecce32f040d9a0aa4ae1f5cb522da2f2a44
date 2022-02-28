@@ -1,0 +1,221 @@
+I"�e<p>본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="2-1-지도학습">2-1. 지도학습</h2>
+<p>지도 학습은 정답(=레이블)을 컴퓨터에 미리 알려주고 데이터를 학습시키는 방법이다. 지도 학습에는 크게 분류와 회귀가 있다. 분류는 주어진 데이터를 정해진 범주에 따라 분류하고, 회귀는 데이터들의 특성을 기준으로 연속된 값을 그래프로 표현하여 패턴이나 트렌드를 예측할 때 사용한다.</p>
+
+<ul>
+  <li>분류<br />
+    <ul>
+      <li>데이터 유형: 이산형 데이터<br /></li>
+      <li>결과: 훈련 데이터의 레이블 중 하나를 예측<br /></li>
+    </ul>
+  </li>
+  <li>회귀<br />
+    <ul>
+      <li>데이터 유형: 연속형 데이터<br /></li>
+      <li>결과: 연속된 값을 예측<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-2-k-최근접-이웃">2-2. K-최근접 이웃</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류<br /></li>
+  <li>언제 사용? → 직관적이고 사용하기 쉬워 초보자가 쓰기 좋고, 훈련 데이터를 충분히 확보할 수 있는 환경에서 사용하면 좋음<br /></li>
+</ul>
+
+<p>K-최근접 이웃은 새로운 입력을 받았을 때 기존 클러스터에서 모든 데이터와 인스턴스(새로운 데이터 들어올 때 데이터와 데이터 사이의 거리를 측정한 관측치 의미) 기반 거리를 측정 후, 가장 많은 속성을 가진 클러스터에 할당하는 분류 알고리즘이다. K값을 어떻게 설정하느냐에 따라 새로운 데이터에 대한 분류 결과가 달라질 수 있다. iris 데이터를 활용한 코드 예제는 다음과 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출 및 데이터 준비
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">'sepal-length'</span><span class="p">,</span> <span class="s">'sepal-width'</span><span class="p">,</span> <span class="s">'petal-length'</span><span class="p">,</span> <span class="s">'petal-width'</span><span class="p">,</span> <span class="s">'Class'</span><span class="p">]</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'iris.data'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+
+<span class="c1"># 훈련과 검증 데이터셋 분리
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">].</span><span class="n">values</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">s</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># 모델 생성 및 훈련
+</span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">knn</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 모델 정확도
+</span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"정확도: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)))</span>
+
+<span class="c1"># 최적의 K 찾기
+</span><span class="n">k</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">acc_array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">classifier</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">acc_array</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span>
+
+<span class="n">max_acc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">amax</span><span class="p">(</span><span class="n">acc_array</span><span class="p">)</span>
+<span class="n">acc_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">acc_array</span><span class="p">)</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">acc_list</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_acc</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"정확도"</span><span class="p">,</span> <span class="n">max_acc</span><span class="p">,</span> <span class="s">"으로 최적의 k는"</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s">"입니다."</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 정확도: 0.8
+       정확도 1.0 으로 최적의 k는 1 입니다.
+</code></pre></div></div>
+
+<p>K 값이 50일 때 정확도는 80%였는데, K 값이 1일 때 정확도는 100%로 높아졌다. 이처럼 K-최근접 이웃 알고리즘은 K 값에 따라 성능이 달라질 수 있으므로 초기 설정이 매우 중요하다.</p>
+
+<h2 id="2-3-서포트-벡터-머신">2-3. 서포트 벡터 머신</h2>
+<ul>
+  <li>왜 사용? → 주어진 데이터에 대한 분류</li>
+  <li>언제 사용? → 커널만 적절히 선택하면 정확도가 상당히 좋으므로 정확도를 요구하는 분류 문제를 다룰 때 사용하면 좋음. 또한 텍스트를 분류할 때도 많이 사용함.</li>
+</ul>
+
+<p>서포트 벡터 머신(SVM)은 분류를 위한 기준선을 정의하는 모델이다. 분류되지 않은 새로운 데이터가 나타나면 결정 경계(기준선)를 기준으로 경계의 어느 쪽에 속하는지 분류하는 모델이다. 따라서 서포트 벡터 머신에서는 결정 경계를 이해하는 것이 중요하다.<br />
+결정 경계는 데이터를 분류하기 위한 기준선이다. 결정 경계는 데이터가 분류된 클래스에서 최대한 멀리 떨어져 있을 때 성능이 가장 좋다. 여기서 마진이라는 개념이 등장한다. 마진은 결정 경계와 서포트 벡터 사이의 거리를 의미한다. 서포트 벡터는 결정 경계와 가까이 있는 데이터들을 의미한다. 즉, 이 서포트 벡터들이 경계를 정의하는 결정적인 역할을 하게 된다. 최적의 결정 경계는 마진을 최대로 해야 한다.<br />
+서포트 벡터 머신은 데이터들을 올바르게 분리하면서 마진 크기를 최대화 해야한다. 여기서 이상치를 다루는 것이 가장 중요하다. 이상치를 허용하지 않는 것을 하드 마진이라 하며, 어느 정도의 이상치들이 마진 안에 포함되는 것을 허용하면 소프트 마진이라 한다.</p>
+
+<p>그림
+그림</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출
+</span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">model_selection</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'TF_CPP_MIN_LOG_LEVEL'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'3'</span>
+
+<span class="c1"># iris 데이터를 준비하고 훈련과 검증 데이터 셋으로 분리
+</span><span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">model_selection</span><span class="p">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="p">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">svm</span><span class="p">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s">'linear'</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># ★
+</span><span class="n">svm</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">svm</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">score</span><span class="o">=</span> <span class="n">metrics</span><span class="p">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'정확도: {0:f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">score</span><span class="p">))</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과)
+</code></pre></div></div>
+
+<p>주석으로 별표 처리 된 코드를 보자. SVM은 선형 분류와 비선형 분류를 지원한다. 비선형에 대한 커널은 선형으로 분류될 수 없는 데이터들 때문에 발생했다. 비선형 문제를 해결하는 가장 기본적인 방법은 저차원 데이터를 고차원으로 보내는 것이다. 하지만 이러한 작업은 많은 수학적 계산을 필요로 하여 선응에 문제를 줄 수 있다. 이러한 문제를 해결하고자 도입한 것이 ‘커널 트릭’이다. 선형 모델을 위한 커널에는 선형 커널이 있다. 비선형을 위한 커널에는 가우시안 RBF 커널과 다항식 커널이 있다.<br />
+가우시안 RBF 커널과 다항식 커널은 수학적 기교를 이용한 것으로, 벡터 내적을 계산한 후 고차원으로 보내는 방법으로 연산량을 줄였다.<br /></p>
+<ul>
+  <li>선형 커널: 선형으로 분류 가능한 데이터에 적용<br />
+$K(a,b)=a^{T}\cdot b$<br />
+(a,b: 입력 벡터)<br /></li>
+  <li>다항식 커널: 실제로는 특성을 추가하지 않았지만, 다항식 특성을 많이 추가한 것과 같은 결과를 얻을 수 있는 방법<br />
+$K(a,b)=(\gamma a^{T}\cdot b)^{d}$<br />
+(a,b: 입력 데이터, $\gamma$: 감마(gamma), d: 차원)</li>
+  <li>가우시안 RBF 커널: 다항식 커널의 확장. 입력 벡터를 차원이 무한한 고차원으로 매핑한 것</li>
+</ul>
+
+<h2 id="2-4-결정-트리">2-4. 결정 트리</h2>
+<p>왜 사용? → 주어진 데이터에 대한 분류
+언제 사용? → 이상치가 많은 값으로 구성된 데이터셋을 다룰 때 사용하면 좋음. 결정 과정이 시작적으로 표현되기 때문에 머신 러닝이 어떤 방식으로 의사 결정을 하는지 알고 싶을 때 유용.</p>
+
+<p>결정 트리는 데이터를 분류하거나 결과값을 예측하는 분석 방법이다. 결과 모델이 트리 구조이므로 결정 트리라고 한다. 결정 트리는 데이터를</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 라이브러리 호출 및 데이터 준비
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'train.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s">'PassengerId'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">)</span>
+
+<span class="c1"># 데이터 전처리
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'Pclass'</span><span class="p">,</span> <span class="s">'Sex'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">,</span> <span class="s">'SibSp'</span><span class="p">,</span> <span class="s">'Parch'</span><span class="p">,</span> <span class="s">'Fare'</span><span class="p">,</span> <span class="s">'Survived'</span><span class="p">]]</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'Sex'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'Sex'</span><span class="p">].</span><span class="nb">map</span><span class="p">({</span><span class="s">'male'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">'female'</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="s">'Survived'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'Survived'</span><span class="p">]</span>
+
+<span class="c1"># 훈련과 검증 데이터셋으로 분리
+</span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결정 트리 모델 생성
+</span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+
+<span class="c1"># 모델 훈련
+</span><span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 모델 예측
+</span><span class="n">y_predict</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">)</span>
+
+<span class="c1"># 혼동 행렬을 이용한 성능 측정
+</span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_predict</span><span class="p">),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'Predicted Not Survival'</span><span class="p">,</span> <span class="s">'Predicted Survival'</span><span class="p">],</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s">'True Not Survival'</span><span class="p">,</span> <span class="s">'True Survival'</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) &lt;bound method NDFrame.head of              Survived  Pclass  \
+       PassengerId                     
+       1                   0       3   
+       2                   1       1   
+       3                   1       3   
+       4                   1       1   
+       5                   0       3   
+       ...               ...     ...   
+       887                 0       2   
+       888                 1       1   
+       889                 0       3   
+       890                 1       1   
+       891                 0       3   
+                                                               Name     Sex   Age  \
+       PassengerId                                                                    
+       1                                      Braund, Mr. Owen Harris    male  22.0   
+       2            Cumings, Mrs. John Bradley (Florence Briggs Th...  female  38.0   
+       3                                       Heikkinen, Miss. Laina  female  26.0   
+       4                 Futrelle, Mrs. Jacques Heath (Lily May Peel)  female  35.0   
+       5                                     Allen, Mr. William Henry    male  35.0   
+       ...                                                        ...     ...   ...   
+       887                                      Montvila, Rev. Juozas    male  27.0   
+       888                               Graham, Miss. Margaret Edith  female  19.0   
+       889                   Johnston, Miss. Catherine Helen "Carrie"  female   NaN   
+       890                                      Behr, Mr. Karl Howell    male  26.0   
+       891                                        Dooley, Mr. Patrick    male  32.0   
+                   SibSp  Parch            Ticket     Fare Cabin Embarked  
+       PassengerId                                                          
+       1                1      0         A/5 21171   7.2500   NaN        S  
+       2                1      0          PC 17599  71.2833   C85        C  
+       3                0      0  STON/O2. 3101282   7.9250   NaN        S  
+       4                1      0            113803  53.1000  C123        S  
+       5                0      0            373450   8.0500   NaN        S  
+       ...            ...    ...               ...      ...   ...      ...  
+       887              0      0            211536  13.0000   NaN        S  
+       888              0      0            112053  30.0000   B42        S  
+       889              1      2        W./C. 6607  23.4500   NaN        S  
+       890              0      0            111369  30.0000  C148        C  
+       891              0      0            370376   7.7500   NaN        Q  
+       [891 rows x 11 columns]&gt;
+       Predicted Not Survival	Predicted Survival
+       True Not Survival	98	14
+       True Survival	17	50
+</code></pre></div></div>
+
+<h2 id="2-5-로지스틱-회귀">2-5. 로지스틱 회귀</h2>
+<p>왜 사용? → 주어진 데이터에 대한 분류
+언제 사용? → 주어진 데이터에 대한 확신이 없거나 추가적으로 훈련 데이터셋을 수집하여 모델을 훈련시킬 수 있느 환경에서 사용하면 유용</p>
+
+<h2 id="2-6-선형-회귀">2-6. 선형 회귀</h2>
+<p>왜 사용? → 주어진 데이터에 대한 분류
+언제 사용? 주어진 데이터에서 독립변수와 종속 변수가 선형관계 가질 때 사용하면 유용. 복잡한 연산 과정이 없어 컴퓨팅 성능이 낮은 환경이나 메모리 성능이 좋지 않을 때 사용하면 좋음.</p>
+:ET

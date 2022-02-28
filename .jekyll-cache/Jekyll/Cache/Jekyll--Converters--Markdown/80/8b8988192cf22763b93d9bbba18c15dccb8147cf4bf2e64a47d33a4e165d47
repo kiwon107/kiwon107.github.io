@@ -1,0 +1,45 @@
+I"6
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/tensortextbook/machinelearning16/">[Machine learning] 2. 지도 학습</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.28
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#tensortextbook" class="page__taxonomy-item-category" rel="tag">tensortextbook</a>
+                    
+                    
+                    <a href="/tags/#decision-tree" class="page__taxonomy-item-tag" rel="tag">decision tree</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#knn" class="page__taxonomy-item-tag" rel="tag">knn</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#logistic-regression" class="page__taxonomy-item-tag" rel="tag">logistic regression</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#machine-learning" class="page__taxonomy-item-tag" rel="tag">machine learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#supervised-learning" class="page__taxonomy-item-tag" rel="tag">supervised learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#svm" class="page__taxonomy-item-tag" rel="tag">svm</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

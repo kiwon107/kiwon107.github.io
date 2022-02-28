@@ -1,0 +1,993 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류">
+<meta property="og:url" content="http://localhost:4000/deeplearningtens/deeplearningtens5/">
+
+
+  <meta property="og:description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-27T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/deeplearningtens/deeplearningtens5/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (14)</a></li>
+          
+          
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (8)</a></li>
+          
+          
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) (6)</a></li>
+          
+          
+            <li><a href="/tensortextbook/">딥러닝 텐서플로 교과서 (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (26)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+          
+            <li><a href="/algopy/">자료구조와 알고리즘(파이썬) (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Mathematics</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/prob/">확률과 통계 (2)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류">
+    <meta itemprop="description" content="본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-02-27T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/deeplearningtens/deeplearningtens5/" class="u-url" itemprop="url">[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#5-1-패션-mnist-데이터-불러오기">5-1. 패션 MNIST 데이터 불러오기</a></li><li><a href="#5-2-합성곱-신경망-만들기">5-2. 합성곱 신경망 만들기</a></li><li><a href="#5-3-모델-컴파일과-훈련">5-3. 모델 컴파일과 훈련</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="5-1-패션-mnist-데이터-불러오기">5-1. 패션 MNIST 데이터 불러오기</h2>
+<p>3장에서 완전 연결 신경망에 입력 이미지를 밀집층에 연결하기 위해 일렬로 펼쳤다. 합성곱 신경망은 2차원 이미지를 그대로 사용하므로 일렬로 펼칠 필요가 없다. 다만 입력 이미지는 항상 깊이 차원이 있어야 한다. <code class="language-plaintext highlighter-rouge">reshape()</code> 메소드로 전체 배열 차원을 그대로 유지하면서 마지막에 차원을 간단히 추가하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">fashion_mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">train_input</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">train_scaled</span><span class="p">,</span> <span class="n">val_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">val_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>(48000, 28, 28) 크기가 (48000, 28 ,28, 1) 크기가 됐다.</p>
+
+<h2 id="5-2-합성곱-신경망-만들기">5-2. 합성곱 신경망 만들기</h2>
+<p>합성곱 신경망 구조는 합성곱 층으로 이미지에서 특징을 감지한 후 밀집층으로 클래스에 따른 분류 확률을 계산한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>합성곱 층에서 32개 필터를 사용하여 특성 맵의 깊이는 32가 된다. (2, 2) 최대 풀링을 적용하여 특성 맵의 크기는 절반으로 줄어든다. 두 번째 합성곱-풀링 층도 추가해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s">'same'</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>64개의 필터를 사용하여 최종적으로 만들어지는 특성 맵의 크기는 (7, 7, 64)가 된다.</p>
+
+<p>이제 3차원 특성 맵을 일렬로 펼치고 완전 연결 신경망을 만들자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Flatten</span><span class="p">())</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.4</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>은닉층과 출력층 사이에 드롭아웃을 넣었다. 드롭아웃 층이 은닉층의 과대적합을 막아 성능을 조금 더 개선해 줄 것이다. 패션 MNIST 데이터셋은 클래스 10개를 분류하는 다중 분류 문제이다. 마지막 층의 활성화 함수는 소프트맥스를 사용한다. 이제 <code class="language-plaintext highlighter-rouge">summary()</code> 메소드로 모델 구조를 출력해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Model: "sequential_1"
+       _________________________________________________________________
+       Layer (type)                 Output Shape              Param #   
+       =================================================================
+       conv2d_4 (Conv2D)            (None, 28, 28, 32)        320       
+       _________________________________________________________________
+       max_pooling2d_1 (MaxPooling2 (None, 14, 14, 32)        0         
+       _________________________________________________________________
+       conv2d_5 (Conv2D)            (None, 14, 14, 64)        18496     
+       _________________________________________________________________
+       max_pooling2d_2 (MaxPooling2 (None, 7, 7, 64)          0         
+       _________________________________________________________________
+       flatten_1 (Flatten)          (None, 3136)              0         
+       _________________________________________________________________
+       dense_2 (Dense)              (None, 100)               313700    
+       _________________________________________________________________
+       dropout_1 (Dropout)          (None, 100)               0         
+       _________________________________________________________________
+       dense_3 (Dense)              (None, 10)                1010      
+       =================================================================
+       Total params: 333,526
+       Trainable params: 333,526
+       Non-trainable params: 0
+       _________________________________________________________________
+</code></pre></div></div>
+
+<p>첫번째 파라미터 개수는 3x3x32+32=320 식에 의해 산출된다. 두번째 파라미터 개수는 3x3x32x64+64=18496 식에 의해 나온다. 세번째 파라미터 개수는 3136x100+100=313700 식으로 나오며 마지막 파라미터 개수는 100x10+10 식에 의해 나온다. 필터마다 하나의 절편이 있다는 것을 꼭 기억하자!<br />
+케라스는 <code class="language-plaintext highlighter-rouge">summary()</code> 메소드 외에도 층의 구성을 그림으로 표현해주는 <code class="language-plaintext highlighter-rouge">plot_model()</code> 함수를 제공한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">keras</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-1.png" alt="그림 5-1. 코드 결과" /></p>
+<p>그림 5-1. 코드 결과</p>
+
+<p><code class="language-plaintext highlighter-rouge">plot_model()</code> 함수의 <code class="language-plaintext highlighter-rouge">show_shapes</code> 매개변수를 True로 설정하면 그림에 입력과 출력의 크기를 표시해준다. 또한 <code class="language-plaintext highlighter-rouge">to_file</code> 매개변수에 파일 이름을 지정하면 출력한 이미지를 파일로 저장한다. <code class="language-plaintext highlighter-rouge">dpi</code> 매개변수로 해상도도 지정할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">keras</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="s">'cnn-architecture.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-2.png" alt="그림 5-2. 코드 결과" /></p>
+<p>그림 5-2. 코드 결과</p>
+
+<h2 id="5-3-모델-컴파일과-훈련">5-3. 모델 컴파일과 훈련</h2>
+<p>케라스 API의 장점은 딥러닝 모델의 종류나 구성 방식에 상관없이 컴파일과 훈련 과정이 같다는 것이다. <code class="language-plaintext highlighter-rouge">Adam</code> 옵티마이저를 사용하고 <code class="language-plaintext highlighter-rouge">ModelCheckpoint</code> 콜백과 <code class="language-plaintext highlighter-rouge">EarlyStoppig</code> 콜백을 함께 사용해 조기 종료 기법을 구현하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">'adam'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s">'sparse_categorical_crossentropy'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="s">'accuracy'</span><span class="p">)</span>
+<span class="n">checkpoint_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="s">'beset-cnn-model.h5'</span><span class="p">)</span>
+<span class="n">early_stopping_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">patience</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_scaled</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">,</span> <span class="n">val_target</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpoint_cb</span><span class="p">,</span> <span class="n">early_stopping_cb</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Epoch 1/20
+       1500/1500 [==============================] - 37s 24ms/step - loss: 0.5345 - accuracy: 0.8059 - val_loss: 0.3720 - val_accuracy: 0.8556
+       Epoch 2/20
+       1500/1500 [==============================] - 37s 24ms/step - loss: 0.3575 - accuracy: 0.8724 - val_loss: 0.2879 - val_accuracy: 0.8920
+       Epoch 3/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.3047 - accuracy: 0.8894 - val_loss: 0.2647 - val_accuracy: 0.9031
+       Epoch 4/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.2702 - accuracy: 0.9015 - val_loss: 0.2447 - val_accuracy: 0.9086
+       Epoch 5/20
+       1500/1500 [==============================] - 39s 26ms/step - loss: 0.2453 - accuracy: 0.9101 - val_loss: 0.2362 - val_accuracy: 0.9103
+       Epoch 6/20
+       1500/1500 [==============================] - 38s 25ms/step - loss: 0.2275 - accuracy: 0.9165 - val_loss: 0.2226 - val_accuracy: 0.9137
+       Epoch 7/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.2059 - accuracy: 0.9249 - val_loss: 0.2210 - val_accuracy: 0.9186
+       Epoch 8/20
+       1500/1500 [==============================] - 37s 25ms/step - loss: 0.1943 - accuracy: 0.9295 - val_loss: 0.2262 - val_accuracy: 0.9180
+       Epoch 9/20
+       1500/1500 [==============================] - 39s 26ms/step - loss: 0.1780 - accuracy: 0.9340 - val_loss: 0.2355 - val_accuracy: 0.9144
+</code></pre></div></div>
+
+<p>조기 종료가 잘 이루어졌는지 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'val_loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'epoch'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-3.png" alt="그림 5-3. 코드 결과" /></p>
+<p>그림 5-3. 코드 결과</p>
+
+<p>검증 세트에 대한 손실이 점차 감소하다가 정체되기 시작하고 훈련 세트에 대한 손실은 점점 더 낮아지고 있다. <code class="language-plaintext highlighter-rouge">EarlyStopping</code> 클래스에서 <code class="language-plaintext highlighter-rouge">resotre_best_weights=True</code>로 저장했으므로 현재 model 객체가 최적의 모델 파라미터로 복원되어 있다. 즉 <code class="language-plaintext highlighter-rouge">ModelCheckpoint</code> 콜백이 저장한 <code class="language-plaintext highlighter-rouge">best-cnn-model.h5</code> 파일을 다시 읽을 필요가 없다. 이제 세트에 대한 성능을 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">,</span> <span class="n">val_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 375/375 [==============================] - 3s 8ms/step - loss: 0.2210 - accuracy: 0.9186
+       [0.2210034728050232, 0.918583333492279]
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">EarlyStopping</code> 콜백이 model 객체를 최상의 모델 파라미터로 잘 복원한 것으로 보인다. 3차원 배열을 2차원 형태로 바꾸어 이미지를 출력해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray_r'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-4.png" alt="그림 5-4. 코드 결과" /></p>
+<p>그림 5-4. 코드 결과</p>
+
+<p>핸드백 이미지로 보인다. <code class="language-plaintext highlighter-rouge">predict()</code> 에서 10개의 클래스에 대한 예측 확률을 출력하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">val_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) [[1.2923547e-15 2.0240659e-23 2.0993377e-17 2.7453213e-17 1.8608113e-17   2.1668218e-16 5.5988666e-16 1.1345319e-16 1.0000000e+00 9.9846664e-18]]
+</code></pre></div></div>
+
+<p>참고로 슬라이싱 연산을 사용한 이유는 (28, 28, 1) 이 아닌 (1, 28, 28, 1) 크기를 만들기 위함이다. <code class="language-plaintext highlighter-rouge">fit()</code>, <code class="language-plaintext highlighter-rouge">predict()</code>, <code class="language-plaintext highlighter-rouge">evaluate()</code> 메소드는 모두 입력의 첫 번째 차원이 배치 차원일 것으로 기대한다. 막대 그래프로 각 확률이 몇인지 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'class'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/5-5.png" alt="그림 5-5. 코드 결과" /></p>
+<p>그림 5-5. 코드 결과</p>
+
+<p>각 레이블을 리스트로 저장하고 <code class="language-plaintext highlighter-rouge">preds</code> 배열에서 가장 큰 인덱스를 찾아 <code class="language-plaintext highlighter-rouge">classes</code> 리스트의 인덱스로 사용해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s">'티셔츠'</span><span class="p">,</span> <span class="s">'바지'</span><span class="p">,</span> <span class="s">'스웨터'</span><span class="p">,</span> <span class="s">'드레스'</span><span class="p">,</span> <span class="s">'코트'</span><span class="p">,</span> <span class="s">'샌달'</span><span class="p">,</span> <span class="s">'셔츠'</span><span class="p">,</span> <span class="s">'스니커즈'</span><span class="p">,</span> <span class="s">'가방'</span><span class="p">,</span> <span class="s">'앵클 부츠'</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="k">print</span><span class="p">(</span><span class="n">classes</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">preds</span><span class="p">)])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 가방
+</code></pre></div></div>
+
+<p>가방으로 잘 예측하였다. 테스트 셋에 대해서도 픽셀값의 범위를 0~1 사이로 바꾸고 이미지를 (28, 28)에서 (28, 28, 1)로 바꾸고 <code class="language-plaintext highlighter-rouge">evaluate()</code> 메소드로 테스트 세트에 대한 성능을 측정해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_scaled</span><span class="o">=</span><span class="n">test_input</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_scaled</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 313/313 [==============================] - 3s 8ms/step - loss: 0.2503 - accuracy: 0.9105
+       [0.2503235638141632, 0.9104999899864197]
+</code></pre></div></div>
+
+<p>약 91%의 성능이 나왔다!</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#conv2d" class="page__taxonomy-item p-category" rel="tag">Conv2D</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">deep learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#maxpooling2d" class="page__taxonomy-item p-category" rel="tag">MaxPooling2D</a><span class="sep">, </span>
+    
+      <a href="/tags/#plot-model" class="page__taxonomy-item p-category" rel="tag">plot_model</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#deeplearningtens" class="page__taxonomy-item p-category" rel="tag">deeplearningtens</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/deeplearningtens/deeplearningtens4/" class="pagination--pager" title="[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소
+">Previous</a>
+    
+    
+      <a href="/deeplearningtens/deeplearningtens6/" class="pagination--pager" title="[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tensortextbook/machinelearning16/" rel="permalink">[Machine learning] 2. 지도 학습
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-28T00:00:00+09:00">February 28, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “딥러닝 텐서플로 교과서” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens6/" rel="permalink">[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-28T00:00:00+09:00">February 28, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens4/" rel="permalink">[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens3/" rel="permalink">[Deeplearning(Tensorflow)] 3. 신경망 모델 훈련
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-26T00:00:00+09:00">February 26, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
