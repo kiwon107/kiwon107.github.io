@@ -1,0 +1,269 @@
+I"�+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens6/">[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.28
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#feature-map-visualization" class="page__taxonomy-item-tag" rel="tag">feature map visualization</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#functional-api" class="page__taxonomy-item-tag" rel="tag">functional API</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#weights-visualization" class="page__taxonomy-item-tag" rel="tag">weights visualization</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens6-copy/">[Deeplearning(Tensorflow)] 6. 합성곱 신경망의 시각화</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.28
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#feature-map-visualization" class="page__taxonomy-item-tag" rel="tag">feature map visualization</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#functional-api" class="page__taxonomy-item-tag" rel="tag">functional API</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#weights-visualization" class="page__taxonomy-item-tag" rel="tag">weights visualization</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens5/">[Deeplearning(Tensorflow)] 5. 합성곱 신경망을 사용한 이미지 분류</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.27
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#conv2d" class="page__taxonomy-item-tag" rel="tag">Conv2D</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#maxpooling2d" class="page__taxonomy-item-tag" rel="tag">MaxPooling2D</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#plot-model" class="page__taxonomy-item-tag" rel="tag">plot_model</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens4/">[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.27
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#convolution" class="page__taxonomy-item-tag" rel="tag">convolution</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#feature-map" class="page__taxonomy-item-tag" rel="tag">feature map</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#filter" class="page__taxonomy-item-tag" rel="tag">filter</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#padding" class="page__taxonomy-item-tag" rel="tag">padding</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#pooling" class="page__taxonomy-item-tag" rel="tag">pooling</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#stride" class="page__taxonomy-item-tag" rel="tag">stride</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens3/">[Deeplearning(Tensorflow)] 3. 신경망 모델 훈련</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.26
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#callback" class="page__taxonomy-item-tag" rel="tag">callback</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#dropout" class="page__taxonomy-item-tag" rel="tag">dropout</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#early-stopping" class="page__taxonomy-item-tag" rel="tag">early stopping</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens2/">[Deeplearning(Tensorflow)] 2. 심층 신경망</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.26
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-neural-network" class="page__taxonomy-item-tag" rel="tag">deep neural network</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#optimizer" class="page__taxonomy-item-tag" rel="tag">optimizer</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#relu-function" class="page__taxonomy-item-tag" rel="tag">relu function</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/deeplearningtens/deeplearningtens1/">[Deeplearning(Tensorflow)] 1. 인공 신경망</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.02.25
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#deeplearningtens" class="page__taxonomy-item-category" rel="tag">deeplearningtens</a>
+                    
+                    
+                    <a href="/tags/#artificial-neural-network" class="page__taxonomy-item-tag" rel="tag">artificial neural network</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#deep-learning" class="page__taxonomy-item-tag" rel="tag">deep learning</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#dense-layer" class="page__taxonomy-item-tag" rel="tag">dense layer</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#one-hot-encoding" class="page__taxonomy-item-tag" rel="tag">one-hot encoding</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#tensorflow" class="page__taxonomy-item-tag" rel="tag">tensorflow</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

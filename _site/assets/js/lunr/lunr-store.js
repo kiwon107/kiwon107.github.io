@@ -364,4 +364,10 @@ var store = [{
         "tags": ["machine learning","supervised learning","knn","svm","decision tree","logistic regression"],
         "url": "/tensortextbook/machinelearning16/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 7. 순차 데이터와 순환 신경망",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 7-1. 순차 데이터 순차 데이터(Sequential data)는 텍스트나 시계열 데이터(Time series data)와 같이 순서에 의미가 있는 데이터를 말한다. 텍스트 데이터는 단어의 순서가 중요한 순차 데이터이다. 이런 데이터는 순서를 유지하며 신경망에 주입해야 한다. 단어 순서를 마구...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","sequential data","recurrent neural network","cell","hidden state"],
+        "url": "/deeplearningtens/deeplearningtens7/",
+        "teaser": null
       }]
