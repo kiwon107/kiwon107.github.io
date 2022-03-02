@@ -325,7 +325,7 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
             <li><a href="/deeplearningpyt/">딥러닝(파이토치) (8)</a></li>
           
           
-            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) (7)</a></li>
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) (8)</a></li>
           
           
             <li><a href="/tensortextbook/">딥러닝 텐서플로 교과서 (1)</a></li>
@@ -467,8 +467,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 <p>순환 신경망은 이전 타임스텝의 샘플을 기억하지만, 타임스텝이 오래될수록 순환되는 정보는 희미해진다. 순환 신경망에서는 특별히 층을 <strong>셀(Cell)</strong>이라고 부른다. 한 셀에는 여러 개의 뉴런이 있지만 완전 연결 신경망과 달리 뉴런을 모두 표시하지 않고 하나의 셀로 층을 표현한다. 또 셀의 출력을 <strong>은닉 상태(Hidden state)</strong> 라고 부른다. 합성곱 신경망과 기본 구조는 비슷하다. 입력에 어떤 가중치를 곱하고 활성화 함수를 통과시켜 다음 층으로 보낸다. 달라지는 것은 층의 출력, 즉 은닉 상태를 다음 타입 스텝에 재사용하는 것이다.</p>
 
 <p class="align-center">일반적으로 은닉층의 활성화 함수로 <strong>하이퍼볼릭 탄젠트(Hyperbolic tangent)</strong> 함수인 tanh이 많이 사용된다. 이 함수는 -1~1 사이의 범위를 갖는다.
-<img src="/assets/images/deeplearningtens/7-1.png" alt="그림 7-1. 코드 결과" /></p>
-<p>그림 7-1. 코드 결과</p>
+<img src="/assets/images/deeplearningtens/7-1.png" alt="그림 7-1. 하이퍼볼릭 탄젠트" /></p>
+<p>그림 7-1. 하이퍼볼릭 탄젠트</p>
 
 <p>순환 신경망도 다른 신경망 처럼 입력과 가중치를 곱한다. 다만 가중치가 하나 더 있다. 바로 이전 타임스텝의 은닉 상태에 곱해지는 가중치이다. 셀은 입력과 이전 타임스텝의 은닉 상태를 사용하여 현재 타임스텝의 은닉 상태를 만든다. 즉, 입력에 곱해지는 가중치 $w_{x}$와 이전 타임스텝의 은닉 상태에 곱해지는 가중치 $w_{h}$가 있는 것이다. 또한 각 가중치에 절편도 하나씩 존재한다.</p>
 
@@ -548,7 +548,8 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/deeplearningtens/deeplearningtens8/" class="pagination--pager" title="[Deeplearning(Tensorflow)] 8. 순환 신경망으로 IMDB 리뷰 분류하기
+">Next</a>
     
   </nav>
 
@@ -562,6 +563,54 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningtens/deeplearningtens8/" rel="permalink">[Deeplearning(Tensorflow)] 8. 순환 신경망으로 IMDB 리뷰 분류하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-02T00:00:00+09:00">March 2, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
         
           
 
@@ -694,54 +743,6 @@ MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
-잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/deeplearningtens/deeplearningtens4/" rel="permalink">[Deeplearning(Tensorflow)] 4. 합성곱 신경망의 구성 요소
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-02-27T00:00:00+09:00">February 27, 2022</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          6 minute read
         
       </span>
     

@@ -370,4 +370,10 @@ var store = [{
         "tags": ["deep learning","sequential data","recurrent neural network","cell","hidden state"],
         "url": "/deeplearningtens/deeplearningtens7/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 8. 순환 신경망으로 IMDB 리뷰 분류하기",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 8-1. IMDB 리뷰 데이터셋 IMDB 리뷰 데이터셋은 유명한 인터넷 영화 데이터베이스인 imdb.com 에서 수집한 리뷰를 감상평에 따라 긍정과 부정으로 분류해 놓은 데이터셋이다. 참고로 자연어 처리는 컴퓨터를 사용해 인간의 언어를 처리하는 분야인데, 음성 인식, 기계...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","corpus","token","one-hot encoding","word embedding"],
+        "url": "/deeplearningtens/deeplearningtens8/",
+        "teaser": null
       }]
