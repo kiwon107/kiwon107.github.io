@@ -1,0 +1,81 @@
+I":1<p>본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="9-1-lstm-구조">9-1. LSTM 구조</h2>
+<p><strong>LSTM(Long Shor-Term Memory)</strong>는 단기 기억을 오래 기억하기 위해 고안되었다. LSTM에는 입력과 가중치를 곱하고 절편을 더해 활성화 함수를 통과시키는 구조를 여러개 가지고 있다. 이런 계산 결과는 다음 타임스텝에 재사용 된다.</p>
+
+<p class="align-center">은닉상태를 먼저 보자. 은닉 상태는 입력과 이전 타임스텝의 은닉 상태를 가중치에 곱한 후 활성화 함수를 통과시켜 다음 은닉 상태를 만든다. 이 때 활성화 함수르 시그모이드 활성화 함수를 사용한다. 또 tanh 활성화 함수를 통과한 어떤 값과 곱해져서 은닉 상태를 만든다. 앞으로 나올 기호 중, 편의상 은닉 상태 계산시 가중치 $w_{x}}$ 와 $w_{h}$ 를 통틀어 $w_{o}$ 라고 하자.
+<img src="/assets/images/deeplearningtens/9-1.png" alt="그림 9-1. 코드 결과" /></p>
+<p>그림 9-1. 코드 결과</p>
+
+<p>LSTM에는 순환되는 상태가 2개다. 은닉 상태 말고 <strong>셀 상태(Cell state)</strong>라고 부르는 값이 따로 있다. 셀 상태는 다음 층으로 전달되지 않고 LSTM 셀에만 순환되는 값이다. 은닉 상태 h와 구분지어 c로 표시하자. 셀 상태를 계산하는 과정은 다음과 같다.</p>
+
+<p>먼저 입력과 은닉 상태를 또 다른 가중치 $w_{f}$ 에 곱한 다음 시그모이드 함수를 통과시킨다. 그 다음 이전 타임스텝의 셀 상태와 곱하여 새로운 셀 상태를 만든다. 이 셀 상태가 오른쪽 tanh 함수를 통과하여 새로운 은닉 상태를 만드는데 기여한다. 중요한 것은 입력과 은닉 상태에 곱해지는 가중치 $w_{o}$와 $w_{f}$ 가 다르다는 것이다. 이 두 작은 셀은 각기 다른 기능을 위해 훈련된다.</p>
+
+<p>여기에 2개의 작은 셀이 추가되어 셀 상태를 만드는데 기여한다. 이전처럼 입력과 은닉 상태를 각기 다른 가중치에 곱한 다음, 하나는 시그모이드 함수를 통과시키고 다른 하나는 tanh 함수를 통과시킨다. 그 다음 두 결과를 곱한 후 이전 셀 상태와 더한다. 이 결과가 최종적인 다음 셀 상태가 된다.</p>
+
+<p>그림 9-1 처럼 세 군데의 곱셈을 왼쪽부터 차례대로 삭제 게이트, 입력 게이트, 출력 게이트 라고 부른다. 삭제 게이트는 셀 상태에 있는 정보를 제거하는 역할을 하고, 입력 게이트는 새로운 정보를 셀 상태에 추가한다. 출력 게이트를 통해 이 셀 상태가 다음 은닉 상태로 출력된다.</p>
+
+<h2 id="9-2-lstm-신경망-훈련하기">9-2. LSTM 신경망 훈련하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow.keras.datasets</span> <span class="kn">import</span> <span class="n">imdb</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">),</span> <span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">test_target</span><span class="p">)</span> <span class="o">=</span> <span class="n">imdb</span><span class="p">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">train_input</span><span class="p">,</span> <span class="n">val_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">val_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.keras.preprocessing.sequence</span> <span class="kn">import</span> <span class="n">pad_sequences</span>
+<span class="n">train_seq</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">train_input</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">val_seq</span> <span class="o">=</span> <span class="n">pad_sequences</span><span class="p">(</span><span class="n">val_input</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">input_length</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'sigmoid'</span><span class="p">))</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Model: "sequential"
+       _________________________________________________________________
+       Layer (type)                 Output Shape              Param #   
+       =================================================================
+       embedding (Embedding)        (None, 100, 16)           8000      
+       _________________________________________________________________
+       lstm (LSTM)                  (None, 8)                 800       
+       _________________________________________________________________
+       dense (Dense)                (None, 1)                 9         
+       =================================================================
+       Total params: 8,809
+       Trainable params: 8,809
+       Non-trainable params: 0
+       _________________________________________________________________
+</code></pre></div></div>
+
+<p>SimpleRNN 클래스의 모델 파라미터 개수는 200개였다. LSTM 셀에는 작은 셀이 4개가 있으므로 정확히 4배가 늘어 모델 파라미터 개수는 800개가 되었다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rmsprop</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">optimizers</span><span class="p">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">rmsprop</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s">'binary_crossentropy'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">])</span>
+<span class="n">checkpoint_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="s">'best-lstm-model.h5'</span><span class="p">)</span>
+<span class="n">early_stopping_cb</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">patience</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_seq</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_seq</span><span class="p">,</span> <span class="n">val_target</span><span class="p">),</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpoint_cb</span><span class="p">,</span> <span class="n">early_stopping_cb</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과)
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">.</span><span class="n">history</span><span class="p">[</span><span class="s">'val_loss'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'epoch'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'train'</span><span class="p">,</span> <span class="s">'val'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningtens/9-2.png" alt="그림 9-2. 코드 결과" /></p>
+<p>그림 9-2. 코드 결과</p>
+
+<h2 id="9-3-순환층에-드롭아웃-적용하기">9-3. 순환층에 드롭아웃 적용하기</h2>
+
+<h2 id="9-4-2개의-층을-연결하기">9-4. 2개의 층을 연결하기</h2>
+
+<h2 id="9-5-gru-구조">9-5. GRU 구조</h2>
+
+<h2 id="9-6-gru-신경망-훈련하기">9-6. GRU 신경망 훈련하기</h2>
+:ET

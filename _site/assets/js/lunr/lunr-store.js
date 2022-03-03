@@ -376,4 +376,10 @@ var store = [{
         "tags": ["deep learning","corpus","token","one-hot encoding","word embedding"],
         "url": "/deeplearningtens/deeplearningtens8/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(Tensorflow)] 9. LSTM과 GRU 셀",
+        "excerpt":"본 포스팅은 “혼자 공부하는 머신러닝+딥러닝” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 9-1. LSTM 구조 LSTM(Long Shor-Term Memory)는 단기 기억을 오래 기억하기 위해 고안되었다. LSTM에는 입력과 가중치를 곱하고 절편을 더해 활성화 함수를 통과시키는 구조를 여러개 가지고 있다. 이런 계산 결과는 다음 타임스텝에 재사용 된다. 은닉상태를 먼저...","categories": ["deeplearningtens"],
+        "tags": ["deep learning","LSTM","cell state","GRU"],
+        "url": "/deeplearningtens/deeplearningtens9/",
+        "teaser": null
       }]
