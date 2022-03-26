@@ -1,0 +1,969 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역 - Wonny’s DevLog</title>
+<meta name="description" content="본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+  <meta name="author" content="K.W. Yang">
+  
+  <meta property="article:author" content="K.W. Yang">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Wonny's DevLog">
+<meta property="og:title" content="[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역">
+<meta property="og:url" content="http://localhost:4000/deeplearningpyt/deeplearningpyt12/">
+
+
+  <meta property="og:description" content="본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-03-21T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/deeplearningpyt/deeplearningpyt12/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Kiwon Yang",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Wonny's DevLog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    TeX: {
+        equationNumbers: {
+        autoNumber: "AMS"
+        }
+    },
+    tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$'] ],
+    processEscapes: true,
+    }
+});
+MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+        alert("Math Processing Error: "+message[1]);
+    });
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="Wonny's DevLog"></a>
+        
+        <a class="site-title" href="/">
+          Wonny's DevLog
+          <span class="site-subtitle">Version 1.0</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/profile.jpg" alt="K.W. Yang" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">K.W. Yang</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>AI Researcher &amp; Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:p2881p@naver.com" rel="me" class="u-email">
+            <meta itemprop="email" content="p2881p@naver.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">AI</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/machinelearning/">머신러닝(사이킷런) (14)</a></li>
+          
+          
+            <li><a href="/deeplearningpyt/">딥러닝(파이토치) (13)</a></li>
+          
+          
+            <li><a href="/deeplearningtens/">딥러닝(텐서플로우) (9)</a></li>
+          
+          
+            <li><a href="/tensortextbook/">딥러닝 텐서플로 교과서 (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Language</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/pythonmd/">파이썬 중급 (26)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">CS Theory</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/os/">운영체제 ()</a></li>
+          
+          
+            <li><a href="/algopy/">자료구조와 알고리즘(파이썬) (1)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Mathematics</span>
+        
+
+        
+        <ul>
+          
+          
+            <li><a href="/prob/">확률과 통계 (2)</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <a href="/paper/"><span class="nav__sub-title">논문</span></a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역">
+    <meta itemprop="description" content="본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.">
+    <meta itemprop="datePublished" content="2022-03-21T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/deeplearningpyt/deeplearningpyt12/" class="u-url" itemprop="url">[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-21T00:00:00+09:00">March 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#12-1-seq2seq-개요">12-1. Seq2Seq 개요</a></li><li><a href="#12-2-인코더">12-2. 인코더</a></li><li><a href="#12-3-디코더">12-3. 디코더</a></li><li><a href="#12-4-seq2seq-모델-구현하기">12-4. Seq2Seq 모델 구현하기</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="12-1-seq2seq-개요">12-1. Seq2Seq 개요</h2>
+<p>언어를 다른 언어로 해석해주는 <strong>뉴럴 기계 번역(Neural machine translation)</strong> 모델이 있다. RNN 기반의 번역 모델인 Sequence to Sequence(=Seq2Seq) 모델은 기계 번역의 새로운 패러다임을 열었다. Seq2Seq 모델은 시퀀스를 입력받아 또 다른 시퀀스를 출력한다. 즉, 문장을 다른 문장으로 번역해주는 모델인 것이다.</p>
+
+<p>Seq2Seq는 각자 다른 역할을 하는 두 개의 RNN을 이어붙인 모델이다. 외국어를 한국어로 번역할 때 다음과 같은 프로세스를 거친다.<br />
+1) 외국어 문장을 읽고 의미를 이해한다.<br />
+2) 외국어 문장의 의미를 생각하며 한국어 단어를 한 자 한 자 문맥에 맞게 적어나간다.<br /></p>
+
+<p>이처럼 번역은 원문을 이해하고 번역문을 작성하는 두 가지 동작으로 구성된다. 이 두 역할을 <strong>인코더(Encoder)</strong>와 <strong>디코더(Decoder)</strong>에 부여하여 번역을 수행한다.</p>
+
+<h2 id="12-2-인코더">12-2. 인코더</h2>
+<p>인코더는 원문의 내용을 학습하는 RNN이다. 원문 속 모든 단어를 입력받아 문장의 뜻을 내포하는 하나의 고정 크기 텐서를 만들어낸다. 이렇게 압축된 텐서는 원문 뜻과 내용을 압축하고 있어 <strong>문맥 벡터(Context vector)</strong>라고 한다.</p>
+
+<h2 id="12-3-디코더">12-3. 디코더</h2>
+<p>인코더로부터 원문 문맥 벡터를 이어 받아 번역문 속의 토큰을 차례대로 예상한다. 번역할 때 ‘원문이 말하는 바가 무엇인가’를 항상 생각하고 있어야 한다. 이는 디코더가 번역문의 단어나 토큰 출력시 인코더로부터 정보를 전달받아야 한다는 뜻이기도 하다.</p>
+
+<h2 id="12-4-seq2seq-모델-구현하기">12-4. Seq2Seq 모델 구현하기</h2>
+<p>한 언어로 된 문장을 다른 언어로 번역시, 보통 단어를 문장의 초소 단위로 여겨 단어 단위의 임베딩을 한다. 그러나 이번 예제에서는 간단한 영단어를 스페인어로 번역하는 작업을 할 것이므로 글자 단위의 캐릭터 임베딩을 할 것이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 관련 모듈 임포트
+</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># 사전에 담을 수 있는 토큰 수 = 총 아스키코드 개수
+</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="c1"># 아스키 코드로 변환
+</span><span class="n">x_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="s">"hello"</span><span class="p">))</span> <span class="c1"># ord(c)는 문자의 유니코드 값을 돌려주는 함수
+</span><span class="n">y_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="s">"hola"</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"hello -&gt; "</span><span class="p">,</span> <span class="n">x_</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"hola -&gt; "</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="n">x_</span><span class="p">)</span> <span class="c1"># Long 타입의 텐서로 변환
+</span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) hello -&gt;  [104, 101, 108, 108, 111]
+       hola -&gt;  [104, 111, 108, 97]
+</code></pre></div></div>
+
+<p>이제 모델을 설계할 차례다. 다음 그림처럼 디코더가 예측한 토큰을 다음 반복에서 입력될 토큰으로 갱신해주는 것이 정석이다. 그러나 학습이 아직 되지 않은 상태의 모델은 잘못된 예측 토큰을 입력으로 사용할 확률이 높다. 반복해서 잘못된 입력 토큰이 사용되면 학습은 더욱 더뎌지게된다. 이를 방지하는 방법 중 <strong>티처 포싱(Teacher forcing)</strong> 이라는 방법이 있다. 디코더 학습 시 실제 번역문의 토큰을 디코더의 전 출력값 대신 입력으로 사용해 학습을 가속하는 방법이다.</p>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/12-1.png" alt="그림 12-1. 원문의 문맥 벡터를 이어받아 번역문을 작성하는 디코더" /></p>
+<p>그림 12-1. 원문의 문맥 벡터를 이어받아 번역문을 작성하는 디코더</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Seq2Seq 모델 클래스 정의
+# Seq2Seq 모델 클래스 정의
+</span><span class="k">class</span> <span class="nc">Seq2Seq</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Seq2Seq</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">n_layers</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span> <span class="c1"># 임베딩 차원 따로 정의하지 않고 hidden_size로 임베딩 토큰 차원값 정의!
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span> <span class="c1"># 디코더 토큰을 예상해내는 작은 신경망
+</span>
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">initial_state</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_init_state</span><span class="p">()</span> <span class="c1"># 초기 은닉 벡터 정의. (1, 1, 16).
+</span>    <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 인코더에 입력되는 원문을 구성하는 모든 문자 임베딩. (5, 16)을 (5, 1, 16)으로 shape 변환.
+</span>
+    <span class="n">encoder_output</span><span class="p">,</span> <span class="n">encoder_state</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">embedding</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">)</span> <span class="c1"># encoder_state: 문맥 벡터, encoder_output은 (5, 1, 16), encoder_state는 (1, 1, 16).
+</span>
+    <span class="n">decoder_state</span> <span class="o">=</span> <span class="n">encoder_state</span> <span class="c1"># decoder_state: 디코더의 첫 번째 은닉 벡터
+</span>    <span class="n">decoder_input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># 디코더에 문장의 시작을 알리기 위함. 이 토큰으로 h 토큰 예측!
+</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">targets</span><span class="p">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]):</span>
+      <span class="n">decoder_input</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">decoder_input</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># (1, 1, 16)
+</span>      <span class="n">decoder_output</span><span class="p">,</span> <span class="n">decoder_state</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">decoder_input</span><span class="p">,</span> <span class="n">decoder_state</span><span class="p">)</span> <span class="c1"># 디코더 결과값(decoder_state)은 다시 디코더 모델에 입력됨!, decoder_output은 (1, 1, 16), decoder_state는 (1, 1, 16).
+</span>      <span class="n">projection</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">project</span><span class="p">(</span><span class="n">decoder_output</span><span class="p">)</span> <span class="c1"># 예상 글자 출력, (1, 1, 256).
+</span>      <span class="n">outputs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span> <span class="c1"># 예상 결과 저장하여 오차 계산에 사용
+</span>
+      <span class="n">decoder_input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">([</span><span class="n">targets</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="c1"># 타겟값 차례대로 디코더에 입력. 이것이 티처포싱!
+</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">outputs</span><span class="p">).</span><span class="n">squeeze</span><span class="p">()</span> <span class="c1"># 번역문의 모든 토큰에 대한 결과값 반환, (4, 1, 1, 256) -&gt; (4, 256)
+</span>
+    <span class="k">return</span> <span class="n">outputs</span>
+
+  <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">parameters</span><span class="p">()).</span><span class="n">data</span>
+    <span class="k">return</span> <span class="n">weight</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">n_layers</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_size</span><span class="p">).</span><span class="n">zero_</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>이제 모델을 훈련시켜 결과를 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 모델, 오차, 옵티마이저 객체 생성
+</span><span class="n">seq2seq</span> <span class="o">=</span> <span class="n">Seq2Seq</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">seq2seq</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="c1"># 1000번의 에폭으로 학습
+</span><span class="n">log</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+  <span class="n">prediction</span> <span class="o">=</span> <span class="n">seq2seq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+  <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c1"># (4, 256) 과 (4)
+</span>  <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+  <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+  <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+  <span class="n">loss_val</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">data</span>
+  <span class="n">log</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_val</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> 반복: %d 오차: %s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">.</span><span class="n">item</span><span class="p">()))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">top1</span> <span class="o">=</span> <span class="n">prediction</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">topk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># 예측값 저장. topk는 주어진 텐서에서 두번째 인자(1) 차원에 따라 가장 큰 값 첫번째 인자 값(1) 개수 리턴. top1 shape은 (4, 1)!
+</span>    <span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">top1</span><span class="p">.</span><span class="n">squeeze</span><span class="p">().</span><span class="n">numpy</span><span class="p">().</span><span class="n">tolist</span><span class="p">()])</span> <span class="c1"># 예측값 한글자씩 가져옴
+</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'cross entropy loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 반복: 0 오차: 5.637078285217285
+       ['J', "'", '\x7f', '7']
+
+       반복: 100 오차: 2.161990165710449
+       ['h', 'o', 'l', 'a']
+
+       반복: 200 오차: 0.4579141139984131
+       ['h', 'o', 'l', 'a']
+
+       반복: 300 오차: 0.1976625919342041
+       ['h', 'o', 'l', 'a']
+
+       반복: 400 오차: 0.1192457526922226
+       ['h', 'o', 'l', 'a']
+
+       반복: 500 오차: 0.08297178149223328
+       ['h', 'o', 'l', 'a']
+
+       반복: 600 오차: 0.06233248859643936
+       ['h', 'o', 'l', 'a']
+
+       반복: 700 오차: 0.04910457134246826
+       ['h', 'o', 'l', 'a']
+
+       반복: 800 오차: 0.03995484113693237
+       ['h', 'o', 'l', 'a']
+
+       반복: 900 오차: 0.033283431082963943
+       ['h', 'o', 'l', 'a']
+</code></pre></div></div>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/12-2.png" alt="그림 12-2. 코드 결과" /></p>
+<p>그림 12-2. 코드 결과</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">deep learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">pytorch</a><span class="sep">, </span>
+    
+      <a href="/tags/#rnn" class="page__taxonomy-item p-category" rel="tag">rnn</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#deeplearningpyt" class="page__taxonomy-item p-category" rel="tag">deeplearningpyt</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-03-21T00:00:00+09:00">March 21, 2022</time></p>
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/deeplearningpyt/deeplearningpyt11/" class="pagination--pager" title="[Deeplearning(pytorch)] 11. RNN 개요와 영화 리뷰 감정 분석
+">Previous</a>
+    
+    
+      <a href="/deeplearningpyt/deeplearningpyt13/" class="pagination--pager" title="[Deeplearning(pytorch)] 13. 딥러닝을 해킹하는 적대적 공격
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt13/" rel="permalink">[Deeplearning(pytorch)] 13. 딥러닝을 해킹하는 적대적 공격
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-26T00:00:00+09:00">March 26, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt11/" rel="permalink">[Deeplearning(pytorch)] 11. RNN 개요와 영화 리뷰 감정 분석
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-11T00:00:00+09:00">March 11, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt10/" rel="permalink">[Deeplearning(pytorch)] 10. 오토인코더로 망가진 이미지 복원하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-11T00:00:00+09:00">March 11, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearningpyt/deeplearningpyt9/" rel="permalink">[Deeplearning(pytorch)] 9. 오토인코더 기초와 오토인코더 기반 이미지 특징 추출
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-07T00:00:00+09:00">March 7, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/kiwon107" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-gitlab" aria-hidden="true"></i> GitLab</a></li>
+        
+      
+        
+      
+        
+          <li><a href="https://instagram.com/k1_won" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Kiwon Yang. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'kiwon107/kiwon107.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

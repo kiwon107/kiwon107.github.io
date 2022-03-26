@@ -1,0 +1,159 @@
+I"�W<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="10-1-잡음-제거-오토인코더-구현">10-1. 잡음 제거 오토인코더 구현</h2>
+<p>앞서 설명한 것 처럼 오토인코더는 일종의 ‘압축’을 한다. 압축은 데이터의 특성에 우선순위를 매기고 낮은 순위의 데이터를 버린다는 뜻이다. 잡음 제거 오토인코더의 아이디어는 중요한 특징을 추출하는 오토인코더 특성을 이용하여 비교적 ‘덜 중요한 데이터’ 인 잡음을 제거하는 것이다. 코드 구조는 기본적인 오토인코더와 큰 차이는 없으며, 학습시 입력에 잡음을 더하는 방식으로 복원 능력을 강화한 것이 핵심이다.<br />
+이번 코드에서는 입력 데이터에 무작위 잡음을 더할 것이다. 무작위 잡음은 torch.randn() 함수로 만들며 입력 이미지와 같은 크기의 잡음을 만든다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 관련 모듈 임포트
+</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># 하이퍼파라미터
+</span><span class="n">EPOCH</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'다음 기기로 학습합니다:'</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="c1"># Fashion MNIST 학습 데이터셋 준비
+</span><span class="n">trainset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="s">'./.dtaa/'</span><span class="p">,</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">trainset</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+    <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># 데이터 로딩하는데 서브프로세스 몇 개 사용할 것인가?
+</span><span class="p">)</span>
+
+<span class="c1"># 오토인코더 클래스
+</span><span class="k">class</span> <span class="nc">Autoencoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Autoencoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">encoded</span><span class="p">,</span> <span class="n">decoded</span>
+
+<span class="c1"># 오토인코더, 옵티마이저, 손실함수 객체 생성
+</span><span class="n">autoencoder</span> <span class="o">=</span> <span class="n">Autoencoder</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">autoencoder</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">()</span>
+
+<span class="c1"># 노이즈 생성 함수
+</span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.2</span>
+    <span class="n">noisy_img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">+</span> <span class="n">noise</span>
+    <span class="k">return</span> <span class="n">noisy_img</span>
+
+<span class="c1"># 모델 훈련 함수
+</span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">autoencoder</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">autoencoder</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">avg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span> <span class="c1"># 입력 데이터 = 노이즈 들어간 이미지
+</span>        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span> <span class="c1"># 라벨 데이터 = 노이즈 없는 원본 이미지
+</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+        <span class="n">encoded</span><span class="p">,</span> <span class="n">decoded</span> <span class="o">=</span> <span class="n">autoencoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">decoded</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="n">avg_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">avg_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+
+<span class="c1"># 에포크 만큼 모델 훈련!
+</span><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">EPOCH</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">autoencoder</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[Epoch {}] loss: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="p">))</span>
+
+<span class="c1"># Fashion MNIST 테스트 데이터셋 준비
+</span><span class="n">testset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="s">'./.data/'</span><span class="p">,</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># 테스트 데이터셋에서 이미지 한장 가져옴
+</span><span class="n">sample_data</span> <span class="o">=</span> <span class="n">testset</span><span class="p">.</span><span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">sample_data</span> <span class="o">=</span> <span class="n">sample_data</span><span class="p">.</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">)</span><span class="o">/</span><span class="mf">255.</span>
+
+<span class="c1"># 테스트 데이터에 노이즈 추가하여 오토인코더 모델에 적용
+</span><span class="n">original_x</span> <span class="o">=</span> <span class="n">sample_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">noisy_x</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">original_x</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">recovered_x</span> <span class="o">=</span> <span class="n">autoencoder</span><span class="p">(</span><span class="n">noisy_x</span><span class="p">)</span>
+
+
+<span class="n">f</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+
+<span class="c1"># 원본 이미지, 노이즈가 첨가된 이미지, 오토인코더로 복원시킨 이미지 생성
+</span><span class="n">original_img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">original_x</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="s">'cpu'</span><span class="p">).</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+<span class="n">noisy_img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">noisy_x</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="s">'cpu'</span><span class="p">).</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+<span class="n">recovered_img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">recovered_x</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="s">'cpu'</span><span class="p">).</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+
+<span class="c1"># 이미지 출력
+</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Original'</span><span class="p">)</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">original_img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Noisy'</span><span class="p">)</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">original_img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+
+<span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Recovered'</span><span class="p">)</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">imshow</span><span class="p">(</span><span class="n">original_img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 다음 기기로 학습합니다: cpu
+       [Epoch 1] loss: 0.07847309301593411
+       [Epoch 2] loss: 0.06709331419390402
+       [Epoch 3] loss: 0.06537377709217036
+       [Epoch 4] loss: 0.06461306062461471
+       [Epoch 5] loss: 0.06412264001744389
+       [Epoch 6] loss: 0.06373336944959439
+       [Epoch 7] loss: 0.06345406049159544
+       [Epoch 8] loss: 0.06327535370900941
+       [Epoch 9] loss: 0.06308056445105244
+       [Epoch 10] loss: 0.06295464348707244
+</code></pre></div></div>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/10-1.png" alt="그림 10-1. 코드 결과" /></p>
+<p>그림 10-1. 코드 결과</p>
+:ET

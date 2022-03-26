@@ -382,4 +382,34 @@ var store = [{
         "tags": ["deep learning","LSTM","cell state","GRU"],
         "url": "/deeplearningtens/deeplearningtens9/",
         "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 9. 오토인코더 기초와 오토인코더 기반 이미지 특징 추출",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 9-1. 오토인코더 기초 데이터 형태와 관계없이 사람이 레이블링 하여 정답을 직접 알려주면 머신러닝 모델은 효율적으로 학습할 수 있다. 하지만 데이터셋에 정답이 포함되지 않으면 이야기가 달라진다. 정답 없이 주어진 데이터만으로 패턴을 찾는 것을 비지도학습이라...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","autoencoder"],
+        "url": "/deeplearningpyt/deeplearningpyt9/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 10. 오토인코더로 망가진 이미지 복원하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 10-1. 잡음 제거 오토인코더 구현 앞서 설명한 것 처럼 오토인코더는 일종의 ‘압축’을 한다. 압축은 데이터의 특성에 우선순위를 매기고 낮은 순위의 데이터를 버린다는 뜻이다. 잡음 제거 오토인코더의 아이디어는 중요한 특징을 추출하는 오토인코더 특성을 이용하여...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","autoencoder"],
+        "url": "/deeplearningpyt/deeplearningpyt10/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 11. RNN 개요와 영화 리뷰 감정 분석",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 11-1. RNN 개요 지금까지 배운 신경망은 연달아 있는 데이터의 순서와 상호작용을 인식하여 전체 상황을 이해하는 능력을 가지고 있지 않았다. 즉, 시간에 대한 개념이 없는 데이터와 그에 따른 신경망을 다룬 것이다. 앞서 이미지와 같은...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","rnn"],
+        "url": "/deeplearningpyt/deeplearningpyt11/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 12-1. Seq2Seq 개요 언어를 다른 언어로 해석해주는 뉴럴 기계 번역(Neural machine translation) 모델이 있다. RNN 기반의 번역 모델인 Sequence to Sequence(=Seq2Seq) 모델은 기계 번역의 새로운 패러다임을 열었다. Seq2Seq 모델은 시퀀스를 입력받아 또 다른...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","rnn"],
+        "url": "/deeplearningpyt/deeplearningpyt12/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 13. 딥러닝을 해킹하는 적대적 공격",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 13-1. 적대적 공격이란? 머신러닝 모델의 착시를 유도하는 입력을 적대적 예제(Adversarial example) 라고 한다. 적대적 예제를 생성해서 여러 가지 머신러닝 기반 시스템의 성능을 의도적으로 떨어뜨려 보안 문제를 일으키는 것을 적대적 공격(Adversarial attack) 이라고 한다....","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","rnn"],
+        "url": "/deeplearningpyt/deeplearningpyt13/",
+        "teaser": null
       }]
