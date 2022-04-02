@@ -277,6 +277,18 @@
 <lastmod>2022-03-26T00:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/deeplearningpyt/deeplearningpyt14/</loc>
+<lastmod>2022-03-28T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/deeplearningpyt/deeplearningpyt15/</loc>
+<lastmod>2022-03-29T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/deeplearningpyt/deeplearningpyt16/</loc>
+<lastmod>2022-03-31T00:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/paper/</loc>
 </url>
 <url>
@@ -357,5 +369,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page14/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page15/</loc>
 </url>
 </urlset>

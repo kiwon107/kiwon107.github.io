@@ -1,0 +1,164 @@
+I"�`<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="15-1-cgan으로-원하는-이미지-생성하기">15-1. cGAN으로 원하는 이미지 생성하기</h2>
+<p>14장에서의 GAN 모델은 ‘여러 종류의 패션 아이템 중 무엇을 생성하라!’ 라고 지시하는 로직이 없다. 즉, 사용자가 원하는 패션 아이템을 생성하는 능력은 없고 무작위 벡터를 입력받아 무작위로 패션 아이템을 출력하는 것이다.</p>
+
+<p class="align-center">이번에는 출력할 아이템의 종류를 입력받아 그에 해당하는 이미지를 생성하는 모델인 조건부 GAN <strong>cGAN(Conditional GAN)</strong>을 만들 것이다. 이를 구현하는 방법은 생성자와 판별자의 입력에 레이블 정보를 이어붙이는 것이다. cGAN에서는 그림처럼 생성자와 판별자에 레이블 정보가 들어간다.
+<img src="/assets/images/deeplearningpyt/15-1.png" alt="그림 15-1. cGAN 모델 구조" /></p>
+<p>그림 15-1. cGAN 모델 구조</p>
+
+<h2 id="15-2-조건부-생성자와-판별자">15-2. 조건부 생성자와 판별자</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">torchvision.utils</span> <span class="kn">import</span> <span class="n">save_image</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># 하이퍼파라미터
+</span><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Using Device: "</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="c1"># Fashion MNIST 데이터셋
+</span><span class="n">trainset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="s">'./.data'</span><span class="p">,</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+      <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+      <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+    <span class="p">]))</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">trainset</span><span class="p">,</span>
+  <span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+  <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Using Device:  cpu
+</code></pre></div></div>
+
+<p>이번 예제에서는 생성자와 판별자가 하나의 입력과 더불어 레이블 정보까지 두 가지 입력을 받는다. 무작위 텐서(z)의 크기는 100으로 정하자. 우리는 레이블에 대한 정보도 크기 10인 텐서로 만들어 넣을 것이므로 첫 계층은 110개의 값을 받게 된다. <code class="language-plaintext highlighter-rouge">embed()</code> 함수는 ‘배치 x 1’ 크기의 레이블 텐서를 받아 ‘배치 x 10’의 연속적인 텐서로 전환한다. 이렇게 하는 이유는 연속적인 값이 학습에 더 유용하기 때문이다!</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 생성자
+</span><span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="c1"># inplace=True 는 입력을 복사하지 않고 바로 조작한다는 뜻!
+</span>      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">784</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Tanh</span><span class="p">()</span>
+    <span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embed</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># 두 벡터를 이어붙이는 연산
+</span>    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningpyt/15-2.png" alt="그림 15-2. cGAN 생성자" /></p>
+<p>그림 15-2. cGAN 생성자</p>
+
+<p>cGAN의 판별자 역시 레이블 정보를 받는다. 이때 생성자에서 이미지를 만들때 쓴 레이블 정보를 입력받아 “레이블이 주어졌을때 가짜인 확률과 진짜인 확률”을 추정한다고 생각하면 된다. 판별자에게도 레이블 정보를 전달하기 위해 이미지 크게이 10을 더해준다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 판별자
+</span><span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">794</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+    <span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embed</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+<p class="align-center"><img src="/assets/images/deeplearningpyt/15-3.png" alt="그림 15-3. cGAN 판별자" /></p>
+<p>그림 15-3. cGAN 판별자</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 모델 인스턴스를 만들고 모델의 가중치를 지정한 장치로 보내기
+</span><span class="n">D</span> <span class="o">=</span> <span class="n">Discriminator</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="c1"># 이전 교차 엔트로피 오차 함수
+</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">BCELoss</span><span class="p">()</span>
+
+<span class="c1"># 생성자와 판별자를 최적화할 Adam 모듈
+</span><span class="n">d_optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">D</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0002</span><span class="p">)</span>
+<span class="n">g_optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0002</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>데이터로더의 두 번째 반환값도 사용할 것이므로 레이블 표기를 해준다. 그리고 일반 GAN 예제와 같이 진짜와 가짜 레이블을 만든다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">total_step</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+    <span class="c1"># '진짜'와 '가짜' 레이블 생성
+</span>    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+    <span class="n">fake_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+    <span class="c1"># 판별자가 진짜 이미지를 진짜로 인식하는 오차 계산(데이터셋 레이블 입력)
+</span>    <span class="n">label</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="n">d_loss_real</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+    <span class="n">real_score</span> <span class="o">=</span> <span class="n">outputs</span>
+
+    <span class="c1"># 무작위 텐서와 무작위 레이블을 생성자에 입력해 가짜 이미지 생성
+</span>    <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="mi">100</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+    <span class="n">g_label</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">,)).</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span> <span class="c1"># 0~9 중 랜덤으로 정수 100개 생성
+</span>    <span class="n">fake_images</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">g_label</span><span class="p">)</span>
+
+    <span class="c1"># 판별자가 가짜 이미지를 가짜로 인식하는 오차 계산
+</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">fake_images</span><span class="p">,</span> <span class="n">g_label</span><span class="p">)</span>
+    <span class="n">d_loss_fake</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">fake_labels</span><span class="p">)</span>
+    <span class="n">fake_score</span> <span class="o">=</span> <span class="n">outputs</span>
+
+    <span class="c1"># 진짜와 가짜 이미지를 갖고 낸 오차를 더해서 판별자의 오차 계산
+</span>    <span class="n">d_loss</span> <span class="o">=</span> <span class="n">d_loss_real</span> <span class="o">+</span> <span class="n">d_loss_fake</span>
+
+    <span class="c1"># 역전파 알고리즘으로 판별자 모델의 학습을 진행
+</span>    <span class="n">d_optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">g_optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">d_loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">d_optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># 생성자가 판별자를 속였는지에 대한 오차 계산(무작위 레이블 입력)
+</span>    <span class="n">fake_iamges</span> <span class="o">=</span> <span class="n">G</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">g_label</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">fake_images</span><span class="p">,</span> <span class="n">g_label</span><span class="p">)</span>
+    <span class="n">g_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outptus</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="c1"># 역전파 알고리즘으로 생성자 모델의 학습을 진행
+</span>    <span class="n">d_optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">g_optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">g_loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">g_optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+  
+  <span class="k">print</span><span class="p">(</span><span class="s">'이폭 [{}/{}] d_loss:{:.4f} g_loss: {:.4f} D(x):{:.2f} D(G(z):{:.2f}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">EPOCHS</span><span class="p">,</span> <span class="n">d_loss</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">g_loss</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">real_score</span><span class="p">.</span><span class="n">mean</span><span class="p">().</span><span class="n">item</span><span class="p">(),</span> <span class="n">fake_score</span><span class="p">.</span><span class="n">mean</span><span class="p">().</span><span class="n">item</span><span class="p">()))</span>
+</code></pre></div></div>
+
+:ET

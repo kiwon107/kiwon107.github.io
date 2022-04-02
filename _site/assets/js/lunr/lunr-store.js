@@ -403,13 +403,31 @@ var store = [{
       },{
         "title": "[Deeplearning(pytorch)] 12. Seq2Seq 기계 번역",
         "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 12-1. Seq2Seq 개요 언어를 다른 언어로 해석해주는 뉴럴 기계 번역(Neural machine translation) 모델이 있다. RNN 기반의 번역 모델인 Sequence to Sequence(=Seq2Seq) 모델은 기계 번역의 새로운 패러다임을 열었다. Seq2Seq 모델은 시퀀스를 입력받아 또 다른...","categories": ["deeplearningpyt"],
-        "tags": ["deep learning","pytorch","rnn"],
+        "tags": ["deep learning","pytorch","rnn","seq2seq"],
         "url": "/deeplearningpyt/deeplearningpyt12/",
         "teaser": null
       },{
         "title": "[Deeplearning(pytorch)] 13. 딥러닝을 해킹하는 적대적 공격",
         "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 13-1. 적대적 공격이란? 머신러닝 모델의 착시를 유도하는 입력을 적대적 예제(Adversarial example) 라고 한다. 적대적 예제를 생성해서 여러 가지 머신러닝 기반 시스템의 성능을 의도적으로 떨어뜨려 보안 문제를 일으키는 것을 적대적 공격(Adversarial attack) 이라고 한다....","categories": ["deeplearningpyt"],
-        "tags": ["deep learning","pytorch","rnn"],
+        "tags": ["deep learning","pytorch","adversarial attack"],
         "url": "/deeplearningpyt/deeplearningpyt13/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 14. 경쟁하며 학습하는 GAN",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 14-1. GAN 기초 GAN(Generative adversarial network)는 직역하면 적대적 생성 신경망이다. 단어 의미 하나하나 살펴보자. 먼저 GAN은 생성(Generative)을 하는 모델이다. CNN과 RNN은 새로운 이미지나 음성을 만들어내지 못한다. 그러나 GAN은 새로운 이미지나 음성을 창작하도록 고안되었다....","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","gan"],
+        "url": "/deeplearningpyt/deeplearningpyt14/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 15. cGAN으로 생성 제어하기",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 15-1. cGAN으로 원하는 이미지 생성하기 14장에서의 GAN 모델은 ‘여러 종류의 패션 아이템 중 무엇을 생성하라!’ 라고 지시하는 로직이 없다. 즉, 사용자가 원하는 패션 아이템을 생성하는 능력은 없고 무작위 벡터를 입력받아 무작위로 패션 아이템을...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","cgan"],
+        "url": "/deeplearningpyt/deeplearningpyt15/",
+        "teaser": null
+      },{
+        "title": "[Deeplearning(pytorch)] 16. 주어진 환경과 상호작용하여 학습하는 DQN",
+        "excerpt":"본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다. 잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다. 16-1. 강화학습과 DQN 기초 강화학습(Reinforcement learning)은 주어진 환경과 상호작용하여 좋은 점수를 얻는 방향으로 성장하는 머신러닝 분야이다. 그동안 배운 학습법들은 원하는 데이터셋을 외우는 주입식 학습법이었다. 강화학습은 자기주도적 학습법이라 할 수 있다. 강화학습 모델은 주어진...","categories": ["deeplearningpyt"],
+        "tags": ["deep learning","pytorch","dqn"],
+        "url": "/deeplearningpyt/deeplearningpyt16/",
         "teaser": null
       }]

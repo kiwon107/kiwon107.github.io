@@ -5,7 +5,7 @@ folder: "deeplearningpyt"
 categories:
     - deeplearningpyt
 tag:
-    - [deep learning, pytorch, rnn]
+    - [deep learning, pytorch, adversarial attack]
 
 author_profile: true    #작성자 프로필 출력 여부
 

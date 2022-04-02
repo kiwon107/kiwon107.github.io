@@ -1,0 +1,54 @@
+I"@<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="14-1-gan-기초">14-1. GAN 기초</h2>
+<p><strong>GAN(Generative adversarial network)</strong>는 직역하면 적대적 생성 신경망이다. 단어 의미 하나하나 살펴보자.</p>
+
+<p>먼저 GAN은 <strong>생성(Generative)</strong>을 하는 모델이다. CNN과 RNN은 새로운 이미지나 음성을 만들어내지 못한다. 그러나 GAN은 새로운 이미지나 음성을 창작하도록 고안되었다.</p>
+
+<p>또한, GAN은 <strong>적대적(Adversarial)</strong>으로 학습한다. 적대적이라는 것은 서로 대립 관계에 있다는 것이다. 가짜 이미지를 만드는 <strong>생성자(Generator)</strong>와 이미지의 진위를 판별하는 <strong>판별자(Discriminator)</strong>가 번갈아 학습하며 경쟁적으로 학습한다.</p>
+
+<p>마지막으로 GAN은 <strong>인공 신경망</strong> 모델이다. 생성자와 판별자 모두 신경망으로 되어있다.</p>
+
+<p>GAN은 비지도학습 방식이다. 우리 주변의 데이터 대부분은 사실 정답이 없다. 모든 데이터를 일일이 가공하는 것이 번거롭고 어렵기 때문이다. GAN은 앞서 배운 오토인코더 처럼 비지도학습을 하여 사람의 손길을 최소화하며 학습하기 때문에 많은 이들로부터 주목을 받고 있다.</p>
+
+<h2 id="14-2-생성자와-판별자">14-2. 생성자와 판별자</h2>
+<p>GAN 모델에는 무작위 텐서로부터 여러 가지 형태의 가짜 이미지를 생성하는 <strong>생성자</strong>와 진짜 이미지와 가짜 이미지를 구분하는 <strong>판별자</strong>가 존재한다. 학습이 진행되면서 생성자는 판별자를 속이기위해 점점 더 정밀한 가짜 이미지를 생성한다. 판별자는 학습 데이터에서 가져온 진짜 이미지와 생성자가 만든 가짜 이미지를 점점 더 잘 구별하게 된다. 마지막에 생성자는 진짜 이미지와 거의 흡사한 가짜 이미지를 만들게된다.</p>
+
+<h2 id="14-3-gan으로-새로운-패션-아이템-생성하기">14-3. GAN으로 새로운 패션 아이템 생성하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 관련 모듈 임포트
+</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">torchvision.utils</span> <span class="kn">import</span> <span class="n">save_image</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># 하이퍼퍼라미터
+</span><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">USE_CUDA</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">USE_CUDA</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"다음 장치를 사용합니다: "</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">)</span>
+
+<span class="c1"># Fashion MNIST 데이터셋
+</span><span class="n">trainset</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">.</span><span class="n">FashionMNIST</span><span class="p">(</span><span class="s">'./.data'</span><span class="p">,</span>
+  <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+  <span class="p">]))</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span> <span class="c1"># 반복문에서 사용, 학습 이미지와 레이블을 튜플 형태로 반환!
+</span>  <span class="n">dataset</span> <span class="o">=</span> <span class="n">trainset</span><span class="p">,</span>
+  <span class="n">batch_size</span> <span class="o">=</span> <span class="n">BATCH_SIZE</span><span class="p">,</span>
+  <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이제 생성자와 판별자를 구현하자. 지금까지 신경망 모델들을 모듈(nn.Module) 클래스로 정의하여 모델의 복잡한 동작들을 함수로 정의할 수 있었다. 이번에는 Sequetial 클래스를 이용할 것이다. Sequential 클래스는 신경망을 이루는 각 층에서 수행할 연산들을 입력받아 차례대로 실행하는 역할을 한다.</p>
+
+<p>생성자는 실제 데이터와 비슷한 가짜 데이터를 만들어내는 신경망이다. 생성자는 정규분포로부터 64차원의 무작위 텐서를 입력받아 행렬곱(Linear)과 활성화 함수(ReLUU, Tanh) 연산을 실행한다. Tanh 활성화 함수는 결과값을 -1과 1사이로 압축하는 역할을 한다. 이때 결과값은 이미지가 될 것이므로 784차원(Fashion MNIST 이미지 차원)의 텐서이다</p>
+:ET

@@ -1,0 +1,83 @@
+I"D.<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="16-1-강화학습과-dqn-기초">16-1. 강화학습과 DQN 기초</h2>
+<p><strong>강화학습(Reinforcement learning)</strong>은 주어진 환경과 상호작용하여 좋은 점수를 얻는 방향으로 성장하는 머신러닝 분야이다. 그동안 배운 학습법들은 원하는 데이터셋을 외우는 주입식 학습법이었다. 강화학습은 자기주도적 학습법이라 할 수 있다. 강화학습 모델은 주어진 환경에서 시행착오를 겪으며 좋은 피드백을 받는 쪽으로 최적화하며 성장한다.</p>
+
+<p>강화학습은 크게 <strong>상태(State)</strong>, <strong>에이전트(Agent)</strong>, <strong>행동(Action)</strong>, <strong>보상(Reward)</strong> 4가지 요소로 나눌 수 있다.<br />
+1) 에이전트: 인공지능 플레이어
+2) 환경: 에이전트가 솔루션을 찾기 위한 무대
+3) 행동: 에이전트가 환경 안에서 시행하는 상호작용
+4) 보상: 에이전트의 행동에 따른 점수 혹은 결과</p>
+
+<p>2013년 딥마인드는 <strong>DQN(Deep q-network)</strong> 알고리즘으로 아타리사의 유명 게임들에서 사람보다 월등히 높은 점수를 얻었다.</p>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/16-1.png" alt="그림 16-1. cGAN 생성자" /></p>
+<p>그림 16-1. cGAN 생성자</p>
+
+<h2 id="16-2-카드-게임-마스터-하기">16-2 카드 게임 마스터 하기</h2>
+<p>카드폴이라는 환경을 구축하여 강화학습을 해보자. 카드폴 게임에서는 막대기를 세우고 오래 버틸수록 점수가 올라간다. 막대기가 오른쪽으로 기울 때는 중심을 다시 맞춰야 하므로 오른쪽 버튼을 눌러 검은색 상자를 오른쪽으로 움직이는 것이 왼쪽 버튼을 눌러 검은색 상자를 왼쪽으로 옮기는 것보다 보상이 클 것으로 예측할 수 있다.</p>
+
+<p>DQN의 주요 특징은 <strong>기억하기(Memorize)</strong>와 <strong>다시보기(Replay)</strong>이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 관련 모듈 임포트
+</span><span class="kn">import</span> <span class="nn">gym</span>  <span class="c1"># 카드폴 등의 여러 게임 환경 제공하는 패키지
+</span><span class="kn">import</span> <span class="nn">random</span> 
+<span class="kn">import</span> <span class="nn">math</span>  
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>  <span class="c1"># 큐(FIFO) 자료구조의 일종. 덱(Double-end queue)은 양쪽 끝에서 삽입과 삭제가 모두 가능한 자료구조
+</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<p>그 다음 하이퍼파라미터를 설정한다. EPS_START와 EPS_END는 엡실론이다. 엡실론이 50%이면 절반의 확률로 무작위 행동을 하고, 나머지 절반의 확률로 학습된 방향으로 행동한다. 무작위로 행동하는 이유는 에이전트가 가능한 모든 행동을 경험하도록 하기 위해서이다. 시작값은 90%이지만 학습이 진행되면서 조금씩 감소해서 5%까지 내려가게하자.</p>
+
+<p>감마는 에이전트가 현재 보상을 미래 보상보다 얼마나 가치 있게 여기는지에 대한 값이다. 1년 뒤 받을 만원과 지금 받는 만원의 가치는 다르므로, 1년뒤 받을 만원은 이자율 만큼 할인해줘야한다. 감마는 이 할인율과 비슷한 개념이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 하이퍼파라미터
+</span><span class="n">EPISODES</span> <span class="o">=</span> <span class="mi">50</span>  <span class="c1"># 에피소드 반복 횟수(총 플레이할 게임 수)
+</span><span class="n">EPS_START</span> <span class="o">=</span> <span class="mf">0.9</span>  <span class="c1"># 학습 시작 시 에이전트가 무작위로 행동할 확률
+</span><span class="n">EPS_END</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 학습 막바지에 에이전트가 무작위로 행동할 확률
+</span><span class="n">EPS_DECAY</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># 학습 진행 시 에이전트가 무작위로 행동할 확률을 EPS_START에서 EPS_END 까지 점진적으로 감소시키는 값
+</span><span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># 할인계수
+</span><span class="n">LR</span> <span class="o">=</span> <span class="mf">0.001</span>  <span class="c1"># 학습률
+</span><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">64</span>  <span class="c1"># 배치 크기
+</span></code></pre></div></div>
+
+<p>이제 DQN 클래스를 만들자. 에이전트의 신경망은 카트 위치, 카트 속도, 막대기 각도, 막대기 속도까지 4가지 정보를 입력받아 왼쪽으로 갈 때의 가치와 오른쪽으로 갈 때의 가치를 출력한다. 그래서 첫 번째 신경망의 입력 노드는 4개이고, 마지막 신경망의 출력 노드는 2개이다.</p>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/16-2.png" alt="그림 16-2. DQN 에이전트의 인공 신경망" /></p>
+<p>그림 16-2. DQN 에이전트의 인공 신경망</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DQNAgent</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+      <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">LR</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">steps_done</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>딥러닝 모델들은 보통 학습 데이터 샘플이 각각 독립적이라 가정한다. 그러나 강화학습은 연속된 상태가 강한 상관관계가 있어서 학습이 어렵다는 문제점이 있다. 무작위로 가져오는 것이 아닌 연속적인 경험을 학습할 때 초반의 몇 가지 경험 패턴에만 치중하여 학습하게 된다. 그럼 최적의 행동 패턴을 찾기 어렵다. 또한 신경망이 새로운 경험을 이전 경험에 겹쳐 쓰며 쉽게 잊어버린다는 문제점도 있다.</p>
+
+<p>그래서 기억하기 기능이 필요하다. 이전 경험들을 배열에 담아 계속 재학습시키며 신경망이 잊지 않게 하는 것이다. 기억한 경험들은 학습할 때 무작위로 뽑아 경험 간의 상관관계를 줄인다. 각 경험은 상태, 행동, 보상 등을 담아야 한다. 이번 예제에서는 사용하기 가장 간단한 큐 자료구조를 이용하여 이전 경험들에 관한 기억을 담을 것이다.
+deque의 <code class="language-plaintext highlighter-rouge">mexlen</code>을 지정해주면 큐가 가득 찰 때 제일 오래된 요소부터 없어져 자연스레 오래된 기억을 잊게 해준다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="bp">self</span><span class="p">.</span><span class="n">memory</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/16-3.png" alt="그림 16-3. 기억을 저장하는 큐" /></p>
+<p>그림 16-3. 기억을 저장하는 큐</p>
+
+<p>이제 self.memory 배열에 새로운 경험을 덧붙일 memorize() 함수를 만들자. memorize() 함수는 self.memory 배열에 <strong>현재 상태(state)</strong>, <strong>현재 상태에서 한 행동(Action)</strong>, <strong>행동에 대한 보상(Rewrard)</strong>, <strong>행동으로 인해 새로 생성된 상태(Next_state)</strong>를 한 세트로 저장한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">memorize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">):</span>
+  <span class="bp">self</span><span class="p">.</span><span class="n">memory</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">state</span><span class="p">,</span>
+                      <span class="n">action</span><span class="p">,</span>
+                      <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">([</span><span class="n">reward</span><span class="p">]),</span>
+                      <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">([</span><span class="n">next_state</span><span class="p">])))</span>
+</code></pre></div></div>
+
+<p>이제 행동을 담당하는 act() 함수를 만들자. 무작위로 숫자를 골라 앱실론 값보다 높으면 신경망이 학습하여 이렇게 행동하는게 옳다고 생각하는 쪽으로, 낮으면 무작위로 행동한다. 학습 초반에는 학습이 덜되어, 에이전트가 하는 행동에 의미를 부여하기 어렵다. 그러므로 초반에는 엡실론값을 높게 주어 최대한 다양한 경험을 해보도록 하고, 점점 그 값을 낮춰가며 신경망이 결정하는 비율을 높힌다. 이 알고리즘을 <strong>앱실론 그리디(앱실론 탐욕, Epsilon-greedy)) 알고리즘</strong>이라고 한다.</p>
+:ET

@@ -1,0 +1,34 @@
+I"7
+<p>본 포스팅은 “펭귄브로의 3분 딥러닝, 파이토치맛” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="16-1-강화학습과-dqn-기초">16-1. 강화학습과 DQN 기초</h2>
+<p><strong>강화학습(Reinforcement learning)</strong>은 주어진 환경과 상호작용하여 좋은 점수를 얻는 방향으로 성장하는 머신러닝 분야이다. 그동안 배운 학습법들은 원하는 데이터셋을 외우는 주입식 학습법이었다. 강화학습은 자기주도적 학습법이라 할 수 있다. 강화학습 모델은 주어진 환경에서 시행착오를 겪으며 좋은 피드백을 받는 쪽으로 최적화하며 성장한다.</p>
+
+<p>강화학습은 크게 <strong>상태(State)</strong>, <strong>에이전트(Agent)</strong>, <strong>행동(Action)</strong>, <strong>보상(Reward)</strong> 4가지 요소로 나눌 수 있다.<br />
+1) 에이전트: 인공지능 플레이어
+2) 환경: 에이전트가 솔루션을 찾기 위한 무대
+3) 행동: 에이전트가 환경 안에서 시행하는 상호작용
+4) 보상: 에이전트의 행동에 따른 점수 혹은 결과</p>
+
+<p>2013년 딥마인드는 <strong>DQN(Deep q-network)</strong> 알고리즘으로 아타리사의 유명 게임들에서 사람보다 월등히 높은 점수를 얻었다.</p>
+
+<p class="align-center"><img src="/assets/images/deeplearningpyt/16-1.png" alt="그림 16-1. cGAN 생성자" /></p>
+<p>그림 16-1. cGAN 생성자</p>
+
+<h2 id="16-2-카드-게임-마스터-하기">16-2 카드 게임 마스터 하기</h2>
+<p>카드폴이라는 환경을 구축하여 강화학습을 해보자. 카드폴 게임에서는 막대기를 세우고 오래 버틸수록 점수가 올라간다. 막대기가 오른쪽으로 기울 때는 중심을 다시 맞춰야 하므로 오른쪽 버튼을 눌러 검은색 상자를 오른쪽으로 움직이는 것이 왼쪽 버튼을 눌러 검은색 상자를 왼쪽으로 옮기는 것보다 보상이 클 것으로 예측할 수 있다.</p>
+
+<p>DQN의 주요 특징은 <strong>기억하기(Memorize)</strong>와 <strong>다시보기(Replay)</strong>이다.</p>
+
+<p>```python
+import gym  # 카드폴 등의 여러 게임 환경 제공하는 패키지
+import random
+import math
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+from collections import deque  # 큐(FIFO) 자료구조의 일종. 덱(Double-end queue)은 양쪽 끝에서 삽입과 삭제가 모두 가능한 자료구조
+import matplotlib.pyplot as plt</p>
+:ET
