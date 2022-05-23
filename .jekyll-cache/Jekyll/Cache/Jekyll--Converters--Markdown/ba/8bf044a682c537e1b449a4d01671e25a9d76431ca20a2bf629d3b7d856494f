@@ -1,0 +1,92 @@
+I"g<p>본 포스팅은 “자료구조와 함께 배우는 알고리즘(파이썬)” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="1-1-세-정수의-최대값-구하기">1-1. 세 정수의 최대값 구하기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'세 정수의 최대값을 구하라.'</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 a 값 입력: '</span><span class="p">))</span>  <span class="c1"># input() 함수는 키보드로 문자열 입력받아 반환
+</span><span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 b 값 입력: '</span><span class="p">))</span>  <span class="c1"># int() 함수는 정수형으로 형 변환함.
+</span><span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 c 값 입력: '</span><span class="p">))</span>  
+
+<span class="n">maximum</span> <span class="o">=</span> <span class="n">a</span>
+<span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="n">maximum</span><span class="p">:</span> <span class="n">maximum</span><span class="o">=</span><span class="n">b</span>
+<span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">maximum</span><span class="p">:</span> <span class="n">maximum</span><span class="o">=</span><span class="n">c</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'최대값은 </span><span class="si">{</span><span class="n">maximum</span><span class="si">}</span><span class="s">입니다.'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 세 정수의 최대값을 구하라.
+       정수 a 값 입력: 1
+       정수 b 값 입력: 3
+       정수 c 값 입력: 2
+       최대값은 3입니다.
+</code></pre></div></div>
+
+<p>참고로 if문이나 while문 등 복합문의 첫 부분은 콜론(:)으로 끝난다. 이 부분을 헤더라고 한다.</p>
+
+<p>알고리즘이란 어떠한 문제를 해결하기 위해 정해 놓은 일련의 절차이다. 올바른 알고리즘은 어떠한 경우에도 실행 결과가 똑같이 나와야 한다.</p>
+
+<p>파이썬 스타일 가이드인 P#P 8이라는 것이 있다. PEP8 문서는 파이썬의 일관된 규칙을 가이드로 제공한다. 예를 들어 클래스명은 카멜 케이스, 함수명은 스네이크 형식으로 쓰라고 권장하는 것이다. 들여쓰기시, 공백을 4개 사용하는 것도 권장 내용 중 하나이다. 이 점도 참고하자!</p>
+
+<h2 id="1-2-조건문과-분기">1-2. 조건문과 분기</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'정수 입력: '</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'이 수는 양수입니다.'</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'이 수는 음수입니다.'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'이 수는 0입니다.'</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 정수 입력: 17
+       이 수는 양수입니다.
+       정수 입력: -5
+       이 수는 음수입니다.
+       정수 입력: 0
+       이 수는 0입니다.
+</code></pre></div></div>
+
+<p>프로그래밍 언어에서는 +나 -등의 기호를 <strong>산술 연산자(Operator)</strong>, 연산 대상을 <strong>피연산자(Operand)</strong>라고 한다. 그리고 피연산자가 1개면 단항 연산자, 2개면 이항 연산자, 3개면 심항 연산자 라고 한다. <code class="language-plaintext highlighter-rouge">if~else</code>문은 조건 연산자로, 파이썬의 유일한 삼항 연산자(<code class="language-plaintext highlighter-rouge">a if b else c</code>)이다.</p>
+
+<h2 id="1-3-순서도-기호-살펴보기">1-3. 순서도 기호 살펴보기</h2>
+<ul class="align-center">
+  <li>데이터: 데이터 자체 의미
+<img src="/assets/images/algopy/1-1.png" alt="그림 1-1. 데이터" /></li>
+</ul>
+<p>그림 1-1. 데이터</p>
+
+<ul class="align-center">
+  <li>처리: 정보의 값, 형, 위치 바꾸도록 정의한 연산이나 연산 집합의 실행, 또는 연속하는 몇 가지 흐름 가운데 하나의 방향을 결정하는 연산이나 연산 집합의 실행.
+<img src="/assets/images/algopy/1-2.png" alt="그림 1-2. 처리" /></li>
+</ul>
+<p>그림 1-2. 처리</p>
+
+<ul class="align-center">
+  <li>미리 정의한 처리: 서브루틴이나 모듈 등 다른 곳에서 이미 정의한 하나 이상의 연산 또는 명령으로 이루어진 처리.
+<img src="/assets/images/algopy/1-3.png" alt="그림 1-3. 미리 정의한 처리" /></li>
+</ul>
+<p>그림 1-3. 미리 정의한 처리</p>
+
+<ul class="align-center">
+  <li>판단: 하나의 입구와 하나 이상 선택하는 출구 있음. 판단 기호 안에 정의한 조건 평가하여 하나의 출구 선택하는 판단 기능 나타냄. 주로 예상되는 평가 결과는 경로를 나타낸 선 가까이에 표기.
+<img src="/assets/images/algopy/1-4.png" alt="그림 1-4. 판단" /></li>
+</ul>
+<p>그림 1-4. 판단</p>
+
+<ul class="align-center">
+  <li>루프 범위: 두 부분으로 구성되어 루프의 시작과 종료 나타냄. 시작기호, 종료기호 안에 초깃값, 증가값, 종료값 표기.
+<img src="/assets/images/algopy/1-5.png" alt="그림 1-5. 루프 범위" /></li>
+</ul>
+<p>그림 1-5. 루프 범위</p>
+
+<ul class="align-center">
+  <li>선: 제어의 흐름 의미. 흐름 방향 분명하게 나타낼 때는 화살표 사용.
+<img src="/assets/images/algopy/1-6.png" alt="그림 1-6. 선" /></li>
+</ul>
+<p>그림 1-6. 선</p>
+
+<ul class="align-center">
+  <li>단말: 외부 환경으로 나가거나 외부 환경으로 들어오는 것. 주로 프로그램 흐름의 시작과 종료 나타냄.
+<img src="/assets/images/algopy/1-7.png" alt="그림 1-7. 단말" /></li>
+</ul>
+<p>그림 1-7. 단말</p>
+:ET

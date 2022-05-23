@@ -34,6 +34,9 @@ docs:
       - title: "파이썬 중급"
         url: /pythonmd/
         category: "pythonmd"
+      - title: "파이썬 동시성 프로그래밍"
+        url: /pyconcur/
+        category: "pyconcur"
   - title: CS Theory
     children:
       - title: "운영체제"
@@ -42,6 +45,14 @@ docs:
       - title: "자료구조와 알고리즘(파이썬)"
         url: /algopy/
         category: "algopy"
+      - title: "네트워크(초급)"
+        url: /comm/
+        category: "comm"
+  - title: Electricity / Electronics
+    children:
+      - title: "전기 기초"
+        url: /elecbasic/
+        category: "elecbasic"
   - title: Mathematics
     children:
       - title: "확률과 통계"

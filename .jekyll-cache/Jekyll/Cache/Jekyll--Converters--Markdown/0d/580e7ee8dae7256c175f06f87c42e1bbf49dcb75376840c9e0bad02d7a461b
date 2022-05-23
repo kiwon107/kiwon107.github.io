@@ -1,0 +1,74 @@
+I"I
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/elecbasic/elecbasic9/">[전기 기초] 9. 용량이 큰 냉난방기가 3상 전력을 사용하는 이유</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.19
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#elecbasic" class="page__taxonomy-item-category" rel="tag">elecbasic</a>
+                    
+                    
+                    <a href="/tags/#probaility" class="page__taxonomy-item-tag" rel="tag">probaility</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/elecbasic/elecbasic6/">[전기 기초] 6. 전자제품에서 꼭 필요한 것</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.18
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#elecbasic" class="page__taxonomy-item-category" rel="tag">elecbasic</a>
+                    
+                    
+                    <a href="/tags/#probaility" class="page__taxonomy-item-tag" rel="tag">probaility</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/elecbasic/elecbasic3/">[전기 기초] 3. 직류(DC)와 교류(AC)의 차이점</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.18
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#elecbasic" class="page__taxonomy-item-category" rel="tag">elecbasic</a>
+                    
+                    
+                    <a href="/tags/#probaility" class="page__taxonomy-item-tag" rel="tag">probaility</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET

@@ -1,0 +1,146 @@
+I"?><p>본 포스팅은 “파이썬 동시성 프로그래밍” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="4-1-멀티프로세싱-풀">4-1. 멀티프로세싱 풀</h2>
+<p>파이썬 애플리케이션이 멀티프로세스로 동작하면, 멀티프로세싱 모듈 내 다양한 기능을 가진 Pool 클래스를 활용할 수 있다. Pool 클래스는 프로그램 내 여러 자식 프로세스를 쉽게 실행하고, 풀에서 작업자를 선택할 수 있다.</p>
+
+<h3 id="1-concurrentfuturesprocesspoolexecutor와-pool의-차이점">1. concurrent.futures.ProcessPoolExecutor와 Pool의 차이점</h3>
+<p>프로세스 풀의 <code class="language-plaintext highlighter-rouge">multiprocessing.Pool</code> 구현은 병렬 처리 능력을 지원하고자 <code class="language-plaintext highlighter-rouge">concurrent.futures.ProcessPoolExecutor</code>과 거의 동일한 구현 형태를 지닌다. 그러나 <code class="language-plaintext highlighter-rouge">concurrent.futures.ProcessPoolExecutor</code>는 프로세스 풀 생성을 쉽게 해주는 인터페이스만 지원한다. 이런 간단한 인터페이스는 프로그래머들이 스레드와 프로세스 풀 모두 즉각적으로 시작할 수 있게 하지만 이러한 작업이 복잡해 특정 상황에서 세밀한 조정이 필요할 때 오히려 불필요하다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ThreadPoolExecutor</code>와 <code class="language-plaintext highlighter-rouge">ProcessPoolExcutor</code> 모두 동일한 추상 클래스와 하위 클래스이므로, 상속 메소드를 이해하고 작업하기가 좀 더 쉽다. 일반적으로 <code class="language-plaintext highlighter-rouge">multiprocessing.Pool</code> 보다 <code class="language-plaintext highlighter-rouge">concurrent.futures.ProcessPoolExecutor</code>가 필요조건에 적합하므로 추천하지만, 더 많은 조작을 필요로 하는 한계에 부딪혔을 때의 대안이 필요하다.</p>
+
+<h3 id="2-컨텍스트-관리자">2. 컨텍스트 관리자</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span> <span class="c1"># with 문은 자원 획득하고 사용 후 반납하는 경우 사용! Pool 함수 인자에는 사용할 프로세스 개수 입력!
+</span>    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nb">map</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>
+  
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 2
+       3
+       4
+       [None, None, None]
+</code></pre></div></div>
+
+<h3 id="3-프로세스-풀에-작업-전달하기">3. 프로세스 풀에 작업 전달하기</h3>
+<p>위의 예제보다 더 복잡한 경우, 다양한 방법으로 풀과 상호작용하여 해결할 수 있다.</p>
+
+<p>먼저 apply는 <code class="language-plaintext highlighter-rouge">ThreadPoolExecutor.submit()</code>과 같다. 즉, 개별적인 작업을 풀 객체에 전달하고자 사용된다. 분리된 프로세스로 각 함수를 처리하지만, 현재의 프로세스가 결과를 내기 전까지는 다음 프로세스를 블록한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">myTask</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Task processed by Process {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getpid</span><span class="p">()))</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">myTask</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">myTask</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">myTask</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">myTask</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)))</span>
+
+    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Time :"</span><span class="p">,</span><span class="n">delta_t</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Task processed by Process 12484
+       8
+       Task processed by Process 36968
+       6
+       Task processed by Process 20852
+       4
+       Task processed by Process 30636
+       2
+       Time : 4.244585990905762
+</code></pre></div></div>
+
+<p>반면 병렬 실행 작업이 필요할 경우 apply_async 함수를 바탕으로 풀에 작업을 전달할 수 있다. 다음 예제는 4개의 작업을 프로세싱 풀에 전달하고자 함수 내 for문을 사용한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">myTask1</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Task processed by Process {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getpid</span><span class="p">()))</span>
+  <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"apply_async"</span><span class="p">)</span>
+  <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+      <span class="n">task</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">myTask1</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,))</span>
+      <span class="n">tasks</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+      <span class="n">task</span><span class="p">.</span><span class="n">wait</span><span class="p">()</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">"Result: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">get</span><span class="p">()))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) apply_async
+       Task processed by Process 38520
+       Task processed by Process 38520
+       Result: 0
+       Task processed by Process 38520
+       Result: 2
+       Task processed by Process 38520
+       Result: 4
+       Result: 6
+</code></pre></div></div>
+
+<p>task 배열에 전달한 순서 그대로 <code class="language-plaintext highlighter-rouge">task.wait()</code>를 호출하여 결과 또한 순서대로 콘솔에 출력된다고 하는데, 잘 된것이 맞는지는 모르겠다. 빠르게 실행되는 것은 하나의 프로세스로 처리가 가능한가보다. 아래 코드 처럼 <code class="language-plaintext highlighter-rouge">time.sleep(1)</code>을 주었더니 4개의 프로세스로 병렬처리 수행하였다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">myTask1</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Task processed by Process {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">getpid</span><span class="p">()))</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"apply_async"</span><span class="p">)</span>
+  <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+      <span class="n">task</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">myTask1</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,))</span>
+      <span class="n">tasks</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+      <span class="n">task</span><span class="p">.</span><span class="n">wait</span><span class="p">()</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">"Result: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">get</span><span class="p">()))</span>
+
+    <span class="n">delta_t</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Time :"</span><span class="p">,</span><span class="n">delta_t</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) apply_async
+       Task processed by Process 22052
+       Task processed by Process 41884
+       Task processed by Process 36356
+       Task processed by Process 26920
+       Result: 0
+       Result: 2
+       Result: 4
+       Result: 6
+       Time : 1.2862725257873535
+</code></pre></div></div>
+:ET

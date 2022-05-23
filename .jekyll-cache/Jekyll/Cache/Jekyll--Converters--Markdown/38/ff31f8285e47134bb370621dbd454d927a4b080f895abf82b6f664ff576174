@@ -1,0 +1,212 @@
+I"\<p>본 포스팅은 “파이썬 동시성 프로그래밍” 책 내용을 기반으로 작성되었습니다.
+잘못된 내용이 있을 경우 지적해 주시면 감사드리겠습니다.</p>
+
+<h2 id="3-1-gil-작업">3-1. GIL 작업</h2>
+<p>전역 인터프리터 락(GIL, Global Interpreter Lock)은 CPU 기반 작업에서 성능을 저해하는 메커니즘이다. 멀티프로세싱을 이용하면 이러한 한계를 극복할 수 있다.</p>
+
+<p>파이썬에서는 CPU의 독립적인 코어에서 실행가능한 여러 프로세스를 실행할 수 있다.</p>
+
+<p>간단한 출력문을 생성하는 자식 스레드를 생성해보고, 멀티프로세싱 모듈을 활용해 자식 스레드가 실행되는지 간단하게 확인해보자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">def</span> <span class="nf">myProcess</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Currently Executing Child Process."</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"This process has it's own instance of the GIL"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Executing Main Process"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Creating Child Process"</span><span class="p">)</span>
+
+<span class="n">myProcess</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">myProcess</span><span class="p">())</span>
+<span class="n">myProcess</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">myProcess</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Child Process has terminated, terminating main process"</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Currently Executing Child Process.
+       This process has it's own instance of the GIL
+       Executing Main Process
+       Creating Child Process
+       Child Process has terminated, terminating main process
+</code></pre></div></div>
+
+<h2 id="3-2-프로세스-라이프1">3-2. 프로세스 라이프1</h2>
+<p>멀티프로세싱 모듈에서는 파이썬 프로그램 내 프로세스를 시작하는 메소드가 세 가지 있다.</p>
+
+<h3 id="1-fork">1. fork</h3>
+<p><strong>포킹(forking)</strong>이란 부모 프로세스에서 자식 프로세스를 생성하기 위해 유닉스 시스템에서 사용되는 메커니즘이다. 자식 프로세스는 부모 프로세스와 동일하게 부모의 모든 자원을 상속받는다.</p>
+
+<h3 id="2-spawn">2. spawn</h3>
+<p>개별적인 프로세스를 스폰하여 그 밖의 파이썬 인터프리터 프로세스를 실행할 수 있다. 여기에는 자체 전역 인터프리터 락이 포함되며, 각 프로세스는 병렬적으로 실행할 수 있어 더 이상 전역 인터프리터 락의 한계에 대해 걱정할 필요가 없다. 새로 스폰된 프로세스는 해당 실행 메소드에 어떤 인자든 실행하기 위해 필요한 자원만 상속 받는다. 윈도우 시스템에서 새로운 프로세스를 실행할 때 일반적으로 사용되는 방법이며 유닉스 시스템도 마찬가지이다.</p>
+
+<h3 id="3-forkserver">3. forkserver</h3>
+<p>개별적인 프로세스를 생성하는 메커니즘이다. 유닉스 플랫폼에서만 사용 가능하다. 프로그램이 프로세스를 시작할 때 해당 메커니즘을 선택하면 서버가 인스턴스화 된다. 그 후 프로세스를 생성하는 모든 요청을 다루고, 파이썬에서 새로운 프로세스를 생성하려면 새로 인스턴스화된 서버에 요청을 전달한다. 그럼 해당 서버는 프로세스를 생성하고 프로그램에서 자유롭게 사용할 수 있다.</p>
+
+<h2 id="3-3-프로세스-라이프2">3-3. 프로세스 라이프2</h2>
+<h3 id="1-데몬-프로세스">1. 데몬 프로세스</h3>
+<p><strong>데몬(daemon)</strong> 이란 서비스의 요청에 대해 응답하기 위해 오랫동안 실행중인 백그라운드(background) 프로세스다. <strong>포그라운드 프로세스</strong>는 사용자와의 대화창구인 표준입출력장치 즉 터미널과 키보드(tty 혹은 pts로 표현되는)을 통해 대화한다. 하지만 <strong>백그라운드 프로세스</strong>는 적어도 입력장치에 대해 터미널과의 관계를 끊은 모든 프로세스를 의미한다. 즉 사용자에게 무언가를 키보드를 통해 전달받지 않고 스스로 동작하는 프로세스가 바로 백그라운드 프로세스이다.</p>
+
+<p>데몬 프로세스는 메인 스레드가 실행되는 동안 계속되며, 실행이 끝나거나 메인 프로그램을 종료할 경우에만 종료된다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">daemonProcess</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Starting my Daemon Process"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Daemon process started: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">()))</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Daemon process terminating"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Main process: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">()))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">myProcess</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">daemonProcess</span><span class="p">)</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"We can carry on as per usual and our daemon will continue to execute"</span><span class="p">)</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) We can carry on as per usual and our daemon will continue to execute
+       Starting my Daemon Process
+       Daemon process started: &lt;Process(Process-1, started daemon)&gt;
+</code></pre></div></div>
+
+<p>참고로 데몬 프로세스에서는 자식 프로세스를 생성할 수 없다. 이를 진행하면 process.start()에서 오류가 난다.</p>
+
+<h3 id="2-pid를-이용해-프로세스-확인하기">2. PID를 이용해 프로세스 확인하기</h3>
+<p>운영체제에 있는 모든 프로세스는 PID라 불리는 프로세스 확인자를 구성한다. 파이썬 프로그램상에서 스폰하는 각 하위 프로세스가 운영체제 내에서 개별적으로 확인하고자 자체 PID 수를 받는다. 자체 할당된 PID가 있는 개별적인 프로세스는 로깅 및 디버깅 같은 작업을 수행할 경우 유용하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">childTask</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Child Process With PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">))</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Child Process terminating"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Main process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">))</span>
+  <span class="n">myProcess</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">childTask</span><span class="p">)</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Main process PID: 14932
+       Child Process With PID: 31044
+       Child Process terminating
+</code></pre></div></div>
+
+<p>개별적인 프로세스에 이름을 붙이는 작업도 할 수 있다. 이는 디버깅 및 잘못된 부분을 찾는데 많은 도움을 준다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">def</span> <span class="nf">myProcess</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"{} Just performed X"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">name</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">childProcess</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">myProcess</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'My-Awesome-Process'</span><span class="p">)</span>
+  <span class="n">childProcess</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+  <span class="n">childProcess</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) My-Awesome-Process Just performed X
+</code></pre></div></div>
+
+<h3 id="3-프로세스-종료하기">3. 프로세스 종료하기</h3>
+<p>로컬상의 에드혹(Ad hoc)을 실행하는 파이썬 코드에서는 사실 크게 중요하지는 않다. 그러나 방대한 서버를 다루는 기업용 파이썬 프로그램에서는 매우 중요하다. 오랜 기간 실행되는 시스템에서는 수천, 수만의 프로세스를 실행할 수 없고, 시스템 자원에 그대로 남겨둘 수도 없다. 그러므로 프로세스를 종료하는 일은 꽤 중요하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">myProcess</span><span class="p">():</span>
+  <span class="n">current_process</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Child Process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">current_process</span><span class="p">.</span><span class="n">pid</span><span class="p">))</span>
+  <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+  <span class="n">current_process</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Main process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">current_process</span><span class="p">.</span><span class="n">pid</span><span class="p">))</span>
+
+<span class="n">myProcess1</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">myProcess</span><span class="p">)</span>
+<span class="n">myProcess1</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"My process has terminated, terminating main thread"</span><span class="p">)</span>
+<span class="n">myProcess1</span><span class="p">.</span><span class="n">terminate</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Child Process Successfully terminated"</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) My process has terminated, terminating main thread
+       Child Process Successfully terminated
+</code></pre></div></div>
+
+<h3 id="4-현재-프로세스-얻기">4. 현재 프로세스 얻기</h3>
+<p>개별적인 프로세스를 확인할 수 있는 것은 로깅 및 디버깅의 관점에서 중요하다. 파이썬 프로그램에서는 모든 프로세스 PID를 검색할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="k">print</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) 14600
+</code></pre></div></div>
+
+<h3 id="5-프로세스를-하위-클래스화하기">5. 프로세스를 하위 클래스화하기</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">class</span> <span class="nc">MyProcess</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">):</span> <span class="c1"># multiprocessing 에서 내장모듈인 Process 상속받음
+</span>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MyProcess</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>  <span class="c1"># 프로세스 초기화, 파이썬 객체의 클래스를 프로세스로 변환
+</span>  <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Child Process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"Main Process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">))</span>
+  <span class="n">myProcess</span> <span class="o">=</span> <span class="n">MyProcess</span><span class="p">()</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+  <span class="n">myProcess</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Main Process PID: 16408
+       Child Process PID: 38704
+       Child Process PID: 16408
+</code></pre></div></div>
+
+<p>myProcess로 생성된 객체를 start() 메소드를 실행할 때 run 메소드가 자동으로 수행된다!</p>
+
+<p>multiprocessing.Process 클래스를 하위 클래스화 했다면, 멀티프로세스를 다음과 같이 동작하는 다양한 작업도 구현 가능하다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">class</span> <span class="nc">MyProcess</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">Process</span><span class="p">):</span> <span class="c1"># multiprocessing 에서 내장모듈인 Process 상속받음
+</span>  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MyProcess</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>  <span class="c1"># 프로세스 초기화, 파이썬 객체의 클래스를 프로세스로 변환
+</span>  <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Child Process PID: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">multiprocessing</span><span class="p">.</span><span class="n">current_process</span><span class="p">().</span><span class="n">pid</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">cpu_count</span><span class="p">()):</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">MyProcess</span><span class="p">()</span>
+    <span class="n">processes</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
+    <span class="n">process</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+  <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">processes</span><span class="p">:</span>
+    <span class="n">process</span><span class="p">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="n">process</span><span class="p">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(결과) Child Process PID: 27936
+       Child Process PID: 33520
+       Child Process PID: 18468
+       Child Process PID: 32008
+       Child Process PID: 25208
+       Child Process PID: 25208
+       Child Process PID: 25208
+       Child Process PID: 25208
+       Child Process PID: 18604
+       Child Process PID: 38120
+       Child Process PID: 15712
+       Child Process PID: 25208
+       Child Process PID: 25208
+       Child Process PID: 764
+       Child Process PID: 25208
+       Child Process PID: 25208
+</code></pre></div></div>
+:ET

@@ -1,0 +1,105 @@
+I"
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pyconcur/pyconcur4/">[Python] 4. 멀티프로세싱 2</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.14
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pyconcur" class="page__taxonomy-item-category" rel="tag">pyconcur</a>
+                    
+                    
+                    <a href="/tags/#multiprocessing" class="page__taxonomy-item-tag" rel="tag">multiprocessing</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#parallization-in-python" class="page__taxonomy-item-tag" rel="tag">Parallization in python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pyconcur/pyconcur3/">[Python] 3. 멀티프로세싱 1</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.04
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pyconcur" class="page__taxonomy-item-category" rel="tag">pyconcur</a>
+                    
+                    
+                    <a href="/tags/#multiprocessing" class="page__taxonomy-item-tag" rel="tag">multiprocessing</a><span class="sep"> </span>
+                
+                    
+                    
+                    <a href="/tags/#parallization-in-python" class="page__taxonomy-item-tag" rel="tag">Parallization in python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pyconcur/pyconcur2/">[Python] 2. 병렬화</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.04
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pyconcur" class="page__taxonomy-item-category" rel="tag">pyconcur</a>
+                    
+                    
+                    <a href="/tags/#parallization-in-python" class="page__taxonomy-item-tag" rel="tag">Parallization in python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    <div>
+      <span>
+        <a href="/pyconcur/pyconcur1/">[Python] 1. 시작하기</a>
+      </span>
+      <small> 
+        <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"> </i> 2022.04.03
+        <!--Archive page 용-: (post -> page)-->
+<!--page__taxonomy.html에서 가져 옴-->
+        
+        <span class="page__taxonomy">
+            <span itemprop="keywords"><a href="/categories/#pyconcur" class="page__taxonomy-item-category" rel="tag">pyconcur</a>
+                    
+                    
+                    <a href="/tags/#concurrency-in-python" class="page__taxonomy-item-tag" rel="tag">Concurrency in python</a>
+                
+            </span>
+        </span>
+      </small>
+    </div>
+  </article>
+</div>
+:ET
